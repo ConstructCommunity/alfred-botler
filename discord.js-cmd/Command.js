@@ -23,8 +23,8 @@ class Command
 
         this.infos.args.forEach((arg, index) => {
             fields.push({
-                'name': `Argument ${index + 1}:`,
-                'value': `${arg.key.capitalize()}: ${arg.type.capitalize()}`
+                'name': `${arg.key.capitalize()}: ${arg.type.capitalize()}`,
+                'value': `${arg.prompt}`
             });
         });
 

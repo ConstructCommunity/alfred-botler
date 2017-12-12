@@ -3,6 +3,7 @@
  */
 
 const Command = require('../discord.js-cmd/command');
+const CONSTANTS = require('../constants');
 const roles = {
     /*    artist: '166557768193540096',
         programmer: '256383286211772416',
@@ -21,14 +22,18 @@ module.exports = class iam extends Command
             name: 'iam',
             description: 'Add or remove a user from a role',
             examples: [ '/iam dev', '/iam artist' ],
-            extraArgs: true,
+            extraArgs: false,
             args: [
                 {
                     key: 'role',
-                    prompt: 'What role do you want ?',
+                    prompt: 'A string representing a role',
                     type: 'string'
                 }
-            ]
+            ],
+            permissions: {
+                roles: [ CONSTANTS.ROLES.STAFF ],
+                channels: [ CONSTANTS.CHANNELS.ALFRED_COMMANDS ]
+            }
         });
     }
 

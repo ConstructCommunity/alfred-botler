@@ -3,6 +3,7 @@
  */
 
 const Command = require('../discord.js-cmd/command');
+const CONSTANTS = require('../constants');
 
 module.exports = class ping extends Command
 {
@@ -10,7 +11,11 @@ module.exports = class ping extends Command
         super(client, {
             name: 'ping',
             description: 'Ping the bot',
-            examples: [ 'ping' ]
+            examples: [ 'ping' ],
+            permissions: {
+                roles: [ CONSTANTS.ROLES.ANY ],
+                channels: [ CONSTANTS.CHANNELS.ANY ]
+            }
         });
     }
 
