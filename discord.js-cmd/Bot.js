@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const CONSTANTS = require('../constants');
+const {Message, User, GuildMember, Role, Guild, Channel} = require('discord.js');
 
 module.exports = class Bot
 {
@@ -55,8 +56,15 @@ module.exports = class Bot
                         return true;
                     }
 
-                    cmd.infos.args.forEach((arg, index) => {
-                        fakeCmd.args[ arg.key ] = fakeCmd._args[ index ];
+                    cmd.infos.args.some((arg, index) => {
+                        let res = this.resolve(arg.type, fakeCmd._args[ index ]);
+                        if (res !== null) {
+                            console.log('Yes it is');
+                            fakeCmd.args[ arg.key ] = res;
+                        } else {
+                            this.message.reply(`Argument ${arg.key} is not resolvable to ${arg.type}`);
+                            return true;
+                        }
                         i++;
                     });
                 }
@@ -72,9 +80,8 @@ module.exports = class Bot
                 let hasRole = false;
                 let goodChannel = false;
 
-                if (!cmd.infos.permissions || !cmd.infos.permissions.roles || !cmd.infos.permissions.channels)
-                {
-                    this.message.reply('Permissions are not set for this command. Please refer to a Staff member to notify about the problem. Thanks.')
+                if (!cmd.infos.permissions || !cmd.infos.permissions.roles || !cmd.infos.permissions.channels) {
+                    this.message.reply('Permissions are not set for this command. Please refer to a Staff member to notify about the problem. Thanks.');
                     return true;
                 }
 
@@ -82,12 +89,17 @@ module.exports = class Bot
                     if (role === CONSTANTS.ROLES.ANY ||
                         this.message.member.roles.has(role)) {
                         hasRole = true;
-                        cmd.infos.permissions.channels.some(channel => {
+                        cmd.infos.permissions.channels.some(async channel => {
                             if (channel === CONSTANTS.CHANNELS.ANY ||
                                 this.message.channel.id === channel ||
                                 this.message.channel.id === CONSTANTS.CHANNELS.TEST ||
                                 this.message.channel.id === CONSTANTS.CHANNELS.PRIVATE_TESTS) {
                                 goodChannel = true;
+
+                                let del;
+                                if (cmd.infos.deleteCmd)
+                                    del = await this.message.delete();
+
                                 cmd.run(this.message, fakeCmd.args);
                                 return true;
                             }
@@ -107,5 +119,55 @@ module.exports = class Bot
                 return true;
             }
         });
+    }
+
+    resolve (type, value) {
+        const regex = {
+            userOrMember: /^(?:<@!?)?(\d{17,21})>?$/,
+            channel: /^(?:<#)?(\d{17,21})>?$/,
+            role: /^(?:<@&)?(\d{17,21})>?$/,
+            snowflake: /^(\d{17,21})/
+        };
+
+        console.log('Checking if ' + value + ' is type of ' + type);
+
+        //https://komada.js.org/classes_Resolver.js.html
+
+        switch (type) {
+            case 'string':
+                if (typeof value === type) {
+                    return value;
+                }
+                break;
+            case 'number':
+                value = parseFloat(value);
+                if (typeof value === type) {
+                    return value;
+                }
+                break;
+            case 'channel':
+                if (value instanceof Channel) {
+                    return value;
+                }
+                if (typeof value === 'string' && regex.channel.test(value)) {
+                    return this.client.channels.get(regex.channel.exec(value)[ 1 ]);
+                }
+                break;
+
+            /*case "string":
+                break;
+
+            case "string":
+                break;
+
+            case "string":
+                break;
+
+            case "string":
+                break;*/
+
+        }
+
+        return null;
     }
 };

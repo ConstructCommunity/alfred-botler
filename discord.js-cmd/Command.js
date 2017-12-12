@@ -9,7 +9,7 @@ class Command
         this.infos = infos;
     }
 
-    async run (message, args, fromPattern) { // eslint-disable-line no-unused-vars, require-await
+    async run (message, args) { // eslint-disable-line no-unused-vars, require-await
         throw new Error(`${this.constructor.name} doesn't have a run() method.`);
     }
 
