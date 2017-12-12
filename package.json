@@ -1,0 +1,23 @@
+{
+  "name": "alfredbotler",
+  "version": "1.0.0",
+  "description": "A  modular bot template for [discord.js](https://github.com/hydrabolt/discord.js/).",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nihilist/paul.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nihilist/paul/issues"
+  },
+  "homepage": "https://github.com/nihilist/paul#readme",
+  "dependencies": {
+    "discord.js": "11.2.0",
+    "nodemon": "^1.12.5"
+  }
+}

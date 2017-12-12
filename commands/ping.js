@@ -1,12 +1,20 @@
-module.exports = {
-     main: function(bot, msg) {
-		var start = Date.now();
-		var stop, diff;
-		msg.channel.sendMessage("Pong!").then(function(newMsg) {
-			var stop = Date.now();
-			var diff = (stop - start);
-			newMsg.edit("Pong! `("+diff+"ms)`");
-		});
-    },
-    help: 'Ping the bot'
+/**
+ * Created by Armaldio on 11/12/2017.
+ */
+
+const Command = require('../discord.js-cmd/command');
+
+module.exports = class ping extends Command
+{
+    constructor (client) {
+        super(client, {
+            name: 'ping',
+            description: 'Ping the bot',
+            examples: [ 'ping' ]
+        });
+    }
+
+    run (msg) {
+        msg.reply('I\'m up for you!');
+    }
 };
