@@ -1,5 +1,11 @@
 {
   "GUILD_ID": "177841210361249794",
+  "BOT_TOKEN": "Mzg5NTU5MTU5MDc2NDIxNjMz.DQ9U4Q.kQNDk_e_xmSSgpyQmj8103Meto4",
+  "MESSAGE": {
+    "SEPARATOR": "──────────────────────────────────",
+    "EMPTY": "ᅠ",
+    "SCIRRA_FOOTER": "Construct 2 and Construct 3 by ©Scirra Ltd 2017 • All rights reserved"
+  },
   "ROLES": {
     "ANY": "-1",
     "STAFF": "390070700691685377"

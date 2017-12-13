@@ -57,7 +57,7 @@ module.exports = class iam extends Command
                     msg.member.removeRole(roles[ role ]);
                     return msg.channel.send({
                         embed: {
-                            'description': 'ᅠ',
+                            'description': CONSTANTS.MESSAGE.EMPTY,
                             'color': 15844367,
                             'footer': {
                                 'text': '(Request custom roles by mentioning or PMing a staff member!)'
@@ -81,7 +81,7 @@ module.exports = class iam extends Command
                     msg.member.addRole(roles[ role ]);
                     return msg.channel.send({
                         embed: {
-                            'description': 'ᅠ',
+                            'description': CONSTANTS.MESSAGE.EMPTY,
                             'color': 15844367,
                             'footer': {
                                 'text': '(Request custom roles by mentioning or PMing a staff member!)'

@@ -2,22 +2,18 @@
  * Created by Armaldio on 11/12/2017.
  */
 
-const Discord = require('discord.js');
 const path = require('path');
 const CONSTANTS = require('./constants.json');
 const Bot = require('./discord.js-cmd/Bot');
 
-const client = new Discord.Client({autoReconnect: true});
-
 const bot = new Bot({
     commandPrefix: '!',
     owner: '107180621981298688',
-    disableEveryone: true,
-    client: client
+    disableEveryone: true
 });
 
 let getConnectedUsers = function () {
-    const guild = client.guilds.get(CONSTANTS.GUILD_ID);
+    const guild = bot.guilds.get(CONSTANTS.GUILD_ID);
 
     const guildMembers = guild.members;
 
@@ -30,23 +26,40 @@ let getConnectedUsers = function () {
 
 let updateStatus = function () {
     const users = getConnectedUsers();
-    client.user.setPresence({
+    bot.user.setPresence({
         game: {
             name: `with ${users} users`
         }
     });
 };
 
-client
+process.on('uncaughtException', err => {
+    console.info('Uncaugh');
+    console.info('Caught exception: ' + err);
+    console.info('Stack : ', err.stack);
+    bot.emit('disconnect', {
+        code: 1000,
+        reason: 'Process: Uncaught exception',
+        wasClean: true
+    });
+    process.exit();
+});
+
+bot
     .on('presenceUpdate', (oldMember, newMember) => {
         updateStatus();
     })
     .on('message', message => {
         bot.parse(message);
     })
+    .on('disconnect', closeEvent => {
+        console.info('BOT DISCONNECTING');
+        bot.login(CONSTANTS.BOT_TOKEN);
+        console.info('Close Event : ', closeEvent);
+    })
     .on('ready', () => {
         console.log('Logged in!');
         updateStatus();
     });
 
-client.login('Mzg5NTU5MTU5MDc2NDIxNjMz.DQ9U4Q.kQNDk_e_xmSSgpyQmj8103Meto4');
+bot.login(CONSTANTS.BOT_TOKEN);

@@ -18,6 +18,7 @@
   "homepage": "https://github.com/nihilist/paul#readme",
   "dependencies": {
     "discord.js": "11.2.0",
-    "nodemon": "^1.12.5"
+    "nodemon": "^1.12.5",
+    "request": "^2.83.0"
   }
 }

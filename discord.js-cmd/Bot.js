@@ -1,12 +1,13 @@
 const path = require('path');
 const fs = require('fs');
 const CONSTANTS = require('../constants');
-const {Message, User, GuildMember, Role, Guild, Channel} = require('discord.js');
+const Discord = require('discord.js');
 
-module.exports = class Bot
+module.exports = class Bot extends Discord.Client
 {
     constructor (data) {
-        this.client = data.client;
+        super();
+
         this.commandPrefix = data.commandPrefix;
         this.owner = data.owner;
         this.disableEveryone = data.disableEveryone;
@@ -21,13 +22,25 @@ module.exports = class Bot
 
         files.forEach(file => {
             let Cmd = require(path.join(this.commandsPath, file));
-            let cmd = new Cmd(this.client);
+            let cmd = new Cmd(this);
             console.log(`Command [${cmd.infos.name}] loaded`);
             this.commands.push(cmd);
         });
     }
 
     parse (message) {
+        if (message.channel.type === 'group') {
+            return;
+        }
+
+        if (message.author === this.user) {
+            return;
+        }
+
+        if (!message.content.startsWith(this.commandPrefix)) {
+            return;
+        }
+
         this.message = message;
 
         let content = this.message.content.split(' ');
@@ -49,25 +62,25 @@ module.exports = class Bot
                 fakeCmd.args = {};
 
                 let i = 0;
-                if (cmd.infos.args && cmd.infos.args.length > 0) {
+                //if (cmd.infos.args && cmd.infos.args.length > 0) {
 
-                    if (cmd.infos.extraArgs === false && cmd.infos.args.length !== fakeCmd._args.length) {
-                        cmd.usage(this.message);
+                if (cmd.infos.extraArgs === false && cmd.infos.args.length !== fakeCmd._args.length) {
+                    cmd.usage(this.message);
+                    return true;
+                }
+
+                cmd.infos.args.some((arg, index) => {
+                    let res = this.resolve(arg.type, fakeCmd._args[ index ]);
+
+                    if (res !== null) {
+                        fakeCmd.args[ arg.key ] = res;
+                    } else {
+                        this.message.reply(`Argument "${fakeCmd._args[ index ]}" is not resolvable to "${arg.type}"`);
                         return true;
                     }
-
-                    cmd.infos.args.some((arg, index) => {
-                        let res = this.resolve(arg.type, fakeCmd._args[ index ]);
-                        if (res !== null) {
-                            console.log('Yes it is');
-                            fakeCmd.args[ arg.key ] = res;
-                        } else {
-                            this.message.reply(`Argument ${arg.key} is not resolvable to ${arg.type}`);
-                            return true;
-                        }
-                        i++;
-                    });
-                }
+                    i++;
+                });
+                //}
 
                 //Add rest of arguments inside extra
                 if (i < fakeCmd._args.length) {
@@ -97,8 +110,10 @@ module.exports = class Bot
                                 goodChannel = true;
 
                                 let del;
-                                if (cmd.infos.deleteCmd)
-                                    del = await this.message.delete();
+                                if (cmd.infos.deleteCmd) {
+                                    del = await
+                                        this.message.delete();
+                                }
 
                                 cmd.run(this.message, fakeCmd.args);
                                 return true;
@@ -122,6 +137,42 @@ module.exports = class Bot
     }
 
     resolve (type, value) {
+        let isArray = false;
+        console.log('Checking if ' + value + ' is type of ' + type);
+
+        //https://komada.js.org/classes_Resolver.js.html
+
+        if (type[ 0 ] === '#') {
+            type = type.slice(1);
+            if (value.split(',').length > 1) {
+                isArray = true;
+            }
+        }
+
+        if (isArray) {
+            let array = value.split(',');
+            console.log(array);
+
+            let users = [];
+            array.every((item) => {
+                let clientUser = this.isType(type, item);
+                console.log(clientUser.username);
+
+                if (clientUser === null) {
+                    users = null;
+                    return false;
+                }
+                users.push(clientUser);
+                return true;
+            });
+
+            return users;
+        } else {
+            return this.isType(type, value);
+        }
+    }
+
+    isType (type, value) {
         const regex = {
             userOrMember: /^(?:<@!?)?(\d{17,21})>?$/,
             channel: /^(?:<#)?(\d{17,21})>?$/,
@@ -129,45 +180,35 @@ module.exports = class Bot
             snowflake: /^(\d{17,21})/
         };
 
-        console.log('Checking if ' + value + ' is type of ' + type);
-
-        //https://komada.js.org/classes_Resolver.js.html
-
         switch (type) {
             case 'string':
                 if (typeof value === type) {
                     return value;
                 }
                 break;
+
             case 'number':
                 value = parseFloat(value);
                 if (typeof value === type) {
                     return value;
                 }
                 break;
+
             case 'channel':
-                if (value instanceof Channel) {
-                    return value;
-                }
                 if (typeof value === 'string' && regex.channel.test(value)) {
-                    return this.client.channels.get(regex.channel.exec(value)[ 1 ]);
+                    return this.channels.get(regex.channel.exec(value)[ 1 ]);
                 }
                 break;
 
-            /*case "string":
+            case 'user':
+                if (typeof value === 'string' && regex.userOrMember.test(value)) {
+                    return this.users.get(regex.userOrMember.exec(value)[ 1 ]);
+                }
                 break;
 
-            case "string":
+            default:
                 break;
-
-            case "string":
-                break;
-
-            case "string":
-                break;*/
-
         }
-
-        return null;
+        return false;
     }
 };

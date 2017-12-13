@@ -59,10 +59,10 @@ module.exports = class move extends Command
                 // empty string here -> [ᅠ]
                 embed: {
                     'title': `This is a preview of the message that will be posted to #${channel.name}`,
-                    'description': 'ᅠ',
+                    'description': CONSTANTS.MESSAGE.EMPTY,
                     'color': 15844367,
                     'footer': {
-                        'text': 'ᅠ'
+                        'text': CONSTANTS.MESSAGE.EMPTY
                     },
                     'thumbnail': {
                         'url': 'https://cdn.discordapp.com/attachments/244447929400688650/331776445955309568/ROLEREMiconsmall.png'
@@ -71,11 +71,18 @@ module.exports = class move extends Command
                 }
             });
             sent = await msg.author.send('Do you confirm this ?');
-            let message = await msg.author.dmChannel.awaitMessages(response => response.content.match(/yes|no/), {
-                max: 1,
-                time: 30000,
-                errors: [ 'time' ]
-            });
+            let message;
+            try {
+                message = await msg.author.dmChannel.awaitMessages(response => response.content.match(/yes|no/), {
+                    max: 1,
+                    time: 3000,
+                    errors: [ 'time' ]
+                });
+            } catch (reason) {
+                console.log(reason);
+                return false;
+            }
+
             message = message.first();
 
             if (message.content === 'yes') {
@@ -94,10 +101,10 @@ module.exports = class move extends Command
                     // empty string here -> [ᅠ]
                     embed: {
                         'title': `Last messages from #${msg.channel.name}`,
-                        'description': 'ᅠ',
+                        'description': CONSTANTS.MESSAGE.EMPTY,
                         'color': 15844367,
                         'footer': {
-                            'text': 'ᅠ'
+                            'text': CONSTANTS.MESSAGE.EMPTY
                         },
                         'thumbnail': {
                             'url': 'https://cdn.discordapp.com/attachments/244447929400688650/331776445955309568/ROLEREMiconsmall.png'
