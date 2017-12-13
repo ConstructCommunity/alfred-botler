@@ -4,7 +4,8 @@
   "description": "A  modular bot template for [discord.js](https://github.com/hydrabolt/discord.js/).",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+    "test": "ava"
   },
   "repository": {
     "type": "git",
@@ -17,8 +18,13 @@
   },
   "homepage": "https://github.com/nihilist/paul#readme",
   "dependencies": {
+    "@types/firebase": "^2.4.32",
     "discord.js": "11.2.0",
+    "firebase": "^4.8.0",
     "nodemon": "^1.12.5",
     "request": "^2.83.0"
+  },
+  "devDependencies": {
+    "ava": "^0.24.0"
   }
 }

@@ -4,9 +4,10 @@ String.prototype.capitalize = function() {
 
 class Command
 {
-    constructor (client, infos) {
+    constructor (client, infos, database) {
         this.client = client;
         this.infos = infos;
+        this.database = database;
     }
 
     async run (message, args) { // eslint-disable-line no-unused-vars, require-await

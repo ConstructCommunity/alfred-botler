@@ -3,6 +3,17 @@ const fs = require('fs');
 const CONSTANTS = require('../constants');
 const Discord = require('discord.js');
 
+const firebase = require('firebase');
+
+const config = {
+    apiKey: 'AIzaSyCwfY--Cp_9zrzxKBLpCAqCJUM8LT4fxQo',
+    authDomain: 'construct2discord.firebaseapp.com',
+    databaseURL: 'https://construct2discord.firebaseio.com',
+    storageBucket: 'construct2discord.appspot.com',
+    messagingSenderId: '271095494978'
+};
+firebase.initializeApp(config);
+
 module.exports = class Bot extends Discord.Client
 {
     constructor (data) {
@@ -22,7 +33,7 @@ module.exports = class Bot extends Discord.Client
 
         files.forEach(file => {
             let Cmd = require(path.join(this.commandsPath, file));
-            let cmd = new Cmd(this);
+            let cmd = new Cmd(this, firebase.database());
             console.log(`Command [${cmd.infos.name}] loaded`);
             this.commands.push(cmd);
         });
