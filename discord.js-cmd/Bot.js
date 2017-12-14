@@ -151,6 +151,9 @@ module.exports = class Bot extends Discord.Client
         let isArray = false;
         console.log('Checking if ' + value + ' is type of ' + type);
 
+        if (value === undefined || value === null)
+            return false;
+
         //https://komada.js.org/classes_Resolver.js.html
 
         if (type[ 0 ] === '#') {
