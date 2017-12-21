@@ -31,13 +31,13 @@ router.get('/sendmessage', function (req, res, next) {
 
 router.post('/sendmessage', function (req, res, next) {
     let bot = res.locals.bot;
-    let user = res.user;
+    //let user = res.user;
 
-    if (user.roles.has(CONSTANTS.ROLES.STAFF)) {
+    //if (user.roles.has(CONSTANTS.ROLES.STAFF)) {
         bot.guilds.get(CONSTANTS.GUILD_ID).channels.get(req.body.channel).send(req.body.message);
 
         res.locals.message = 'Message sent';
-    }
+    //}
     res.redirect('/dashboard');
 });
 
