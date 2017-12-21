@@ -22,6 +22,24 @@ const child_process = require('child_process');
 const inquirer = require('inquirer');
 let prompt = inquirer.createPromptModule();
 
+const fs = require('fs');
+const path = require('path');
+const Bot = require('../api/Bot');
+const CONSTANTS = require('../constants');
+
+const bot = new Bot({
+    commandPrefix: '!',
+    owner: '107180621981298688',
+    disableEveryone: true
+});
+
+bot.on('ready', () => {
+    console.log('Bot ready');
+    start();
+});
+
+bot.login(CONSTANTS.BOT.TOKEN);
+
 let questions = [
     {
         required: true,
@@ -34,6 +52,11 @@ let questions = [
         type: 'confirm',
         message: 'Do you want to push to the current branch ?',
         name: 'push'
+    },
+    {
+        type: 'confirm',
+        message: 'Show the message to the community ?',
+        name: 'publish'
     }
 ];
 
@@ -78,12 +101,42 @@ async function start_process (answers) {
     if (answers.push) {
         let push = await exec('git push origin master');
     }
+
+    if (answers.publish) {
+        let arr = answers.commit_message.split('\n');
+
+        const fields = [];
+
+        arr.some(el => {
+            fields.push({
+                name: CONSTANTS.MESSAGE.EMPTY,
+                value: el
+            });
+        });
+
+        const text = {
+            embed: {
+                title: 'Alfred got an update!',
+                color: 11962861,
+                footer: {
+                    text: CONSTANTS.MESSAGE.SCIRRA_FOOTER
+                },
+                fields
+            }
+        };
+
+        console.log('text', text);
+
+        //bot.guilds.get(CONSTANTS.GUILD_ID).channels.get(CONSTANTS.CHANNELS.ALFRED_COMMANDS).send(text);
+    }
 }
 
-prompt(questions).then(answers => {
-    try {
-        start_process(answers);
-    } catch (e) {
-        console.log('Error while processing');
-    }
-});
+function start () {
+    prompt(questions).then(answers => {
+        try {
+            start_process(answers);
+        } catch (e) {
+            console.log('Error while processing');
+        }
+    });
+}

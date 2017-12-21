@@ -63,7 +63,7 @@ Permissions:
 
 | Allowed roles | Allowed channels |
 | :-----------: | :--------------: |
-| CC Staff  | #commands  |
+| Any  | #commands  |
 Examples: 
 
 `!iam dev` 
