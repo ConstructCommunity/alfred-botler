@@ -1,0 +1,69 @@
+<h1 style="text-align: center">Send a message to a channel</h1>
+
+<form id="form" method="post" class="ui form">
+    <div class="field">
+        <select name="channel">
+            {{#channels}}
+                <option value="{{id}}">{{name}}</option>
+            {{/channels}}
+        </select>
+    </div>
+
+    <div class="fields">
+        <div class="eight wide field">
+            <div style="height: 150px; border: 1px solid grey" id='message' contenteditable></div>
+        </div>
+        <div class="eight wide field">
+            <div style="height: 150px; border: 1px solid grey" id='formattedMessaege' contenteditable></div>
+        </div>
+
+        <input type='hidden' id='fake_textarea_content' name='message'/>
+    </div>
+
+    <div class="fields">
+        <div class="fourteen wide field">
+            <label>
+                <select id="user">
+                    {{#users}}
+                        <option value="{{user.id}}">{{user.username}}</option>
+                    {{/users}}
+                </select>
+            </label>
+        </div>
+        <div class="two wide field">
+            <div id="insert" class="ui button">insert</div>
+        </div>
+    </div>
+
+
+    <input class="ui button" type="submit" value="Submit"/>
+</form>
+
+<script>
+    function format (text) {
+        var userOrMember = /^(?:<@!?)?(\d{17,21})>?$/;
+
+        text = text.replace(userOrMember, '@$1');
+
+        return text;
+    }
+
+    $(document).ready(() => {
+        $('#insert').on('click', () => {
+            var user = $('#user').val();
+            console.log('user', user);
+            $('#message').val($('#message').val() + '<@' + user + '> ');
+        });
+
+        $('#message').on('input', () => {
+            var value = $('#message').text();
+            var newvalue = format(value);
+            $('#formattedMessaege').text(newvalue);
+        });
+
+        $('#form').submit(() => {
+            $('#fake_textarea_content').val($('#message').html());
+        });
+    });
+
+</script>

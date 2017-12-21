@@ -2,7 +2,7 @@
  * Created by Armaldio on 11/12/2017.
  */
 
-const Command = require('../discord.js-cmd/command');
+const Command = require('../api/Command');
 const CONSTANTS = require('../constants');
 
 module.exports = class ping extends Command
@@ -16,14 +16,7 @@ module.exports = class ping extends Command
                 roles: [ CONSTANTS.ROLES.ANY ],
                 channels: [ CONSTANTS.CHANNELS.ANY ]
             },
-            args: [
-                /*{
-                    key: 'command',
-                    prompt: 'The command wich you want help with',
-                    type: 'string',
-                    optional: true
-                }*/
-            ]
+            args: []
         });
     }
 

@@ -2,18 +2,37 @@ String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
+/**
+ * Represents a command
+ */
 class Command
 {
+    /**
+     * Create the command
+     * @param client The client to pass to the command
+     * @param infos The infos to pass to the command
+     * @param database The (optional) firebase database to pass to the command
+     */
     constructor (client, infos, database) {
         this.client = client;
         this.infos = infos;
         this.database = database;
     }
 
+    /**
+     * Run the command
+     * @param message
+     * @param args
+     * @returns {Promise<void>}
+     */
     async run (message, args) { // eslint-disable-line no-unused-vars, require-await
         throw new Error(`${this.constructor.name} doesn't have a run() method.`);
     }
 
+    /**
+     * Show usage of the method
+     * @param message
+     */
     usage (message) {
         let fields = [];
 

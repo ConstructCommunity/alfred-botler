@@ -2,17 +2,15 @@
  * Created by Armaldio on 11/12/2017.
  */
 
-const Command = require('../discord.js-cmd/command');
+const Command = require('../api/Command');
 const CONSTANTS = require('../constants');
 const roles = {
-    /*    artist: '166557768193540096',
-        programmer: '256383286211772416',
-        dev: '256383286211772416',
-        expert: '166557865115516928',
-        sounddesigner: '258691772430024704',
-        gamedesigner: '378168474649755648'*/
-    artist: '389712042485088256',
-    dev: '389712085157937153'
+    artist: CONSTANTS.ROLES.ARTIST,
+    programmer: CONSTANTS.ROLES.PROGRAMMER,
+    dev: CONSTANTS.ROLES.DEV,
+    expert: CONSTANTS.ROLES.EXPERT,
+    sounddesigner: CONSTANTS.ROLES.SOUND_DESIGNER,
+    gamedesigner: CONSTANTS.ROLES.GAME_DESIGNER
 };
 
 module.exports = class iam extends Command
@@ -21,7 +19,7 @@ module.exports = class iam extends Command
         super(client, {
             name: 'iam',
             description: 'Add or remove a user from a role',
-            examples: [ '/iam dev', '/iam artist' ],
+            examples: [ 'iam dev', 'iam artist' ],
             extraArgs: false,
             args: [
                 {

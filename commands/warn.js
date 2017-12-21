@@ -1,8 +1,4 @@
-/**
- * Created by Armaldio on 11/12/2017.
- */
-
-const Command = require('../discord.js-cmd/command');
+const Command = require('../api/Command');
 const CONSTANTS = require('../constants');
 const {Message} = require('discord.js');
 
@@ -42,12 +38,21 @@ function cleanMessages (msgIds) {
     });
 }
 
-module.exports = class warn extends Command
+/**
+ * Class representic the warn command
+ * @extends Command
+ * @type {module.warn}
+ */
+class warn extends Command
 {
+    /**
+     * Create a warn command
+     * @param client
+     */
     constructor (client) {
         super(client, {
             name: 'warn',
-            description: 'This is a template command',
+            description: 'Warn a user with different level of severity',
             examples: [ 'warn @user' ],
             permissions: {
                 roles: [ CONSTANTS.ROLES.STAFF ],
@@ -65,6 +70,13 @@ module.exports = class warn extends Command
         });
     }
 
+    /**
+     * Run the command
+     * @inheritDoc
+     * @param msg
+     * @param user
+     * @returns {Promise<void>}
+     */
     async run (msg, {user}) {
 
         let msgIds = [];
@@ -154,4 +166,6 @@ Sanction: **${getSanction(level)}**`,
         }
         cleanMessages(msgIds);
     }
-};
+}
+
+module.exports = warn;

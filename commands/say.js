@@ -2,9 +2,10 @@
  * Created by Armaldio on 11/12/2017.
  */
 
-const Command = require('../discord.js-cmd/command');
+const Command = require('../api/Command');
 const CONSTANTS = require('../constants');
 const request = require('request');
+const Raven = require('raven');
 
 module.exports = class say extends Command
 {
@@ -40,14 +41,15 @@ module.exports = class say extends Command
                 }
 
                 console.log(msg.attachments.first().url);
-                console.log("body", body);
-                console.log("response", response);
+                console.log('body', body);
+                console.log('response', response);
 
                 let json;
                 try {
                     json = JSON.parse(body);
                 } catch (e) {
                     console.log(e);
+                    Raven.captureException(e);
                     msg.author.send('Sorry, there was an error with the embed file');
                     return;
                 }

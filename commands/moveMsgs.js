@@ -2,8 +2,9 @@
  * Created by Armaldio on 11/12/2017.
  */
 
-const Command = require('../discord.js-cmd/command');
+const Command = require('../api/Command');
 const CONSTANTS = require('../constants');
+const Raven = require('raven');
 
 module.exports = class move extends Command
 {
@@ -11,7 +12,7 @@ module.exports = class move extends Command
         super(client, {
             name: 'move',
             description: 'Move a certain amount of messages from one channel to another',
-            examples: [ '!move 10 #off-topic' ],
+            examples: [ `move 10 <#226376432064921600>` ],
             extraArgs: false,
             deleteCmd: true,
             args: [
@@ -79,6 +80,7 @@ module.exports = class move extends Command
                     errors: [ 'time' ]
                 });
             } catch (reason) {
+                Raven.captureException(reason);
                 console.log(reason);
                 return false;
             }
@@ -98,7 +100,6 @@ module.exports = class move extends Command
                 let edit = await msg_del.edit(`${messages.array().length} messages successfully deleted.`);
                 let sent = await msg.channel.send(`${messages.array().length} message were move to <#${channel.id}>, please continue your discussion here`);
                 sent = await channel.send({
-                    // empty string here -> [ᅠ]
                     embed: {
                         'title': `Last messages from #${msg.channel.name}`,
                         'description': CONSTANTS.MESSAGE.EMPTY,
@@ -114,6 +115,7 @@ module.exports = class move extends Command
                 });
             }
         } catch (reason) {
+            Raven.captureException(reason);
             console.error(reason);
         }
     }

@@ -2,7 +2,7 @@
  * Created by Armaldio on 11/12/2017.
  */
 
-const Command = require('../discord.js-cmd/command');
+const Command = require('../api/Command');
 const CONSTANTS = require('../constants');
 
 module.exports = class move extends Command
@@ -11,7 +11,7 @@ module.exports = class move extends Command
         super(client, {
             name: 'notify',
             description: 'Notify user and waits for their reactions',
-            examples: [ '!notify @user1 @user2 message', '!notify Hello @user1 @user2, can you please ...' ],
+            examples: [ 'notify @user1 @user2 message', 'notify Hello @user1 @user2, can you please ...' ],
             extraArgs: true,
             deleteCmd: true,
             args: [],

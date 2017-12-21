@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const CONSTANTS = require('../constants');
 const Discord = require('discord.js');
+const Raven = require('raven');
 
 const firebase = require('firebase');
 
@@ -80,18 +81,19 @@ module.exports = class Bot extends Discord.Client
                     return true;
                 }
 
-                cmd.infos.args.some((arg, index) => {
-                    let res = this.resolve(arg.type, fakeCmd._args[ index ]);
+                if (cmd.infos.args && cmd.infos.args.length > 0) {
+                    cmd.infos.args.some((arg, index) => {
+                        let res = this.resolve(arg.type, fakeCmd._args[ index ]);
 
-                    if (res !== null) {
-                        fakeCmd.args[ arg.key ] = res;
-                    } else {
-                        this.message.reply(`Argument "${fakeCmd._args[ index ]}" is not resolvable to "${arg.type}"`);
-                        return true;
-                    }
-                    i++;
-                });
-                //}
+                        if (res !== null) {
+                            fakeCmd.args[ arg.key ] = res;
+                        } else {
+                            this.message.reply(`Argument "${fakeCmd._args[ index ]}" is not resolvable to "${arg.type}"`);
+                            return true;
+                        }
+                        i++;
+                    });
+                }
 
                 //Add rest of arguments inside extra
                 if (i < fakeCmd._args.length) {
@@ -126,7 +128,13 @@ module.exports = class Bot extends Discord.Client
                                         this.message.delete();
                                 }
 
-                                cmd.run(this.message, fakeCmd.args);
+                                try {
+                                    let x = await cmd.run(this.message, fakeCmd.args);
+                                } catch (e) {
+                                    console.log('ERROR', e);
+                                    Raven.captureException(e);
+                                    return false;
+                                }
                                 return true;
                             }
                         });
@@ -151,8 +159,9 @@ module.exports = class Bot extends Discord.Client
         let isArray = false;
         console.log('Checking if ' + value + ' is type of ' + type);
 
-        if (value === undefined || value === null)
+        if (value === undefined || value === null) {
             return false;
+        }
 
         //https://komada.js.org/classes_Resolver.js.html
 
