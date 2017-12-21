@@ -29,7 +29,7 @@ module.exports = class iam extends Command
                 }
             ],
             permissions: {
-                roles: [ CONSTANTS.ROLES.STAFF ],
+                roles: [ CONSTANTS.ROLES.ANY ],
                 channels: [ CONSTANTS.CHANNELS.ALFRED_COMMANDS ]
             }
         });

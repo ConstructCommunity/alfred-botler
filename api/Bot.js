@@ -113,7 +113,7 @@ module.exports = class Bot extends Discord.Client
 
                 cmd.infos.permissions.roles.some(role => {
                     if (role === CONSTANTS.ROLES.ANY ||
-                        this.message.member.roles.has(role)) {
+                        (this.message.member.roles && this.message.member.roles.has(role))) {
                         hasRole = true;
                         cmd.infos.permissions.channels.some(async channel => {
                             if (channel === CONSTANTS.CHANNELS.ANY ||
