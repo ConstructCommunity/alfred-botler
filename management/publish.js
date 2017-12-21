@@ -73,7 +73,7 @@ function exec (command) {
 }
 
 async function start_process (answers) {
-        const spinner = ora('Removing instances');
+    const spinner = ora('Removing instances');
 
     spinner.start();
     try {
