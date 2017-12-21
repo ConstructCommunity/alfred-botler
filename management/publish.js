@@ -73,7 +73,7 @@ async function start_process (answers) {
     spinner.succeed('Scaling successfull');
 
     let add = await exec('git add .');
-    let commit = await exec('git commit -m ' + answers.commit_message);
+    let commit = await exec(`git commit -m "${answers.commit_message}"`);
 
     if (answers.push) {
         let push = await exec('git push origin master');

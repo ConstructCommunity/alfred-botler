@@ -30,8 +30,6 @@ const ip = process.env.IP || '0.0.0.0';
 
 const isDev = !process.env.ONLINE;
 
-console.log("ENV", process.env);
-
 let bot;
 
 

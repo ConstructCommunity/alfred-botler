@@ -32,6 +32,8 @@ function generateDoc (commands) {
     commands.forEach(c => {
         let infos = c.infos;
 
+        final += `<div class="section">`;
+
         final += `**${infos.name}** - ${infos.description} \n\n`;
 
         final += `Accept extra arguments: ${infos.extraArgs === false || infos.extraArgs === undefined ? 'No' : 'Yes'} \n\n`;
@@ -88,7 +90,9 @@ function generateDoc (commands) {
         });
         //}
 
-        final += `___ \n\n`;
+        final += `</div>`;
+
+        final += `<br>`;
     });
 
     fs.writeFileSync('commands.md', final, 'utf8');

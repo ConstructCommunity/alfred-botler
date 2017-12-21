@@ -11,7 +11,7 @@ module.exports = class del extends Command
     constructor (client) {
         super(client, {
             name: 'del',
-            description: `Delete a message posted in ${CONSTANTS.CHANNELS.COLLECTION}`,
+            description: `Delete a message posted in <#${CONSTANTS.CHANNELS.COLLECTION}>`,
             examples: [ 'del' ],
             permissions: {
                 roles: [ CONSTANTS.ROLES.ANY ],

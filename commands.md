@@ -1,4 +1,4 @@
-**add** - Share your work in a dedicated, read-only channel 
+<div class="section">**add** - Share your work in a dedicated, read-only channel 
 
 Accept extra arguments: Yes 
 
@@ -13,26 +13,7 @@ Examples:
 
 `!add` 
 
-___ 
-
-**crash** - Simply crash the bot 
-
-Accept extra arguments: No 
-
-Delete command        : Yes 
-
-Permissions: 
-
-| Allowed roles | Allowed channels |
-| :-----------: | :--------------: |
-| CC Staff  | Any  |
-Examples: 
-
-`!crash` 
-
-___ 
-
-**del** - Delete a message posted in 383290818548465676 
+</div><br><div class="section">**del** - Delete a message posted in <#383290818548465676> 
 
 Accept extra arguments: No 
 
@@ -52,9 +33,7 @@ Examples:
 
 `!del` 
 
-___ 
-
-**help** - Show help about the bot 
+</div><br><div class="section">**help** - Show help about the bot 
 
 Accept extra arguments: No 
 
@@ -69,9 +48,7 @@ Examples:
 
 `!help` 
 
-___ 
-
-**iam** - Add or remove a user from a role 
+</div><br><div class="section">**iam** - Add or remove a user from a role 
 
 Accept extra arguments: No 
 
@@ -93,9 +70,7 @@ Examples:
 
 `!iam artist` 
 
-___ 
-
-**move** - Move a certain amount of messages from one channel to another 
+</div><br><div class="section">**move** - Move a certain amount of messages from one channel to another 
 
 Accept extra arguments: No 
 
@@ -114,11 +89,9 @@ Permissions:
 | CC Staff  | Any  |
 Examples: 
 
-`!!move 10 #off-topic` 
+`!move 10 <#226376432064921600>` 
 
-___ 
-
-**notice** - Show the notice to the user 
+</div><br><div class="section">**notice** - Show the notice to the user 
 
 Accept extra arguments: No 
 
@@ -133,9 +106,7 @@ Examples:
 
 `!notice` 
 
-___ 
-
-**notify** - Notify user and waits for their reactions 
+</div><br><div class="section">**notify** - Notify user and waits for their reactions 
 
 Accept extra arguments: Yes 
 
@@ -152,9 +123,7 @@ Examples:
 
 `!notify Hello @user1 @user2, can you please ...` 
 
-___ 
-
-**ping** - Ping the bot 
+</div><br><div class="section">**ping** - Ping the bot 
 
 Accept extra arguments: No 
 
@@ -169,9 +138,7 @@ Examples:
 
 `!ping` 
 
-___ 
-
-**say** - Output text or embed inside a specific channel as Alfred 
+</div><br><div class="section">**say** - Output text or embed inside a specific channel as Alfred 
 
 Accept extra arguments: Yes 
 
@@ -193,9 +160,7 @@ Examples:
 
 `!say Hello everyone!` 
 
-___ 
-
-**ty** - Thank someone for his help 
+</div><br><div class="section">**ty** - Thank someone for his help 
 
 Accept extra arguments: No 
 
@@ -215,9 +180,7 @@ Examples:
 
 `!ty @armaldio` 
 
-___ 
-
-**tystats** - Show how many people thanked you 
+</div><br><div class="section">**tystats** - Show how many people thanked you 
 
 Accept extra arguments: No 
 
@@ -232,9 +195,7 @@ Examples:
 
 `!tystats` 
 
-___ 
-
-**warn** - Warn a user with different level of severity 
+</div><br><div class="section">**warn** - Warn a user with different level of severity 
 
 Accept extra arguments: No 
 
@@ -254,5 +215,4 @@ Examples:
 
 `!warn @user` 
 
-___ 
-
+</div><br>
