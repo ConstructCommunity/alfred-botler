@@ -44,7 +44,7 @@ let questions = [
     {
         required: true,
         name: 'commit_message',
-        type: 'input',
+        type: 'editor',
         message: 'Please, enter your commit message: ',
         default: '-'
     },
@@ -73,7 +73,7 @@ function exec (command) {
 }
 
 async function start_process (answers) {
-    const spinner = ora('Removing instances');
+        const spinner = ora('Removing instances');
 
     spinner.start();
     try {
@@ -101,7 +101,6 @@ async function start_process (answers) {
     if (answers.push) {
         let push = await exec('git push origin master');
     }
-
     if (answers.publish) {
         let arr = answers.commit_message.split('\n');
 
@@ -118,17 +117,15 @@ async function start_process (answers) {
             embed: {
                 title: 'Alfred got an update!',
                 color: 11962861,
-                footer: {
-                    text: CONSTANTS.MESSAGE.SCIRRA_FOOTER
-                },
                 fields
             }
         };
 
-        console.log('text', text);
+        console.log('fields', fields);
 
-        //bot.guilds.get(CONSTANTS.GUILD_ID).channels.get(CONSTANTS.CHANNELS.ALFRED_COMMANDS).send(text);
+        bot.guilds.get(CONSTANTS.GUILD_ID).channels.get(CONSTANTS.CHANNELS.ALFRED_COMMANDS).send(text);
     }
+
 }
 
 function start () {
