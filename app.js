@@ -28,7 +28,7 @@ const app = express();
 const port = process.env.PORT || 8080;
 const ip = process.env.IP || '0.0.0.0';
 
-const isDev = !process.env.NODE_ENV;
+const isDev = !process.env.ONLINE;
 
 console.log("ENV", process.env);
 
