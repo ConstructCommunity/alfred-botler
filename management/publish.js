@@ -72,12 +72,11 @@ async function start_process (answers) {
     spinner.info(await exec('now scale alfred-botler.now.sh 1'));
     spinner.succeed('Scaling successfull');
 
-    console.log('Done.');
-
     let add = await exec('git add .');
     let commit = await exec('git commit -m ' + answers.commit_message);
 
     if (answers.push) {
+        let push = await exec('git push origin master');
     }
 }
 
