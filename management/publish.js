@@ -131,7 +131,9 @@ async function start_process (answers) {
 function start () {
     prompt(questions).then(answers => {
         try {
-            start_process(answers);
+            start_process(answers).then(_ => {
+                process.exit();
+            });
         } catch (e) {
             console.log('Error while processing');
         }
