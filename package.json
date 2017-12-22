@@ -19,12 +19,14 @@
     "@types/passport": "^0.4.1",
     "body-parser": "~1.18.2",
     "btoa": "^1.1.2",
+    "cheerio": "^1.0.0-rc.2",
     "cookie-parser": "^1.4.3",
     "debug": "~2.6.9",
     "discord.js": "^11.2.0",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
     "firebase": "^4.8.0",
+    "free-mobile-sms-api": "^1.0.4",
     "hbs": "~4.0.1",
     "http-server": "^0.10.0",
     "inquirer": "^4.0.1",
@@ -46,7 +48,8 @@
     "request": "^2.83.0",
     "serve-favicon": "~2.4.5",
     "session-file-store": "^1.2.0",
-    "uuid": "^3.1.0"
+    "uuid": "^3.1.0",
+    "ws": "^3.3.3"
   },
   "devDependencies": {
     "@types/firebase": "^2.4.32",

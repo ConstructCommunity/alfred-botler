@@ -3,6 +3,9 @@ const fs = require('fs');
 const CONSTANTS = require('../constants');
 const Discord = require('discord.js');
 const Raven = require('raven');
+const request = require('request');
+const WebSocket = require('ws');
+const cheerio = require('cheerio');
 
 const firebase = require('firebase');
 
@@ -14,6 +17,9 @@ const config = {
     messagingSenderId: '271095494978'
 };
 firebase.initializeApp(config);
+
+let database = firebase.database();
+
 
 module.exports = class Bot extends Discord.Client
 {
@@ -233,5 +239,402 @@ module.exports = class Bot extends Discord.Client
                 break;
         }
         return false;
+    }
+
+    checkSignaling () {
+        const SIGNALLING_WEBSOCKET_PROTOCOL = 'c2multiplayer';
+
+        function connect (url_) {
+            return new Promise((resolve, reject) => {
+                console.info('Connecting');
+                const ws = new WebSocket(url_, {protocol: SIGNALLING_WEBSOCKET_PROTOCOL});
+                ws.on('open', event => {
+                    resolve(true);
+                });
+                ws.on('error', event => {
+                    // console.info(event);
+                    resolve(false);
+                });
+            });
+        }
+
+        setInterval(() => {
+            connect('wss://multiplayer.scirra.com').then(ret => {
+                // console.info(ret);
+                database.ref('signaling').once('value').then(snapshot => {
+                    let status;
+                    if (snapshot.val() === undefined) {
+                        return;
+                    }
+
+                    status = snapshot.val();
+
+                    console.info('Database : \'' + status + '\' vs Online : \'' + ret + '\'');
+                    if (status !== ret) {
+                        this.client.channels.get(CONSTANTS.CHANNELS.COMMUNITY_ANNOUNCEMENTS).send({
+                            embed: {
+                                description: (ret ? `The Scirra signaling server is online` : `The Scirra signaling server is offline`),
+                                color: (ret ? 65280 : 16719647),
+                                footer: {
+                                    text: 'Event-Watcher made by Armaldio • (Some events might be delayed!)'
+                                },
+                                thumbnail: {
+                                    url: 'https://cdn.discordapp.com/attachments/244447929400688650/328699716563107840/WATCHERiconsmall.png'
+                                },
+                                author: {
+                                    name: 'WARNING, AN EVENT OCCURRED!',
+                                    icon_url: 'https://cdn.discordapp.com/attachments/244447929400688650/328647581984882709/AlfredBotlerSmall.png'
+                                },
+                                fields: [
+                                    {
+                                        name: '----------------------------------',
+                                        value: 'ᅠ'
+                                    }
+                                ]
+                            }
+                        });
+
+                        database.ref('signaling').set(ret);
+                        console.info('Set!');
+                    }
+                });
+            });
+        }, 300000);
+    }
+
+    checkBlogsAndUpdates () {
+        setInterval(() => {
+            /**
+             * Blog
+             */
+
+            let options = {
+                method: 'GET',
+                url: 'https://www.scirra.com/blog',
+                headers: {
+                    'postman-token': '1b97c5c0-e824-005d-ada1-feb10f276375',
+                    'cache-control': 'no-cache'
+                }
+            };
+
+            request(options, (error, response, body) => {
+                if (error) {
+                    throw new Error(error);
+                }
+
+                // console.info( body);
+                // console.info("Requested");
+
+                const $ = cheerio.load(body);
+                const new_title = $('#Form1 > div.content-wrap > div.inner-content-wrap > h1').text();
+                //			Let new_desc = $('meta[property="description"]').attr('content');
+
+                database.ref('blog').once('value').then(snapshot => {
+                    let title;
+                    if (snapshot.val() === undefined) {
+                        title = '';
+                    } else {
+                        title = snapshot.val();
+                    }
+                    console.info('Database : \'' + title + '\' vs Online : \'' + new_title + '\'');
+                    //				console.info("Desc : " + new_desc);
+                    if (title !== new_title && new_title !== '') {
+                        this.client.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
+                            embed: {
+                                description: `${new_title}`,
+                                color: 3593036,
+                                footer: {
+                                    text: '©Scirra Ltd 2017 • All rights reserved'
+                                },
+                                thumbnail: {
+                                    url: 'https://cdn.discordapp.com/attachments/244447929400688650/328696208719740929/BLOGiconsmall.png'
+                                },
+                                author: {
+                                    name: 'A NEW BLOG POST BY SCIRRA JUST WENT LIVE!',
+                                    icon_url: 'https://cdn.discordapp.com/attachments/244447929400688650/328647581984882709/AlfredBotlerSmall.png'
+                                },
+                                fields: [
+                                    {
+                                        name: '----------------------------------',
+                                        value: 'ᅠ'
+                                    },
+                                    {
+                                        name: 'Read the new blog post:',
+                                        value: '<https://www.scirra.com/blog>'
+                                    }
+                                ]
+                            }
+                        });
+
+                        database.ref('blog').set(new_title);
+                        console.info('Set!');
+                    }
+                });
+            });
+
+            /**
+             * Ashley post
+             */
+
+            options = {
+                method: 'GET',
+                url: 'https://www.scirra.com/blog/ashley',
+                headers: {
+                    'postman-token': '1b97c5c0-e824-005d-ada1-feb10f276375',
+                    'cache-control': 'no-cache'
+                }
+            };
+
+            request(options, (error, response, body) => {
+                if (error) {
+                    throw new Error(error);
+                }
+
+                // console.info(body);
+                // console.info("Requested");
+
+                const $ = cheerio.load(body);
+                const new_title = $('#Form1 > div.content-wrap > div.inner-content-wrap > h1').text();
+                //			Let new_desc = $('meta[property="description"]').attr('content');
+
+                database.ref('blog-ashley').once('value').then(snapshot => {
+                    let title;
+                    if (snapshot.val() === undefined) {
+                        title = '';
+                    } else {
+                        title = snapshot.val();
+                    }
+                    console.info('Database : \'' + title + '\' vs Online : \'' + new_title + '\'');
+                    //				console.info("Desc : " + new_desc);
+                    if (title !== new_title && new_title !== '') {
+                        this.client.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
+                            embed: {
+                                description: `${new_title}`,
+                                color: 3593036,
+                                footer: {
+                                    text: '©Scirra Ltd 2017 • All rights reserved'
+                                },
+                                thumbnail: {
+                                    url: 'https://cdn.discordapp.com/attachments/244447929400688650/328696208719740929/BLOGiconsmall.png'
+                                },
+                                author: {
+                                    name: 'A NEW BLOG POST BY ASHLEY JUST WENT LIVE!',
+                                    icon_url: 'https://cdn.discordapp.com/attachments/244447929400688650/328647581984882709/AlfredBotlerSmall.png'
+                                },
+                                fields: [
+                                    {
+                                        name: '----------------------------------',
+                                        value: 'ᅠ'
+                                    },
+                                    {
+                                        name: 'Read the new blog post:',
+                                        value: '<https://www.scirra.com/blog/ashley>'
+                                    }
+                                ]
+                            }
+                        });
+
+                        database.ref('blog-ashley').set(new_title);
+                        console.info('Set!');
+                    }
+                });
+            });
+
+            /**
+             * Tom post
+             */
+
+            options = {
+                method: 'GET',
+                url: 'https://www.scirra.com/blog/tom',
+                headers: {
+                    'postman-token': '1b97c5c0-e824-005d-ada1-feb10f276375',
+                    'cache-control': 'no-cache'
+                }
+            };
+
+            request(options, (error, response, body) => {
+                if (error) {
+                    throw new Error(error);
+                }
+
+                // console.info(body);
+                // console.info("Requested");
+
+                const $ = cheerio.load(body);
+                const new_title = $('#Form1 > div.content-wrap > div.inner-content-wrap > h1').text();
+                //			Let new_desc = $('meta[property="description"]').attr('content');
+
+                database.ref('blog-tom').once('value').then(snapshot => {
+                    let title;
+                    if (snapshot.val() === undefined) {
+                        title = '';
+                    } else {
+                        title = snapshot.val();
+                    }
+                    console.info('Database : \'' + title + '\' vs Online : \'' + new_title + '\'');
+                    //				console.info("Desc : " + new_desc);
+                    if (title !== new_title && new_title !== '') {
+                        this.client.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
+                            embed: {
+                                description: `${new_title}`,
+                                color: 3593036,
+                                footer: {
+                                    text: '©Scirra Ltd 2017 • All rights reserved'
+                                },
+                                thumbnail: {
+                                    url: 'https://cdn.discordapp.com/attachments/244447929400688650/328696208719740929/BLOGiconsmall.png'
+                                },
+                                author: {
+                                    name: 'A NEW BLOG POST BY TOM JUST WENT LIVE!',
+                                    icon_url: 'https://cdn.discordapp.com/attachments/244447929400688650/328647581984882709/AlfredBotlerSmall.png'
+                                },
+                                fields: [
+                                    {
+                                        name: '----------------------------------',
+                                        value: 'ᅠ'
+                                    },
+                                    {
+                                        name: 'Read the new blog post:',
+                                        value: '<https://www.scirra.com/blog/tom>'
+                                    }
+                                ]
+                            }
+                        });
+
+                        database.ref('blog-tom').set(new_title);
+                        console.info('Set!');
+                    }
+                });
+            });
+
+            /**
+             * C3 releases
+             */
+            options = {
+                method: 'GET',
+                url: 'https://www.construct.net/make-games/releases'
+            };
+
+            request(options, (error, response, body) => {
+                if (error) {
+                    throw new Error(error);
+                }
+
+                const $ = cheerio.load(body);
+                const $releases = $('.releases');
+
+                const new_rel = $($releases).find('table > tbody > tr:nth-child(1) > td:nth-child(1) > div > a').text()
+                                            .trim();
+                const branch = $($releases).find('table > tbody > tr:nth-child(1) > td:nth-child(2) > a').text().trim();
+                const summary = $($releases).find('table > tbody > tr:nth-child(1) > td:nth-child(3) > a').text()
+                                            .trim();
+
+                database.ref('c3release').once('value').then(snapshot => {
+                    let rel;
+                    if (snapshot.val() === undefined) {
+                        rel = '';
+                    } else {
+                        rel = snapshot.val();
+                    }
+                    console.info('Database : \'' + rel + '\' vs Online : \'' + new_rel + '\'');
+                    if (rel !== new_rel && new_rel !== '') {
+                        this.client.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
+                            embed: {
+                                description: `${summary}`,
+                                color: 2683090,
+                                footer: {
+                                    text: '©Scirra Ltd 2017 • All rights reserved'
+                                },
+                                thumbnail: {
+                                    url: 'https://cdn.discordapp.com/attachments/244447929400688650/328682485296922626/C3iconsmall.png'
+                                },
+                                author: {
+                                    name: `A NEW ${branch.toUpperCase()} CONSTRUCT 3 UPDATE (${new_rel}) JUST WENT LIVE!`,
+                                    icon_url: 'https://cdn.discordapp.com/attachments/244447929400688650/328647581984882709/AlfredBotlerSmall.png'
+                                },
+                                fields: [
+                                    {
+                                        name: '----------------------------------',
+                                        value: 'ᅠ'
+                                    },
+                                    {
+                                        name: 'View the complete changelog:',
+                                        value: `https://www.construct.net/make-games/releases/${branch.toLowerCase()}/${new_rel.replace('.', '-')}`
+                                    }
+                                ]
+                            }
+                        });
+
+                        database.ref('c3release').set(new_rel);
+                        console.info('Set!');
+                    }
+                });
+            });
+
+            /**
+             * C2 releases
+             */
+            options = {
+                method: 'GET',
+                url: 'https://www.scirra.com/construct2/releases'
+            };
+
+            request(options, (error, response, body) => {
+                if (error) {
+                    throw new Error(error);
+                }
+
+                const $ = cheerio.load(body);
+
+                const new_rel = $('#Form1')
+                    .find('div.content-wrap > div.inner-content-wrap > div.releases-wrapper > table > tbody > tr:nth-child(1) > td.leftcol > a')
+                    .text().trim().replace('Construct 2 ', '');
+                const summary = $('#Form1')
+                    .find('div.content-wrap > div.inner-content-wrap > div.releases-wrapper > table > tbody > tr:nth-child(1) > td.leftcol > p')
+                    .text().trim();
+
+                database.ref('c2release').once('value').then(snapshot => {
+                    let rel;
+                    if (snapshot.val() === undefined) {
+                        rel = '';
+                    } else {
+                        rel = snapshot.val();
+                    }
+                    console.info('Database : \'' + rel + '\' vs Online : \'' + new_rel + '\'');
+                    if (rel !== new_rel && new_rel !== '') {
+                        this.client.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
+                            embed: {
+                                description: `${summary}`,
+                                color: 16316662,
+                                footer: {
+                                    text: '©Scirra Ltd 2017 • All rights reserved'
+                                },
+                                thumbnail: {
+                                    url: 'https://cdn.discordapp.com/attachments/244447929400688650/328688092963930112/C2iconsmall.png'
+                                },
+                                author: {
+                                    name: `A NEW CONSTRUCT 2 UPDATE (${new_rel}) JUST WENT LIVE!`,
+                                    icon_url: 'https://cdn.discordapp.com/attachments/244447929400688650/328647581984882709/AlfredBotlerSmall.png'
+                                },
+                                fields: [
+                                    {
+                                        name: '----------------------------------',
+                                        value: 'ᅠ'
+                                    },
+                                    {
+                                        name: 'View the complete changelog:',
+                                        value: `https://www.scirra.com/construct2/releases/${new_rel.toLowerCase()}`
+                                    }
+                                ]
+                            }
+                        });
+
+                        database.ref('c2release').set(new_rel);
+                        console.info('Set!');
+                    }
+                });
+            });
+        }, 600000);
     }
 };

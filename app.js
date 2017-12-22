@@ -148,9 +148,19 @@ app.use(function (err, req, res, next) {
  * -----------------------------------------------------------------
  */
 
+const sms = require('free-mobile-sms-api');
+
+sms.on('sms:error', e => {
+    console.info(e.code + ': ' + e.msg);
+});
+
+sms.on('sms:success', data => {
+    console.info('Success! :D');
+});
+
 bot = new Bot({
     commandPrefix: '!',
-    owner: '107180621981298688',
+    owner: CONSTANTS.OWNER,
     disableEveryone: true
 });
 
@@ -198,7 +208,21 @@ bot
     })
     .on('message', message => {
         try {
+            function isOnline(id) {
+                const user = bot.guilds.get(CONSTANTS.GUILD_ID).members.get(id);
+                return (user.presence.status !== 'offline');
+            }
+
+            if (message.mentions.users.exists('id', CONSTANTS.OWNER) || message.content.toLowerCase().includes('armaldio')) {
+                if (!isOnline(CONSTANTS.OWNER)) {
+                    const text = `[DISCORD] #${message.channel.name} @${message.author.username} said: ${message.content.trim()}`;
+                    sms.account(95222614, 'OWoVbMFNlat344');
+                    sms.send(encodeURIComponent(text));
+                }
+            }
+
             bot.parse(message);
+
         } catch (e) {
             Raven.captureException(e);
             console.log('ERROR PARSING MESSAGE', e);
@@ -212,6 +236,9 @@ bot
     .on('ready', () => {
         console.log('Bot ready');
         updateStatus();
+
+        bot.checkSignaling();
+
     });
 
 bot.login(CONSTANTS.BOT.TOKEN);
