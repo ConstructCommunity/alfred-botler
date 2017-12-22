@@ -8,10 +8,12 @@ const uuidv4 = require('uuid/v4');
 const uuidv5 = require('uuid/v5');
 const session = require('express-session');
 const MemoryStore = require('memorystore')(session);
+const FileStore = require('session-file-store')(session);
 const HASH = uuidv4();
 const fs = require('fs');
 const CONSTANTS = require('./constants.json');
 const Bot = require('./api/Bot');
+const os = require('os');
 
 require('pretty-error').start();
 
@@ -31,7 +33,6 @@ const ip = process.env.IP || '0.0.0.0';
 const isDev = !process.env.ONLINE;
 
 let bot;
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -75,12 +76,20 @@ const discordStrat = new DiscordStrategy({
 passport.use(discordStrat);
 refresh.use(discordStrat);
 
+console.log("temp directory", os.tmpdir());
+
+let filestore = new FileStore({
+    path: os.tmpdir()
+});
+
+let memorystore = new MemoryStore({
+    checkPeriod: 86400000
+});
+
 app.use(session({
     resave: true,
     saveUninitialized: true,
-    store: new MemoryStore({
-        checkPeriod: 86400000
-    }),
+    store: isDev ? filestore : memorystore,
     secret: 'alfred is awesome'
 }));
 
@@ -114,7 +123,7 @@ app.get('/login', passport.authenticate('discord', {scope: scopes}), function (r
 });
 app.use('/doc', documentation);
 app.use('/api', api);
-app.use('/commands', isDev ? empty : checkAuth, commands);
+app.use('/commands', checkAuth, commands);
 app.use('/dashboard', checkAuth, dashboard);
 
 // catch 404 and forward to error handler
@@ -176,6 +185,11 @@ process.on('uncaughtException', err => {
         wasClean: true
     });
     process.exit();
+});
+
+process.on('unhandledRejection', (reason, p) => {
+    console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
+    Raven.captureException(reason);
 });
 
 bot

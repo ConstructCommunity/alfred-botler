@@ -31,7 +31,14 @@ module.exports = class del extends Command
     }
 
     async run (msg, {id}) {
-        let msgToDel = await msg.guild.channels.get(CONSTANTS.CHANNELS.COLLECTION).fetchMessage(id);
+        let msgToDel;
+        try {
+            msgToDel = await msg.guild.channels.get(CONSTANTS.CHANNELS.COLLECTION).fetchMessage(id);
+        } catch (e) {
+            msg.author.send('We cannot find this message. It\'s probably already deleted');
+            return ;
+        }
+
         if (msgToDel.mentions.members.first() !== msg.member) {
             let _msg = await msg.author.send('I\'m sorry but that message does not belong to you.');
             return;

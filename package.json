@@ -45,6 +45,7 @@
     "raven": "^2.3.0",
     "request": "^2.83.0",
     "serve-favicon": "~2.4.5",
+    "session-file-store": "^1.2.0",
     "uuid": "^3.1.0"
   },
   "devDependencies": {

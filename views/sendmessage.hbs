@@ -2,19 +2,25 @@
 
 <form id="form" method="post" class="ui form">
     <div class="field">
-        <select name="channel">
-            {{#channels}}
-                <option value="{{id}}">{{name}}</option>
-            {{/channels}}
-        </select>
+        <div class="ui fluid search selection dropdown">
+            <input type="hidden" name="channel">
+            <i class="dropdown icon"></i>
+            <div class="default text">Select Channel</div>
+            <div class="menu">
+                {{#channels}}
+                    <div class="item" data-value="{{id}}"><i class="hashtag icon"></i>{{name}}</div>
+                {{/channels}}
+            </div>
+        </div>
     </div>
 
     <div class="fields">
         <div class="eight wide field">
-            <div style="height: 150px; border: 1px solid grey" id='message' contenteditable></div>
+            <div class="input" id='input'
+                 contenteditable></div>
         </div>
         <div class="eight wide field">
-            <div style="height: 150px; border: 1px solid grey" id='formattedMessaege' contenteditable></div>
+            <div class="input" id='formattedMessage' readonly></div>
         </div>
 
         <input type='hidden' id='fake_textarea_content' name='message'/>
@@ -22,22 +28,32 @@
 
     <div class="fields">
         <div class="fourteen wide field">
-            <label>
-                <select id="user">
+            <div class="ui fluid search selection dropdown">
+                <input type="hidden" name="user" id="user">
+                <i class="dropdown icon"></i>
+                <div class="default text">Select User</div>
+                <div class="menu">
                     {{#users}}
-                        <option value="{{user.id}}">{{user.username}}</option>
+                        <div class="item" data-value="{{user.id}}"><i class="at icon"></i>{{user.username}}</div>
                     {{/users}}
-                </select>
-            </label>
+                </div>
+            </div>
         </div>
         <div class="two wide field">
             <div id="insert" class="ui button">insert</div>
         </div>
     </div>
 
-
     <input class="ui button" type="submit" value="Submit"/>
 </form>
+
+<style>
+    .input {
+        height: 150px;
+        border: 1px solid rgba(34, 36, 38, .15);
+        border-radius: .28571429rem
+    }
+</style>
 
 <script>
     function format (text) {
@@ -49,20 +65,29 @@
     }
 
     $(document).ready(() => {
+        $('.dropdown').dropdown();
+
+        $('.ui.form').form({
+            fields: {
+                channel: 'empty',
+                message: 'empty'
+            }
+        });
+
         $('#insert').on('click', () => {
             var user = $('#user').val();
             console.log('user', user);
-            $('#message').val($('#message').val() + '<@' + user + '> ');
+            $('#input').val($('#input').val() + '<@' + user + '> ');
         });
 
-        $('#message').on('input', () => {
-            var value = $('#message').text();
+        $('#input').on('input', () => {
+            var value = $('#input').text();
             var newvalue = format(value);
-            $('#formattedMessaege').text(newvalue);
+            $('#formattedMessage').text(newvalue);
         });
 
         $('#form').submit(() => {
-            $('#fake_textarea_content').val($('#message').html());
+            $('#fake_textarea_content').val($('#input').html());
         });
     });
 

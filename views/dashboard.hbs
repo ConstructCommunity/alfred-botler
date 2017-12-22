@@ -1,6 +1,14 @@
 <section>
-    {{ message }}
+
 </section>
+
+<div class="ui {{session.message.type}} message">
+    <i class="close icon"></i>
+    <div class="header">
+        {{ session.message.header }}
+    </div>
+    <p>{{ session.message.text }}</p>
+</div>
 
 <h1>Dashboard</h1>
 

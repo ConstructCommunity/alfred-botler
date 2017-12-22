@@ -7,7 +7,8 @@ router.get('/', function (req, res, next) {
     const userID = req.user.id;
     let bot = res.locals.bot;
 
-    console.log("message", res.locals.message);
+    res.locals.session = req.session;
+    req.session[ 'message' ] = '';
 
     res.render('dashboard', {user: req.user});
 });
