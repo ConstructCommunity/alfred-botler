@@ -39,7 +39,7 @@ module.exports = class add extends Command
 
         let _msg = null;
         try {
-            _msg = await webhook.send(_extra.join(' '), obj);
+            _msg = await webhook.send(msg.member + ", " + _extra.join(' '), obj);
         } catch (e) {
             console.log('Error on sending webhook', e);
         }
