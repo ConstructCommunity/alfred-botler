@@ -101,31 +101,33 @@ async function start_process (answers) {
     if (answers.push) {
         let push = await exec('git push origin master');
     }
-    if (answers.publish) {
-        let arr = answers.commit_message.split('\n');
 
-        const fields = [];
+    let arr = answers.commit_message.split('\n');
 
-        arr.some(el => {
-            fields.push({
-                name: CONSTANTS.MESSAGE.EMPTY,
-                value: el
-            });
+    const fields = [];
+
+    arr.some(el => {
+        fields.push({
+            name: CONSTANTS.MESSAGE.EMPTY,
+            value: el
         });
+    });
 
-        const text = {
-            embed: {
-                title: 'Alfred got an update!',
-                color: 11962861,
-                fields
-            }
-        };
+    const text = {
+        embed: {
+            title: 'Alfred got an update!',
+            color: 11962861,
+            fields
+        }
+    };
 
-        console.log('fields', fields);
+    console.log('fields', fields);
 
+    if (answers.publish) {
         bot.guilds.get(CONSTANTS.GUILD_ID).channels.get(CONSTANTS.CHANNELS.ALFRED_COMMANDS).send(text);
+    } else {
+        bot.guilds.get(CONSTANTS.GUILD_ID).channels.get(CONSTANTS.CHANNELS.MODERATORS).send(text);
     }
-
 }
 
 function start () {

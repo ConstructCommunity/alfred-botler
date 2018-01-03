@@ -46,6 +46,9 @@ module.exports = class iam extends Command
             case 'armaldio':
                 return msg.reply('No, you are not.\nOr maybe you are. I don\'t know.');
 
+            case 'helper':
+                return msg.reply('Helper role is an important thing. You must request it to a Staff member.');
+
             case 'a dog':
                 return msg.reply('You should ask <@155322717422354432> to be sure');
             default:

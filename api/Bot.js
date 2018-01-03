@@ -56,6 +56,7 @@ module.exports = class Bot extends Discord.Client
         }
 
         if (!message.content.startsWith(this.commandPrefix)) {
+            console.log(`#${message.channel.name} @${message.author.username}: ${message.content}`);
             return;
         }
 
@@ -246,7 +247,6 @@ module.exports = class Bot extends Discord.Client
 
         function connect (url_) {
             return new Promise((resolve, reject) => {
-                console.info('Connecting');
                 const ws = new WebSocket(url_, {protocol: SIGNALLING_WEBSOCKET_PROTOCOL});
                 ws.on('open', event => {
                     resolve(true);
@@ -269,7 +269,7 @@ module.exports = class Bot extends Discord.Client
 
                     status = snapshot.val();
 
-                    console.info('Database : \'' + status + '\' vs Online : \'' + ret + '\'');
+                    //console.info('Database : \'' + status + '\' vs Online : \'' + ret + '\'');
                     if (status !== ret) {
                         this.client.channels.get(CONSTANTS.CHANNELS.COMMUNITY_ANNOUNCEMENTS).send({
                             embed: {
@@ -336,7 +336,7 @@ module.exports = class Bot extends Discord.Client
                     } else {
                         title = snapshot.val();
                     }
-                    console.info('Database : \'' + title + '\' vs Online : \'' + new_title + '\'');
+                    //console.info('Database : \'' + title + '\' vs Online : \'' + new_title + '\'');
                     //				console.info("Desc : " + new_desc);
                     if (title !== new_title && new_title !== '') {
                         this.client.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
@@ -404,7 +404,7 @@ module.exports = class Bot extends Discord.Client
                     } else {
                         title = snapshot.val();
                     }
-                    console.info('Database : \'' + title + '\' vs Online : \'' + new_title + '\'');
+                    //console.info('Database : \'' + title + '\' vs Online : \'' + new_title + '\'');
                     //				console.info("Desc : " + new_desc);
                     if (title !== new_title && new_title !== '') {
                         this.client.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
@@ -472,7 +472,7 @@ module.exports = class Bot extends Discord.Client
                     } else {
                         title = snapshot.val();
                     }
-                    console.info('Database : \'' + title + '\' vs Online : \'' + new_title + '\'');
+                    //console.info('Database : \'' + title + '\' vs Online : \'' + new_title + '\'');
                     //				console.info("Desc : " + new_desc);
                     if (title !== new_title && new_title !== '') {
                         this.client.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
@@ -537,7 +537,7 @@ module.exports = class Bot extends Discord.Client
                     } else {
                         rel = snapshot.val();
                     }
-                    console.info('Database : \'' + rel + '\' vs Online : \'' + new_rel + '\'');
+                    //console.info('Database : \'' + rel + '\' vs Online : \'' + new_rel + '\'');
                     if (rel !== new_rel && new_rel !== '') {
                         this.client.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
                             embed: {
@@ -601,7 +601,7 @@ module.exports = class Bot extends Discord.Client
                     } else {
                         rel = snapshot.val();
                     }
-                    console.info('Database : \'' + rel + '\' vs Online : \'' + new_rel + '\'');
+                    //console.info('Database : \'' + rel + '\' vs Online : \'' + new_rel + '\'');
                     if (rel !== new_rel && new_rel !== '') {
                         this.client.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
                             embed: {
