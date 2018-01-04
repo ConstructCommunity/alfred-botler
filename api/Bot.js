@@ -20,6 +20,9 @@ firebase.initializeApp(config);
 
 let database = firebase.database();
 
+const truncate = function (string, n) {
+    return string.substr(0, n - 1) + (this.length > n ? '&hellip;' : '');
+};
 
 module.exports = class Bot extends Discord.Client
 {
@@ -332,14 +335,14 @@ module.exports = class Bot extends Discord.Client
                 database.ref('blog').once('value').then(snapshot => {
                     let title;
                     if (snapshot.val() === undefined) {
-                        title = '';
+                        title = '-';
                     } else {
                         title = snapshot.val();
                     }
                     //console.info('Database : \'' + title + '\' vs Online : \'' + new_title + '\'');
                     //				console.info("Desc : " + new_desc);
                     if (title !== new_title && new_title !== '') {
-                        this.client.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
+                        this.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
                             embed: {
                                 description: `${new_title}`,
                                 color: 3593036,
@@ -400,14 +403,14 @@ module.exports = class Bot extends Discord.Client
                 database.ref('blog-ashley').once('value').then(snapshot => {
                     let title;
                     if (snapshot.val() === undefined) {
-                        title = '';
+                        title = '-';
                     } else {
                         title = snapshot.val();
                     }
                     //console.info('Database : \'' + title + '\' vs Online : \'' + new_title + '\'');
                     //				console.info("Desc : " + new_desc);
                     if (title !== new_title && new_title !== '') {
-                        this.client.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
+                        this.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
                             embed: {
                                 description: `${new_title}`,
                                 color: 3593036,
@@ -468,14 +471,14 @@ module.exports = class Bot extends Discord.Client
                 database.ref('blog-tom').once('value').then(snapshot => {
                     let title;
                     if (snapshot.val() === undefined) {
-                        title = '';
+                        title = '-';
                     } else {
                         title = snapshot.val();
                     }
                     //console.info('Database : \'' + title + '\' vs Online : \'' + new_title + '\'');
                     //				console.info("Desc : " + new_desc);
                     if (title !== new_title && new_title !== '') {
-                        this.client.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
+                        this.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
                             embed: {
                                 description: `${new_title}`,
                                 color: 3593036,
@@ -526,20 +529,21 @@ module.exports = class Bot extends Discord.Client
 
                 const new_rel = $($releases).find('table > tbody > tr:nth-child(1) > td:nth-child(1) > div > a').text()
                                             .trim();
-                const branch = $($releases).find('table > tbody > tr:nth-child(1) > td:nth-child(2) > a').text().trim();
-                const summary = $($releases).find('table > tbody > tr:nth-child(1) > td:nth-child(3) > a').text()
+                const branch = $($releases).find('table > tbody > tr:nth-child(1) > td:nth-child(2) > a').attr('href').split('/').pop();
+                const summary = $($releases).find('table > tbody > tr:nth-child(1) > td.l > a').text()
                                             .trim();
 
                 database.ref('c3release').once('value').then(snapshot => {
                     let rel;
                     if (snapshot.val() === undefined) {
-                        rel = '';
+                        rel = '-';
                     } else {
                         rel = snapshot.val();
                     }
-                    //console.info('Database : \'' + rel + '\' vs Online : \'' + new_rel + '\'');
+                    console.info('Database : \'' + rel + '\' vs Online : \'' + new_rel + '\'');
+                    console.log('summary', summary);
                     if (rel !== new_rel && new_rel !== '') {
-                        this.client.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
+                        this.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
                             embed: {
                                 description: `${summary}`,
                                 color: 2683090,
@@ -550,12 +554,12 @@ module.exports = class Bot extends Discord.Client
                                     url: 'https://cdn.discordapp.com/attachments/244447929400688650/328682485296922626/C3iconsmall.png'
                                 },
                                 author: {
-                                    name: `A NEW ${branch.toUpperCase()} CONSTRUCT 3 UPDATE (${new_rel}) JUST WENT LIVE!`,
+                                    name: truncate(`A NEW ${branch.toUpperCase()} CONSTRUCT 3 UPDATE (${new_rel}) JUST WENT LIVE!`, 255),
                                     icon_url: 'https://cdn.discordapp.com/attachments/244447929400688650/328647581984882709/AlfredBotlerSmall.png'
                                 },
                                 fields: [
                                     {
-                                        name: '----------------------------------',
+                                        name: CONSTANTS.MESSAGE.SEPARATOR,
                                         value: 'ᅠ'
                                     },
                                     {
@@ -567,7 +571,7 @@ module.exports = class Bot extends Discord.Client
                         });
 
                         database.ref('c3release').set(new_rel);
-                        console.info('Set!');
+                        console.info('Set c3 release');
                     }
                 });
             });
@@ -597,13 +601,13 @@ module.exports = class Bot extends Discord.Client
                 database.ref('c2release').once('value').then(snapshot => {
                     let rel;
                     if (snapshot.val() === undefined) {
-                        rel = '';
+                        rel = '-';
                     } else {
                         rel = snapshot.val();
                     }
                     //console.info('Database : \'' + rel + '\' vs Online : \'' + new_rel + '\'');
                     if (rel !== new_rel && new_rel !== '') {
-                        this.client.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
+                        this.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
                             embed: {
                                 description: `${summary}`,
                                 color: 16316662,
@@ -614,7 +618,7 @@ module.exports = class Bot extends Discord.Client
                                     url: 'https://cdn.discordapp.com/attachments/244447929400688650/328688092963930112/C2iconsmall.png'
                                 },
                                 author: {
-                                    name: `A NEW CONSTRUCT 2 UPDATE (${new_rel}) JUST WENT LIVE!`,
+                                    name: truncate(`A NEW CONSTRUCT 2 UPDATE (${new_rel}) JUST WENT LIVE!`, 255),
                                     icon_url: 'https://cdn.discordapp.com/attachments/244447929400688650/328647581984882709/AlfredBotlerSmall.png'
                                 },
                                 fields: [

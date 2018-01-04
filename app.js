@@ -238,6 +238,7 @@ bot
         updateStatus();
 
         bot.checkSignaling();
+        bot.checkBlogsAndUpdates();
 
     });
 
