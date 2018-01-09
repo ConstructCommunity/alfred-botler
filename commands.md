@@ -33,6 +33,21 @@ Examples:
 
 `!del` 
 
+</div><br><div class="section">**donate** - Donate to support this server 
+
+Accept extra arguments: No 
+
+Delete command        : No 
+
+Permissions: 
+
+| Allowed roles | Allowed channels |
+| :-----------: | :--------------: |
+| Any  | Any  |
+Examples: 
+
+`!donate` 
+
 </div><br><div class="section">**help** - Show help about the bot 
 
 Accept extra arguments: No 

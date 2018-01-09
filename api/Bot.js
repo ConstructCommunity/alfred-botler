@@ -347,7 +347,7 @@ module.exports = class Bot extends Discord.Client
                                 description: `${new_title}`,
                                 color: 3593036,
                                 footer: {
-                                    text: '©Scirra Ltd 2017 • All rights reserved'
+                                    text: CONSTANTS.MESSAGE.SCIRRA_FOOTER
                                 },
                                 thumbnail: {
                                     url: 'https://cdn.discordapp.com/attachments/244447929400688650/328696208719740929/BLOGiconsmall.png'
@@ -415,7 +415,7 @@ module.exports = class Bot extends Discord.Client
                                 description: `${new_title}`,
                                 color: 3593036,
                                 footer: {
-                                    text: '©Scirra Ltd 2017 • All rights reserved'
+                                    text: CONSTANTS.MESSAGE.SCIRRA_FOOTER
                                 },
                                 thumbnail: {
                                     url: 'https://cdn.discordapp.com/attachments/244447929400688650/328696208719740929/BLOGiconsmall.png'
@@ -483,7 +483,7 @@ module.exports = class Bot extends Discord.Client
                                 description: `${new_title}`,
                                 color: 3593036,
                                 footer: {
-                                    text: '©Scirra Ltd 2017 • All rights reserved'
+                                    text: CONSTANTS.MESSAGE.SCIRRA_FOOTER
                                 },
                                 thumbnail: {
                                     url: 'https://cdn.discordapp.com/attachments/244447929400688650/328696208719740929/BLOGiconsmall.png'
@@ -548,13 +548,13 @@ module.exports = class Bot extends Discord.Client
                                 description: `${summary}`,
                                 color: 2683090,
                                 footer: {
-                                    text: '©Scirra Ltd 2017 • All rights reserved'
+                                    text: CONSTANTS.MESSAGE.SCIRRA_FOOTER
                                 },
                                 thumbnail: {
                                     url: 'https://cdn.discordapp.com/attachments/244447929400688650/328682485296922626/C3iconsmall.png'
                                 },
                                 author: {
-                                    name: truncate(`A NEW ${branch.toUpperCase()} CONSTRUCT 3 UPDATE (${new_rel}) JUST WENT LIVE!`, 255),
+                                    name: truncate(`CONSTRUCT 3 ${branch.toUpperCase()} UPDATE (${new_rel}) IS AVAILABLE!`, 255),
                                     icon_url: 'https://cdn.discordapp.com/attachments/244447929400688650/328647581984882709/AlfredBotlerSmall.png'
                                 },
                                 fields: [
@@ -612,13 +612,13 @@ module.exports = class Bot extends Discord.Client
                                 description: `${summary}`,
                                 color: 16316662,
                                 footer: {
-                                    text: '©Scirra Ltd 2017 • All rights reserved'
+                                    text: CONSTANTS.MESSAGE.SCIRRA_FOOTER
                                 },
                                 thumbnail: {
                                     url: 'https://cdn.discordapp.com/attachments/244447929400688650/328688092963930112/C2iconsmall.png'
                                 },
                                 author: {
-                                    name: truncate(`A NEW CONSTRUCT 2 UPDATE (${new_rel}) JUST WENT LIVE!`, 255),
+                                    name: truncate(`CONSTRUCT 2 UPDATE (${new_rel}) IS AVAILABLE!`, 255),
                                     icon_url: 'https://cdn.discordapp.com/attachments/244447929400688650/328647581984882709/AlfredBotlerSmall.png'
                                 },
                                 fields: [

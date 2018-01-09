@@ -128,6 +128,8 @@ async function start_process (answers) {
     } else {
         bot.guilds.get(CONSTANTS.GUILD_ID).channels.get(CONSTANTS.CHANNELS.MODERATORS).send(text);
     }
+
+    bot.disconnect();
 }
 
 function start () {

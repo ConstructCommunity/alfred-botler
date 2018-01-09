@@ -18,6 +18,7 @@ const os = require('os');
 require('pretty-error').start();
 
 const documentation = require('./routes/documentation');
+const donation = require('./routes/donation');
 const api = require('./routes/api');
 const commands = require('./routes/commands');
 const dashboard = require('./routes/dashboard');
@@ -122,6 +123,7 @@ app.get('/login', passport.authenticate('discord', {scope: scopes}), function (r
     res.locals.guild = bot.guilds.get(CONSTANTS.GUILD_ID);
 });
 app.use('/doc', documentation);
+app.use('/donation', donation);
 app.use('/api', api);
 app.use('/commands', checkAuth, commands);
 app.use('/dashboard', checkAuth, dashboard);
