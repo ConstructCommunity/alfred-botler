@@ -90,7 +90,7 @@ module.exports = class move extends Command
 				});
 			}));
 			let edit = await msg_del.edit(`${messages.array().length} messages successfully deleted.`);
-			let sent = await msg.channel.send(`${messages.array().length} message were move to <#${channel.id}>, please continue your discussion here`);
+			let sent = await msg.channel.send(`${messages.array().length} message(s) were moved to <#${channel.id}>. Please continue the conversation there! <:z_scirra_c3Alfred:278258103474978816>`);
 			sent = await channel.send({
 				embed: {
 					'title': `Last messages from #${msg.channel.name}`,

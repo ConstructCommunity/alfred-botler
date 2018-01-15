@@ -28,118 +28,118 @@ const Bot = require('../api/Bot');
 const CONSTANTS = require('../constants');
 
 const bot = new Bot({
-    commandPrefix: '!',
-    owner: '107180621981298688',
-    disableEveryone: true
+	commandPrefix: '!',
+	owner: '107180621981298688',
+	disableEveryone: true
 });
 
 bot.on('ready', () => {
-    console.log('Bot ready');
-    start();
+	console.log('Bot ready');
+	start();
 });
 
 bot.login(CONSTANTS.BOT.TOKEN);
 
 let questions = [
-    {
-        required: true,
-        name: 'commit_message',
-        type: 'editor',
-        message: 'Please, enter your commit message: ',
-        default: '-'
-    },
-    {
-        type: 'confirm',
-        message: 'Do you want to push to the current branch ?',
-        name: 'push'
-    },
-    {
-        type: 'confirm',
-        message: 'Show the message to the community ?',
-        name: 'publish'
-    }
+	{
+		required: true,
+		name: 'commit_message',
+		type: 'editor',
+		message: 'Please, enter your commit message: ',
+		default: '-'
+	},
+	{
+		type: 'confirm',
+		message: 'Do you want to push to the current branch ?',
+		name: 'push'
+	},
+	{
+		type: 'confirm',
+		message: 'Show the message to the community ?',
+		name: 'publish'
+	}
 ];
 
 function exec (command) {
-    return new Promise((resolve, reject) => {
-        child_process.exec(command, function (error, stdout, stderr) {
-            if (error) {
-                reject(error, stderr);
-            } else {
-                resolve(stdout);
-            }
-        });
-    });
+	return new Promise((resolve, reject) => {
+		child_process.exec(command, function (error, stdout, stderr) {
+			if (error) {
+				reject(error, stderr);
+			} else {
+				resolve(stdout);
+			}
+		});
+	});
 }
 
 async function start_process (answers) {
-    const spinner = ora('Removing instances');
+	const spinner = ora('Removing instances');
 
-    spinner.start();
-    try {
-        spinner.info(await exec('now rm alfred-botler --y'));
-        spinner.succeed('Instances removed');
-    } catch (err) {
-        console.log('Cannot remove current instances or no active instances');
-    }
+	spinner.start();
+	try {
+		spinner.info(await exec('now rm alfred-botler --y'));
+		spinner.succeed('Instances removed');
+	} catch (err) {
+		console.log('Cannot remove current instances or no active instances');
+	}
 
-    spinner.start('Publishing project');
-    spinner.info(await exec('now --public'));
-    spinner.succeed('Publishing successfull');
+	spinner.start('Publishing project');
+	spinner.info(await exec('now --public'));
+	spinner.succeed('Publishing successfull');
 
-    spinner.start('Aliasing project');
-    spinner.info(await exec('now alias'));
-    spinner.succeed('Aliasing successfull');
+	spinner.start('Aliasing project');
+	spinner.info(await exec('now alias'));
+	spinner.succeed('Aliasing successfull');
 
-    spinner.start('Scaling project');
-    spinner.info(await exec('now scale alfred-botler.now.sh 1'));
-    spinner.succeed('Scaling successfull');
+	spinner.start('Scaling project');
+	spinner.info(await exec('now scale alfred-botler.now.sh 1'));
+	spinner.succeed('Scaling successfull');
 
-    let add = await exec('git add .');
-    let commit = await exec(`git commit -m "${answers.commit_message}"`);
+	let add = await exec('git add .');
+	let commit = await exec(`git commit -m "${answers.commit_message}"`);
 
-    if (answers.push) {
-        let push = await exec('git push origin master');
-    }
+	if (answers.push) {
+		let push = await exec('git push origin master');
+	}
 
-    let arr = answers.commit_message.split('\n');
+	let arr = answers.commit_message.split('\n');
 
-    const fields = [];
+	const fields = [];
 
-    arr.some(el => {
-        fields.push({
-            name: CONSTANTS.MESSAGE.EMPTY,
-            value: el
-        });
-    });
+	arr.some(el => {
+		fields.push({
+			name: CONSTANTS.MESSAGE.EMPTY,
+			value: el
+		});
+	});
 
-    const text = {
-        embed: {
-            title: 'Alfred got an update!',
-            color: 11962861,
-            fields
-        }
-    };
+	const text = {
+		embed: {
+			title: 'Alfred got an update!',
+			color: 11962861,
+			fields
+		}
+	};
 
-    console.log('fields', fields);
+	console.log('fields', fields);
 
-    if (answers.publish) {
-        bot.guilds.get(CONSTANTS.GUILD_ID).channels.get(CONSTANTS.CHANNELS.ALFRED_COMMANDS).send(text);
-    } else {
-        bot.guilds.get(CONSTANTS.GUILD_ID).channels.get(CONSTANTS.CHANNELS.MODERATORS).send(text);
-    }
+	if (answers.publish) {
+		bot.guilds.get(CONSTANTS.GUILD_ID).channels.get(CONSTANTS.CHANNELS.ALFRED_COMMANDS).send(text);
+	} else {
+		bot.guilds.get(CONSTANTS.GUILD_ID).channels.get(CONSTANTS.CHANNELS.MODERATORS).send(text);
+	}
 
-    bot.disconnect();
+	process.exit(0);
 }
 
 function start () {
-    prompt(questions).then(answers => {
-        try {
-            start_process(answers).then(_ => {
-                process.exit();
-            });
-        } catch (e) {
-            console.log('Error while processing');
-        }
-    });
+	prompt(questions).then(answers => {
+		try {
+			start_process(answers).then(_ => {
+				process.exit();
+			});
+		} catch (e) {
+			console.log('Error while processing');
+		}
+	});
 }

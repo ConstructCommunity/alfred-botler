@@ -37,7 +37,7 @@ Examples:
 
 Accept extra arguments: No 
 
-Delete command        : No 
+Delete command        : Yes 
 
 Permissions: 
 
@@ -152,6 +152,26 @@ Permissions:
 Examples: 
 
 `!ping` 
+
+</div><br><div class="section">**prune** - Prune a certain amount of messages from the current channel 
+
+Accept extra arguments: No 
+
+Delete command        : Yes 
+
+Parameters: 
+
+| Name | Type | Description |
+| :--: |:---: | :---------: |
+| amount | number | How much messages you want to prune | 
+Permissions: 
+
+| Allowed roles | Allowed channels |
+| :-----------: | :--------------: |
+| CC Staff  | Any  |
+Examples: 
+
+`!prune 10` 
 
 </div><br><div class="section">**say** - Output text or embed inside a specific channel as Alfred 
 
