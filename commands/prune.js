@@ -6,25 +6,20 @@ const Command = require('../api/Command');
 const CONSTANTS = require('../constants');
 const Raven = require('raven');
 
-module.exports = class move extends Command
+module.exports = class prune extends Command
 {
 	constructor (client) {
 		super(client, {
-			name: 'move',
-			description: 'Move a certain amount of messages from one channel to another',
-			examples: [ `move 10 <#226376432064921600>` ],
+			name: 'prune',
+			description: 'Prune a certain amount of messages from the current channel',
+			examples: [ `prune 10` ],
 			extraArgs: false,
 			deleteCmd: true,
 			args: [
 				{
 					key: 'amount',
-					prompt: 'How much messages you want to move',
+					prompt: 'How much messages you want to prune',
 					type: 'number'
-				},
-				{
-					key: 'channel',
-					prompt: 'The channel you want to move messages to',
-					type: 'channel'
 				}
 			],
 			permissions: {
@@ -58,7 +53,7 @@ module.exports = class move extends Command
 
 		let _sent = await msg.author.send({
 			embed: {
-				'title': `This is a preview of the message that will be posted to #${channel.name}`,
+				'title': `This is a preview of the message that will be deleted from #${msg.channel.name}`,
 				'description': 'Do you confirm this ? (yes/no)',
 				'color': 15844367,
 				'footer': {
@@ -90,10 +85,9 @@ module.exports = class move extends Command
 				});
 			}));
 			let edit = await msg_del.edit(`${messages.array().length} messages successfully deleted.`);
-			let sent = await msg.channel.send(`${messages.array().length} message were move to <#${channel.id}>, please continue your discussion here`);
-			sent = await channel.send({
+			let sent = await msg.guild.channels.get(CONSTANTS.CHANNELS.BIN).send({
 				embed: {
-					'title': `Last messages from #${msg.channel.name}`,
+					'title': `Messages deleted from #${msg.channel.name}`,
 					'description': CONSTANTS.MESSAGE.EMPTY,
 					'color': 15844367,
 					'footer': {
