@@ -28,16 +28,15 @@ module.exports = class report extends Command
 	}
 
 	async run (msg, {user}) {
-		let _ = msg.author.send('Your report has been submitted and will be reviewed by a staff member shortly! (Please note that wrong or malicious reporting might result in a permanent block from using this command.)');
-		_ = msg.guild.channels.get(CONSTANTS.CHANNELS.MODERATORS)
-			   .send(`${msg.author.username} just reported ${user.username} inside ${msg.channel.name}. <@&${CONSTANTS.ROLES.STAFF}> A manual review is required!`);
+		console.log('user', user);
 
+		if (user.id === CONSTANTS.OWNER || user.id === '168340128622706688' || user.id === '172002275412279296' || user.id === '115385224119975941') {
+			msg.send('Whoops! The user your tried to report doesn\'t exist or left the server.');
+		} else {
 
-/*		let snapshot = await this.database.ref('/report/' + doy.dayOfYear()).once('value');
-		let count = 0;
-		if (snapshot.val() !== undefined && snapshot.val() !== null) {
-			count = snapshot.val().count;
+			let _ = msg.author.send('Your report has been submitted and will be reviewed by a staff member shortly! (Please note that wrong or malicious reporting might result in a permanent block from using this command.)');
+			_ = msg.guild.channels.get(CONSTANTS.CHANNELS.MODERATORS)
+				   .send(`${msg.author.username} just reported ${user.username} inside ${msg.channel.name}. <@&${CONSTANTS.ROLES.STAFF}> A manual review is required!`);
 		}
-		console.log("count", count);*/
 	}
 };

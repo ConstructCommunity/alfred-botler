@@ -7,10 +7,9 @@
   "scripts": {
     "start": "./node_modules/.bin/pm2 start app.js",
     "dev": "nodemon app.js",
-    "test": "ava",
+    "test": "ava tests",
     "doc": "node doc/generator.js",
-    "publish": "node management/publish.js",
-    "_postinstall_": "./node_modules/.bin/pkg management/publish.js --targets=win"
+    "publish": "node management/publish.js"
   },
   "author": "Armaldio",
   "license": "MIT",
