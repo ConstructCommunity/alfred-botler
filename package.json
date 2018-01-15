@@ -5,8 +5,8 @@
   "private": true,
   "main": "app.js",
   "scripts": {
-    "now-start": "node app.js",
-    "start": "nodemon app.js",
+    "start": "./node_modules/.bin/pm2 start app.js",
+    "dev": "nodemon app.js",
     "test": "ava",
     "doc": "node doc/generator.js",
     "publish": "node management/publish.js",
@@ -21,6 +21,7 @@
     "btoa": "^1.1.2",
     "cheerio": "^1.0.0-rc.2",
     "cookie-parser": "^1.4.3",
+    "day-of-year": "^0.1.0",
     "debug": "~2.6.9",
     "discord.js": "^11.2.0",
     "express": "^4.16.2",

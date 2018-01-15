@@ -5,7 +5,7 @@
 const Command = require('../api/Command');
 const CONSTANTS = require('../constants');
 
-module.exports = class ping extends Command
+module.exports = class help extends Command
 {
     constructor (client) {
         super(client, {

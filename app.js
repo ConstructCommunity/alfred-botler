@@ -28,7 +28,7 @@ Raven.config('https://d27747b9414d435ab6dae396ce61a4d2:caaa873cdb824239b3f422e0e
 
 const app = express();
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 80;
 const ip = process.env.IP || '0.0.0.0';
 
 const isDev = !process.env.ONLINE;
@@ -66,7 +66,7 @@ passport.deserializeUser(function (obj, done) {
 const discordStrat = new DiscordStrategy({
     clientID: CONSTANTS.BOT.CLIENT_ID,
     clientSecret: CONSTANTS.BOT.CLIENT_SECRET,
-    callbackURL: isDev ? 'http://localhost:8080/api/discord/callback' : 'https://alfred-botler.now.sh/api/discord/callback',
+    callbackURL: isDev ? 'http://localhost:80/api/discord/callback' : 'https://alfred-botler.now.sh/api/discord/callback',
     scope: scopes
 }, (accessToken, refreshToken, profile, done) => {
     profile.refreshToken = refreshToken; // store this for later refreshes

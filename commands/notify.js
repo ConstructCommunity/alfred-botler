@@ -5,7 +5,7 @@
 const Command = require('../api/Command');
 const CONSTANTS = require('../constants');
 
-module.exports = class move extends Command
+module.exports = class notify extends Command
 {
     constructor (client) {
         super(client, {
