@@ -31,7 +31,7 @@ module.exports = class report extends Command
 		console.log('user', user);
 
 		if (user.id === CONSTANTS.OWNER || user.id === '168340128622706688' || user.id === msg.author.id || user.id === '172002275412279296' || user.id === '115385224119975941') {
-			msg.channel.send('Whoops! The user your tried to report doesn\'t exist or left the server.');
+			msg.author.send('Whoops! The user your tried to report doesn\'t exist or left the server.');
 		} else {
 
 			let _ = msg.author.send('Your report has been submitted and will be reviewed by a staff member shortly! (Please note that wrong or malicious reporting might result in a permanent block from using this command.)');
