@@ -31,7 +31,9 @@ const app = express();
 const port = process.env.PORT || 80;
 const ip = process.env.IP || '0.0.0.0';
 
-const isDev = !process.env.ONLINE;
+console.log("process.env.PRODUCTION", process.env.PRODUCTION);
+
+const isDev = !process.env.PRODUCTION;
 
 let bot;
 
