@@ -5,7 +5,7 @@
   "private": true,
   "main": "app.js",
   "scripts": {
-    "start": "./node_modules/.bin/pm2 start app.js",
+    "start": "NODE_ENV=production ./node_modules/.bin/pm2 start app.js",
     "dev": "nodemon app.js",
     "test": "ava tests",
     "doc": "node doc/generator.js",
