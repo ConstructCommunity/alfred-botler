@@ -157,7 +157,7 @@ module.exports = class Bot extends Discord.Client
                 } else if (hasRole && !goodChannel) {
                     this.message.reply(`I\'m sorry, this command is only available in the following channels: ${cmd.infos.permissions.channels.map(elem => {
                         return `<#${elem}>`;
-                    }).join(',')}}`);
+                    }).join(',')}`);
                 }
 
                 return true;
@@ -540,8 +540,8 @@ module.exports = class Bot extends Discord.Client
                     } else {
                         rel = snapshot.val();
                     }
-                    console.info('Database : \'' + rel + '\' vs Online : \'' + new_rel + '\'');
-                    console.log('summary', summary);
+                    //console.info('Database : \'' + rel + '\' vs Online : \'' + new_rel + '\'');
+                    //console.log('summary', summary);
                     if (rel !== new_rel && new_rel !== '') {
                         this.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
                             embed: {
