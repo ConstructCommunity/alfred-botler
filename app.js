@@ -243,6 +243,7 @@ bot
 
         bot.checkSignaling();
         bot.checkBlogsAndUpdates();
+        bot.updateMessage();
 
     });
 

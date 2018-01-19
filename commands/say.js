@@ -11,7 +11,7 @@ module.exports = class say extends Command
 {
     constructor (client) {
         super(client, {
-            name: 'say2',
+            name: 'say',
             description: 'Output text or embed inside a specific channel as Alfred',
             examples: [ 'say + json as attached file', 'say Hello everyone!' ],
             deleteCmd: false,
