@@ -244,6 +244,7 @@ bot
         bot.checkSignaling();
         bot.checkBlogsAndUpdates();
         bot.updateMessage();
+        bot.checkNewPlugins();
 
     });
 
