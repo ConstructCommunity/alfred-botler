@@ -676,6 +676,8 @@ module.exports = class Bot extends Discord.Client {
             console.log(smallDescription);
             console.log(link);
 
+            console.log("this is it: ", image.split('.').pop());
+
             database.ref('lastc3plugin').once('value').then(snapshot => {
                 let title;
                 if (snapshot.val() === undefined) {
@@ -693,7 +695,7 @@ module.exports = class Bot extends Discord.Client {
                                 text: CONSTANTS.MESSAGE.SCIRRA_FOOTER
                             },
                             thumbnail  : {
-                                url: image
+                                url: image.split('.').pop() === "svg" ? "https://cdn.discordapp.com/attachments/244447929400688650/388355208247246848/channeladdedicon.png" : image
                             },
                             author     : {
                                 name    : `${new_title.toUpperCase()} (C3 ADDON) JUST WENT LIVE!`,
@@ -768,7 +770,7 @@ module.exports = class Bot extends Discord.Client {
                                 text: CONSTANTS.MESSAGE.SCIRRA_FOOTER
                             },
                             thumbnail  : {
-                                url: image
+                                url: image.split('.').pop() === "svg" ? "https://cdn.discordapp.com/attachments/244447929400688650/388355208247246848/channeladdedicon.png" : image
                             },
                             author     : {
                                 name    : `${new_title.toUpperCase()} (C2 ADDON) JUST WENT LIVE!`,

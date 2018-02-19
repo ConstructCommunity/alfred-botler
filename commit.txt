@@ -1,1 +1,1 @@
-"add plugin notifications"
+"fix for svg"
