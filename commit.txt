@@ -1,1 +1,1 @@
-"fix for svg"
+"set ping every 30 seconds instead of 10 min"

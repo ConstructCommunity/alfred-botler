@@ -795,7 +795,7 @@ module.exports = class Bot extends Discord.Client {
             });
 
         });
-        }, 600000);
+        }, 30000);
 
     }
 
