@@ -665,7 +665,7 @@ module.exports = class Bot extends Discord.Client {
             const image            = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > a > img')
                 .data('src');
             const new_title        = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > div.top > a')
-                .text().replace('\n', '');
+                .text().replace(/\n/, '');
             const link             = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > div.top > a')
                 .attr('href');
             const smallDescription = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > p')
@@ -742,7 +742,7 @@ module.exports = class Bot extends Discord.Client {
             const image            = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > a > img:nth-child(1)')
                 .data('src');
             const new_title        = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > div.top > a')
-                .text().replace('\n', '');
+                .text().replace(/\n/, '');
             const link             = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > div.top > a')
                 .attr('href');
             const smallDescription = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > p')

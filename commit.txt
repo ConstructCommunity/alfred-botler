@@ -1,1 +1,1 @@
-"add attempt to fix not receiving notifications"
+"fix trailing \\n"
