@@ -650,7 +650,7 @@ module.exports = class Bot extends Discord.Client {
 
         let options = {
             method : 'GET',
-            url    : 'https://www.construct.net/make-games/addons?sort=0&m=1&p=1&c=1,2,3,4',
+            url    : 'https://www.construct.net/make-games/addons?sort=0&q=',
             headers: {
                 'cache-control': 'no-cache'
             }
@@ -662,10 +662,10 @@ module.exports = class Bot extends Discord.Client {
             }
 
             const $                = cheerio.load(body);
-            const image            = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > a > img:nth-child(1)')
+            const image            = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > a > img')
                 .data('src');
             const new_title        = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > div.top > a')
-                .text();
+                .text().replace('\n', '');
             const link             = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > div.top > a')
                 .attr('href');
             const smallDescription = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > p')
@@ -727,7 +727,7 @@ module.exports = class Bot extends Discord.Client {
 
         options = {
             method : 'GET',
-            url    : 'https://www.construct.net/construct-2/addons?sort=0&m=1&p=1&c=1,2,3,4',
+            url    : 'https://www.construct.net/construct-2/addons?sort=0&q=',
             headers: {
                 'cache-control': 'no-cache'
             }
@@ -742,7 +742,7 @@ module.exports = class Bot extends Discord.Client {
             const image            = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > a > img:nth-child(1)')
                 .data('src');
             const new_title        = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > div.top > a')
-                .text();
+                .text().replace('\n', '');
             const link             = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > div.top > a')
                 .attr('href');
             const smallDescription = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > p')
