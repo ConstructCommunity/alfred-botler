@@ -1,1 +1,1 @@
-"fix trailing \\n"
+"fix for post and releases"

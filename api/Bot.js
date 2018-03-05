@@ -289,7 +289,7 @@ module.exports = class Bot extends Discord.Client {
                                 },
                                 fields     : [
                                     {
-                                        name : '----------------------------------',
+                                        name : CONSTANTS.MESSAGE.SEPARATOR,
                                         value: 'ᅠ'
                                     }
                                 ]
@@ -357,7 +357,7 @@ module.exports = class Bot extends Discord.Client {
                                 },
                                 fields     : [
                                     {
-                                        name : '----------------------------------',
+                                        name : CONSTANTS.MESSAGE.SEPARATOR,
                                         value: 'ᅠ'
                                     },
                                     {
@@ -425,7 +425,7 @@ module.exports = class Bot extends Discord.Client {
                                 },
                                 fields     : [
                                     {
-                                        name : '----------------------------------',
+                                        name : CONSTANTS.MESSAGE.SEPARATOR,
                                         value: 'ᅠ'
                                     },
                                     {
@@ -493,7 +493,7 @@ module.exports = class Bot extends Discord.Client {
                                 },
                                 fields     : [
                                     {
-                                        name : '----------------------------------',
+                                        name : CONSTANTS.MESSAGE.SEPARATOR,
                                         value: 'ᅠ'
                                     },
                                     {
@@ -526,8 +526,8 @@ module.exports = class Bot extends Discord.Client {
                 const $         = cheerio.load(body);
                 const $releases = $('.releases');
 
-                const new_rel = $($releases).find('table > tbody > tr:nth-child(1) > td:nth-child(1) > div > a').text()
-                                            .trim();
+                const new_rel = $($releases).find('table > tbody > tr:nth-child(1) .hFont').attr('href')
+                                            .split('/').pop();
                 const branch  = $($releases).find('table > tbody > tr:nth-child(1) > td:nth-child(2) > a').attr('href')
                                             .split('/').pop();
                 const summary = $($releases).find('table > tbody > tr:nth-child(1) > td.l > a').text()
@@ -540,7 +540,6 @@ module.exports = class Bot extends Discord.Client {
                     } else {
                         rel = snapshot.val();
                     }
-                    //console.info('Database : \'' + rel + '\' vs Online : \'' + new_rel + '\'');
                     //console.log('summary', summary);
                     if (rel !== new_rel && new_rel !== '') {
                         this.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
@@ -623,7 +622,7 @@ module.exports = class Bot extends Discord.Client {
                                 },
                                 fields     : [
                                     {
-                                        name : '----------------------------------',
+                                        name : CONSTANTS.MESSAGE.SEPARATOR,
                                         value: 'ᅠ'
                                     },
                                     {
@@ -639,7 +638,7 @@ module.exports = class Bot extends Discord.Client {
                     }
                 });
             });
-        }, 600000);
+        }, 6000/*00*/);
     }
 
     checkNewPlugins () {
