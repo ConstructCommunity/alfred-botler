@@ -5,8 +5,8 @@
   "private": true,
   "main": "app.js",
   "scripts": {
-    "start": "NODE_ENV=production ./node_modules/.bin/pm2 start app.js",
-    "dev": "nodemon app.js",
+    "start": "cross-env NODE_ENV=production ./node_modules/.bin/pm2 start app.js",
+    "dev": "cross-env NODE_ENV=development node app.js",
     "test": "ava tests",
     "doc": "node doc/generator.js",
     "publish": "node management/publish.js"
@@ -20,6 +20,7 @@
     "btoa": "^1.1.2",
     "cheerio": "^1.0.0-rc.2",
     "cookie-parser": "^1.4.3",
+    "cross-env": "^5.1.4",
     "day-of-year": "^0.1.0",
     "debug": "~2.6.9",
     "discord.js": "^11.2.0",

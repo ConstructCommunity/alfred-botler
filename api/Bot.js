@@ -183,12 +183,10 @@ module.exports = class Bot extends Discord.Client {
 
         if (isArray) {
             let array = value.split(',');
-            console.log(array);
 
             let users = [];
             array.every((item) => {
                 let clientUser = this.isType(type, item);
-                console.log(clientUser.username);
 
                 if (clientUser === null) {
                     users = null;

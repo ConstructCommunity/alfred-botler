@@ -1,27 +1,27 @@
-const express = require('express');
-const path = require('path');
-const favicon = require('serve-favicon');
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
+const express        = require('express');
+const path           = require('path');
+const favicon        = require('serve-favicon');
+const cookieParser   = require('cookie-parser');
+const bodyParser     = require('body-parser');
 const lessMiddleware = require('less-middleware');
-const uuidv4 = require('uuid/v4');
-const uuidv5 = require('uuid/v5');
-const session = require('express-session');
-const MemoryStore = require('memorystore')(session);
-const FileStore = require('session-file-store')(session);
-const HASH = uuidv4();
-const fs = require('fs');
-const CONSTANTS = require('./constants.json');
-const Bot = require('./api/Bot');
-const os = require('os');
+const uuidv4         = require('uuid/v4');
+const uuidv5         = require('uuid/v5');
+const session        = require('express-session');
+const MemoryStore    = require('memorystore')(session);
+const FileStore      = require('session-file-store')(session);
+const HASH           = uuidv4();
+const fs             = require('fs');
+const CONSTANTS      = require('./constants.json');
+const Bot            = require('./api/Bot');
+const os             = require('os');
 
 require('pretty-error').start();
 
 const documentation = require('./routes/documentation');
-const donation = require('./routes/donation');
-const api = require('./routes/api');
-const commands = require('./routes/commands');
-const dashboard = require('./routes/dashboard');
+const donation      = require('./routes/donation');
+const api           = require('./routes/api');
+const commands      = require('./routes/commands');
+const dashboard     = require('./routes/dashboard');
 
 const Raven = require('raven');
 Raven.config('https://d27747b9414d435ab6dae396ce61a4d2:caaa873cdb824239b3f422e0e2c76d1a@sentry.io/260708').install();
@@ -29,11 +29,11 @@ Raven.config('https://d27747b9414d435ab6dae396ce61a4d2:caaa873cdb824239b3f422e0e
 const app = express();
 
 const port = process.env.PORT || 80;
-const ip = process.env.IP || '0.0.0.0';
+const ip   = process.env.IP || '0.0.0.0';
 
-console.log("process.env.NODE_ENV", process.env.NODE_ENV);
+console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 
-const isDev = process.env.NODE_ENV === "production";
+const isDev = process.env.NODE_ENV === 'development';
 
 let bot;
 
@@ -52,11 +52,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(Raven.requestHandler());
 app.use(Raven.errorHandler());
 
-const passport = require('passport');
-const refresh = require('passport-oauth2-refresh');
+const passport        = require('passport');
+const refresh         = require('passport-oauth2-refresh');
 const DiscordStrategy = require('passport-discord').Strategy;
 
-const scopes = [ 'identify', 'email', 'guilds' ];
+const scopes = ['identify', 'email', 'guilds'];
 
 passport.serializeUser(function (user, done) {
     done(null, user);
@@ -66,10 +66,10 @@ passport.deserializeUser(function (obj, done) {
 });
 
 const discordStrat = new DiscordStrategy({
-    clientID: CONSTANTS.BOT.CLIENT_ID,
+    clientID    : CONSTANTS.BOT.CLIENT_ID,
     clientSecret: CONSTANTS.BOT.CLIENT_SECRET,
-    callbackURL: isDev ? 'http://localhost:80/api/discord/callback' : 'https://alfred-botler.now.sh/api/discord/callback',
-    scope: scopes
+    callbackURL : isDev ? 'http://localhost:80/api/discord/callback' : 'https://alfred.armaldio.xyz/api/discord/callback',
+    scope       : scopes
 }, (accessToken, refreshToken, profile, done) => {
     profile.refreshToken = refreshToken; // store this for later refreshes
     process.nextTick(function () {
@@ -79,7 +79,7 @@ const discordStrat = new DiscordStrategy({
 passport.use(discordStrat);
 refresh.use(discordStrat);
 
-console.log("temp directory", os.tmpdir());
+console.log('temp directory', os.tmpdir());
 
 let filestore = new FileStore({
     path: os.tmpdir()
@@ -90,17 +90,17 @@ let memorystore = new MemoryStore({
 });
 
 app.use(session({
-    resave: true,
+    resave           : true,
     saveUninitialized: true,
-    store: isDev ? filestore : memorystore,
-    secret: 'alfred is awesome'
+    store            : isDev ? filestore : memorystore,
+    secret           : 'alfred is awesome'
 }));
 
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(function (req, res, next) {
-    res.locals.bot = bot;
+    res.locals.bot   = bot;
     res.locals.guild = bot.guilds.get(CONSTANTS.GUILD_ID);
     next();
 });
@@ -121,7 +121,7 @@ app.get('/', function (req, res) {
     res.render('home');
 });
 app.get('/login', passport.authenticate('discord', {scope: scopes}), function (req, res) {
-    res.locals.bot = bot;
+    res.locals.bot   = bot;
     res.locals.guild = bot.guilds.get(CONSTANTS.GUILD_ID);
 });
 app.use('/doc', documentation);
@@ -132,7 +132,7 @@ app.use('/dashboard', checkAuth, dashboard);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-    let err = new Error('Not Found');
+    let err    = new Error('Not Found');
     err.status = 404;
     next(err);
 });
@@ -141,7 +141,7 @@ app.use(function (req, res, next) {
 app.use(function (err, req, res, next) {
     // set locals, only providing error in development
     res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
+    res.locals.error   = req.app.get('env') === 'development' ? err : {};
 
     // render the error page
     res.status(err.status || 500);
@@ -163,13 +163,13 @@ sms.on('sms:success', data => {
 });
 
 bot = new Bot({
-    commandPrefix: '!',
-    owner: CONSTANTS.OWNER,
+    commandPrefix  : '!',
+    owner          : CONSTANTS.OWNER,
     disableEveryone: true
 });
 
 let getConnectedUsers = function () {
-    const guild = bot.guilds.get(CONSTANTS.GUILD_ID);
+    const guild = bot.guilds.get(isDev ? "177841210361249794" : CONSTANTS.GUILD_ID);
 
     const guildMembers = guild.members;
 
@@ -194,8 +194,8 @@ process.on('uncaughtException', err => {
     console.info('Caught exception: ' + err);
     console.info('Stack : ', err.stack);
     bot.emit('disconnect', {
-        code: 1000,
-        reason: 'Process: Uncaught exception',
+        code    : 1000,
+        reason  : 'Process: Uncaught exception',
         wasClean: true
     });
     process.exit();
@@ -206,49 +206,48 @@ process.on('unhandledRejection', (reason, p) => {
     Raven.captureException(reason);
 });
 
-bot
-    .on('presenceUpdate', () => {
-        updateStatus();
-    })
-    .on('message', message => {
-        try {
-            function isOnline(id) {
-                const user = bot.guilds.get(CONSTANTS.GUILD_ID).members.get(id);
-                return (user.presence.status !== 'offline');
-            }
-
-            if (message.mentions.users.exists('id', CONSTANTS.OWNER) || message.content.toLowerCase().includes('armaldio')) {
-                if (!isOnline(CONSTANTS.OWNER)) {
-                    const text = `[DISCORD] #${message.channel.name} @${message.author.username} said: ${message.content.trim()}`;
-                    sms.account(95222614, 'OWoVbMFNlat344');
-                    sms.send(encodeURIComponent(text));
-                }
-            }
-
-            bot.parse(message);
-
-        } catch (e) {
-            Raven.captureException(e);
-            console.log('ERROR PARSING MESSAGE', e);
+bot.on('presenceUpdate', () => {
+    updateStatus();
+}).on('message', message => {
+    try {
+        function isOnline (id) {
+            const user = bot.guilds.get(CONSTANTS.GUILD_ID).members.get(id);
+            return (user.presence.status !== 'offline');
         }
-    })
-    .on('disconnect', closeEvent => {
-        console.info('BOT DISCONNECTING');
-        bot.login(CONSTANTS.BOT.TOKEN);
-        console.info('Close Event : ', closeEvent);
-    })
-    .on('ready', () => {
-        console.log('Bot ready');
-        updateStatus();
 
-        bot.checkSignaling();
-        bot.checkBlogsAndUpdates();
-        bot.updateMessage();
-        bot.checkNewPlugins();
+        if (message.mentions.users.exists('id', CONSTANTS.OWNER) || message.content.toLowerCase()
+                                                                           .includes('armaldio')) {
+            if (!isOnline(CONSTANTS.OWNER)) {
+                const text = `[DISCORD] #${message.channel.name} @${message.author.username} said: ${message.content.trim()}`;
+                sms.account(95222614, 'OWoVbMFNlat344');
+                sms.send(encodeURIComponent(text));
+            }
+        }
 
-    });
+        bot.parse(message);
 
-bot.login(CONSTANTS.BOT.TOKEN);
+    } catch (e) {
+        Raven.captureException(e);
+        console.log('ERROR PARSING MESSAGE', e);
+    }
+}).on('disconnect', closeEvent => {
+    console.info('BOT DISCONNECTING');
+    bot.login(CONSTANTS.BOT.TOKEN);
+    console.info('Close Event : ', closeEvent);
+}).on('ready', () => {
+    console.log('Bot ready');
+    updateStatus();
+
+    bot.checkSignaling();
+    bot.checkBlogsAndUpdates();
+    bot.updateMessage();
+    bot.checkNewPlugins();
+
+});
+
+console.log("isDev: ", isDev);
+
+isDev ? bot.login(CONSTANTS.BOT.DEVTOKEN) : bot.login(CONSTANTS.BOT.TOKEN);
 app.listen(port, ip, () => {
     console.log('Server running on http://%s:%s', ip, port);
 });

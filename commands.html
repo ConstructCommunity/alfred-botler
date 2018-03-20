@@ -133,6 +133,26 @@
 <p>Examples: </p>
 <p><code>!iam dev</code> </p>
 <p><code>!iam artist</code> </p>
+<p></div><br><div class="section"><strong>info</strong> - Get infos about the current running instance </p>
+<p>Accept extra arguments: No </p>
+<p>Delete command        : No </p>
+<p>Permissions: </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Allowed roles</th>
+<th style="text-align:center">Allowed channels</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">CC Staff</td>
+<td style="text-align:center">Any</td>
+</tr>
+</tbody>
+</table>
+<p>Examples: </p>
+<p><code>!info</code> </p>
 <p></div><br><div class="section"><strong>move</strong> - Move a certain amount of messages from one channel to another </p>
 <p>Accept extra arguments: No </p>
 <p>Delete command        : Yes </p>
@@ -273,9 +293,46 @@
 </table>
 <p>Examples: </p>
 <p><code>!prune 10</code> </p>
-<p></div><br><div class="section"><strong>say</strong> - Output text or embed inside a specific channel as Alfred </p>
+<p></div><br><div class="section"><strong>report</strong> - Anonymously report an individual to the CCStaff for breaking a rule. </p>
 <p>Accept extra arguments: Yes </p>
 <p>Delete command        : Yes </p>
+<p>Parameters: </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Name</th>
+<th style="text-align:center">Type</th>
+<th style="text-align:center">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">user</td>
+<td style="text-align:center">user</td>
+<td style="text-align:center">The user you want to report</td>
+</tr>
+</tbody>
+</table>
+<p>Permissions: </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Allowed roles</th>
+<th style="text-align:center">Allowed channels</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Any</td>
+<td style="text-align:center">Any</td>
+</tr>
+</tbody>
+</table>
+<p>Examples: </p>
+<p><code>!report @user1 [optional: reason]</code> </p>
+<p></div><br><div class="section"><strong>say</strong> - Output text or embed inside a specific channel as Alfred </p>
+<p>Accept extra arguments: Yes </p>
+<p>Delete command        : No </p>
 <p>Parameters: </p>
 <table>
 <thead>

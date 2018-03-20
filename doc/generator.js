@@ -1,12 +1,12 @@
-const fs = require('fs');
-const path = require('path');
-const Bot = require('../api/Bot');
+const fs        = require('fs');
+const path      = require('path');
+const Bot       = require('../api/Bot');
 const CONSTANTS = require('../constants');
-const marked = require('marked');
+const marked    = require('marked');
 
 const bot = new Bot({
-    commandPrefix: '!',
-    owner: '107180621981298688',
+    commandPrefix  : '!',
+    owner          : '107180621981298688',
     disableEveryone: true
 });
 
@@ -88,7 +88,6 @@ function generateDoc (commands) {
         infos.examples.forEach(ex => {
             final += `\`${bot.commandPrefix}${ex}\` \n\n`;
         });
-        //}
 
         final += `</div>`;
 
@@ -101,7 +100,7 @@ function generateDoc (commands) {
 }
 
 function start () {
-    let files = fs.readdirSync(commandsPath, 'utf8');
+    let files    = fs.readdirSync(commandsPath, 'utf8');
     let commands = [];
 
     files.forEach(file => {

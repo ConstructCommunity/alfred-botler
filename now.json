@@ -1,8 +1,0 @@
-{
-    "name" : "alfred-botler",
-    "alias" : "alfred-botler",
-    "public" : true,
-    "env": {
-        "ONLINE": true
-    }
-}

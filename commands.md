@@ -85,6 +85,21 @@ Examples:
 
 `!iam artist` 
 
+</div><br><div class="section">**info** - Get infos about the current running instance 
+
+Accept extra arguments: No 
+
+Delete command        : No 
+
+Permissions: 
+
+| Allowed roles | Allowed channels |
+| :-----------: | :--------------: |
+| CC Staff  | Any  |
+Examples: 
+
+`!info` 
+
 </div><br><div class="section">**move** - Move a certain amount of messages from one channel to another 
 
 Accept extra arguments: No 
@@ -173,11 +188,31 @@ Examples:
 
 `!prune 10` 
 
-</div><br><div class="section">**say** - Output text or embed inside a specific channel as Alfred 
+</div><br><div class="section">**report** - Anonymously report an individual to the CCStaff for breaking a rule. 
 
 Accept extra arguments: Yes 
 
 Delete command        : Yes 
+
+Parameters: 
+
+| Name | Type | Description |
+| :--: |:---: | :---------: |
+| user | user | The user you want to report | 
+Permissions: 
+
+| Allowed roles | Allowed channels |
+| :-----------: | :--------------: |
+| Any  | Any  |
+Examples: 
+
+`!report @user1 [optional: reason]` 
+
+</div><br><div class="section">**say** - Output text or embed inside a specific channel as Alfred 
+
+Accept extra arguments: Yes 
+
+Delete command        : No 
 
 Parameters: 
 

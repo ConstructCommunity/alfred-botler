@@ -38,19 +38,19 @@ module.exports = class help extends Command
                 },
                 'fields': [
                     {
-                        'name': 'Visit our websites for a full documentation about Alfred!',
-                        'value': 'https://alfred-botler.now.sh'
+                        'name': '1. Visit our website for a full documentation about Alfred:',
+                        'value': 'https://alfred.armaldio.xyz/doc'
                     },
                     {
-                        'name': '1. Don\'t be shy, introduce yourself:',
+                        'name': '2. Don\'t be shy, introduce yourself:',
                         'value': 'Visit #introduce_yourself and say hi.'
                     },
                     {
-                        'name': '2. Get a custom role that suits you:',
+                        'name': '3. Get a custom role that suits you:',
                         'value': 'Visit #commands inside alfred\'s corner.'
                     },
                     {
-                        'name': '3. Check out one or more channels:',
+                        'name': '4. Check out one or more channels:',
                         'value': 'Enjoy being part of our Construct Community!'
                     },
                     {
