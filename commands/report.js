@@ -69,19 +69,22 @@ module.exports = class report extends Command {
                 limit : 10,
                 before: msg.id
             });
-            _messages = _messages.array();
+            _messages     = _messages.array();
 
-            let fields= [];
+            let fields = [];
             for (let i = 0; i < _messages.length; i++) {
                 let message = _messages[i];
                 fields.push({
                     'name' : message.author.username,
-                    'value': message.content === "" ? "[NO CONTENT]" : "        " + message.content
-                })
+                    'value': message.content === '' ? '[NO CONTENT]' : '        ' + message.content
+                });
             }
 
+            if (_extra !== undefined)
+                _extra = _extra.join(' ');
+
             _ = await msg.guild.channels.get(isDev ? CONSTANTS.CHANNELS.DEVCHANNEL : CONSTANTS.CHANNELS.MODERATORS)
-                         .send(`**${msg.author.username}** just reported **${user.username}** inside **<#${msg.channel.id}>** at **${this.timeStamp()}** (reason: **${_extra === undefined ? '[No reason]' : _extra.split(',').join(' ')}**). <@&${CONSTANTS.ROLES.STAFF}> A manual review is required!`, {
+                         .send(`**${msg.author.username}** just reported **${user.username}** inside **<#${msg.channel.id}>** at **${this.timeStamp()}** (reason: **${_extra === undefined ? '[No reason]' : _extra}**). <@&${CONSTANTS.ROLES.STAFF}> A manual review is required!`, {
                              embed: {
                                  'description': CONSTANTS.MESSAGE.EMPTY,
                                  'title'      : 'Context:',
