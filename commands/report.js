@@ -81,7 +81,7 @@ module.exports = class report extends Command {
             }
 
             _ = await msg.guild.channels.get(isDev ? CONSTANTS.CHANNELS.DEVCHANNEL : CONSTANTS.CHANNELS.MODERATORS)
-                         .send(`**${msg.author.username}** just reported **${user.username}** inside **<#${msg.channel.id}>** at **${this.timeStamp()}** (reason: **${_extra === undefined ? '[No reason]' : _extra}**). <@&${CONSTANTS.ROLES.STAFF}> A manual review is required!`, {
+                         .send(`**${msg.author.username}** just reported **${user.username}** inside **<#${msg.channel.id}>** at **${this.timeStamp()}** (reason: **${_extra === undefined ? '[No reason]' : _extra.split(',').join(' ')}**). <@&${CONSTANTS.ROLES.STAFF}> A manual review is required!`, {
                              embed: {
                                  'description': CONSTANTS.MESSAGE.EMPTY,
                                  'title'      : 'Context:',
