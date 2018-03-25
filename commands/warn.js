@@ -56,7 +56,7 @@ class warn extends Command
             examples: [ 'warn @user' ],
             permissions: {
                 roles: [ CONSTANTS.ROLES.STAFF ],
-                channels: [ CONSTANTS.CHANNELS.ANY ]
+                channels: [ CONSTANTS.CHANNELS.MODERATORS ]
             },
             extraArgs: false,
             deleteCmd: false,

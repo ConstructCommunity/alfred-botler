@@ -667,13 +667,11 @@ module.exports = class Bot extends Discord.Client {
                 .attr('href');
             const smallDescription = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > p')
                 .text();
-
+/*
             console.log(image);
             console.log(new_title);
             console.log(smallDescription);
-            console.log(link);
-
-            console.log("this is it: ", image.split('.').pop());
+            console.log(link);*/
 
             database.ref('lastc3plugin').once('value').then(snapshot => {
                 let title;
@@ -745,10 +743,10 @@ module.exports = class Bot extends Discord.Client {
             const smallDescription = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > p')
                 .text();
 
-            console.log(image);
+            /*console.log(image);
             console.log(new_title);
             console.log(smallDescription);
-            console.log(link);
+            console.log(link);*/
 
             database.ref('lastc2plugin').once('value').then(snapshot => {
                 let title;

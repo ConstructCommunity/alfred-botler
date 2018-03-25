@@ -122,7 +122,7 @@ app.get('/', function (req, res) {
 });
 app.get('/login', passport.authenticate('discord', {scope: scopes}), function (req, res) {
     res.locals.bot   = bot;
-    res.locals.guild = bot.guilds.get(CONSTANTS.GUILD_ID);
+    res.locals.guild = res.locals.bot.guilds.get(CONSTANTS.GUILD_ID);
 });
 app.use('/doc', documentation);
 app.use('/donation', donation);
@@ -169,7 +169,7 @@ bot = new Bot({
 });
 
 let getConnectedUsers = function () {
-    const guild = bot.guilds.get(isDev ? "177841210361249794" : CONSTANTS.GUILD_ID);
+    const guild = bot.guilds.get(isDev ? '177841210361249794' : CONSTANTS.GUILD_ID);
 
     const guildMembers = guild.members;
 
@@ -245,7 +245,7 @@ bot.on('presenceUpdate', () => {
 
 });
 
-console.log("isDev: ", isDev);
+console.log('isDev: ', isDev);
 
 isDev ? bot.login(CONSTANTS.BOT.DEVTOKEN) : bot.login(CONSTANTS.BOT.TOKEN);
 app.listen(port, ip, () => {

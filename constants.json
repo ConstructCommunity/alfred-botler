@@ -5,7 +5,10 @@
     "TOKEN": "MTY4MzQwMTI4NjIyNzA2Njg4.DUAnUA.HYzn1aBAXnR-Ogxl7voqYS5zl6U",
     "DEVTOKEN" : "NDI1NzIzMzU4MzM3MDQwMzg1.DZLlxg.sbP33t5aLooA-gbUVcjl1tcGqo8",
     "CLIENT_ID": "168339371416748032",
-    "CLIENT_SECRET": "YhZXvD4JoHrDWxa6A5Af3Eq4ahGojp_g"
+    "CLIENT_SECRET": "YhZXvD4JoHrDWxa6A5Af3Eq4ahGojp_g",
+
+    "DEV_CLIENT_ID": "425723358337040385",
+    "DEV_CLIENT_SECRET": "Cds6M7R1jdfGYBGZZzYzv0QAERab8uDC"
   },
   "MESSAGE": {
     "SEPARATOR": "──────────────────────────────────",
