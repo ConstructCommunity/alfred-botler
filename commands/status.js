@@ -20,6 +20,10 @@ module.exports = class status extends Command {
                 roles   : [CONSTANTS.ROLES.ANY],
                 channels: [CONSTANTS.CHANNELS.ALFRED_COMMANDS]
             },
+            rate       : { //1 per 5 min
+                allow: 1,
+                every : 300000
+            },
             extraArgs  : false,
             args       : [
                 /*{

@@ -230,6 +230,21 @@ Examples:
 
 `!say Hello everyone!` 
 
+</div><br><div class="section">**status** - Output the current status of the Scirra websites 
+
+Accept extra arguments: No 
+
+Delete command        : Yes 
+
+Permissions: 
+
+| Allowed roles | Allowed channels |
+| :-----------: | :--------------: |
+| Any  | #commands  |
+Examples: 
+
+`!status` 
+
 </div><br><div class="section">**ty** - Thank someone for his help 
 
 Accept extra arguments: No 
@@ -280,7 +295,7 @@ Permissions:
 
 | Allowed roles | Allowed channels |
 | :-----------: | :--------------: |
-| CC Staff  | Any  |
+| CC Staff  | #moderators  |
 Examples: 
 
 `!warn @user` 

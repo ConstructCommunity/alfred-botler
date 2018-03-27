@@ -1,10 +1,12 @@
-const path      = require('path');
-const fs        = require('fs');
-const CONSTANTS = require('../constants');
-const Discord   = require('discord.js');
-const Raven     = require('raven');
-const request   = require('request');
-const cheerio   = require('cheerio');
+const path        = require('path');
+const fs          = require('fs');
+const CONSTANTS   = require('../constants');
+const Discord     = require('discord.js');
+const Raven       = require('raven');
+const request     = require('request');
+const cheerio     = require('cheerio');
+const RateLimiter = require('limiter').RateLimiter;
+const prettyms    = require('pretty-ms');
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -44,6 +46,11 @@ module.exports = class Bot extends Discord.Client {
         files.forEach(file => {
             let Cmd = require(path.join(this.commandsPath, file));
             let cmd = new Cmd(this, firebase.database());
+
+            if (cmd.infos.rate && cmd.infos.rate.allow && cmd.infos.rate.every) {
+                cmd.rateLimit = new RateLimiter(cmd.infos.rate.allow, cmd.infos.rate.every, true);
+            }
+
             console.log(`Command [${cmd.infos.name}] loaded`);
             this.commands.push(cmd);
         });
@@ -134,12 +141,24 @@ module.exports = class Bot extends Discord.Client {
 
                                 let del;
                                 if (cmd.infos.deleteCmd) {
-                                    del = await
-                                        this.message.delete();
+                                    del = await                                        this.message.delete();
                                 }
 
                                 try {
-                                    let x = await cmd.run(this.message, fakeCmd.args);
+                                    if (cmd.infos.rate && cmd.infos.rate.allow && cmd.infos.rate.every) {
+                                        let remaining = cmd.rateLimit.getTokensRemaining();
+
+                                        if (remaining >= 1) {
+                                            let x = await cmd.run(this.message, fakeCmd.args);
+                                            cmd.rateLimit.tryRemoveTokens(1);
+                                        } else {
+                                            this.message.reply(`This command is rate-limited, try again in ${prettyms(cmd.infos.rate.every - cmd.infos.rate.every * remaining, {compact: true})}`);
+                                            return false;
+                                        }
+                                    } else {
+                                        let x = await cmd.run(this.message, fakeCmd.args);
+                                    }
+
                                 } catch (e) {
                                     console.log('ERROR', e);
                                     Raven.captureException(e);
