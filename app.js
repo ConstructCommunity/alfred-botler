@@ -169,7 +169,7 @@ bot = new Bot({
 });
 
 let getConnectedUsers = function () {
-    const guild = bot.guilds.get(isDev ? '177841210361249794' : CONSTANTS.GUILD_ID);
+    const guild = bot.guilds.get(CONSTANTS.GUILD_ID);
 
     const guildMembers = guild.members;
 

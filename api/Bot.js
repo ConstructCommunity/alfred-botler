@@ -7,6 +7,8 @@ const request   = require('request');
 const WebSocket = require('ws');
 const cheerio   = require('cheerio');
 
+const isDev = process.env.NODE_ENV === 'development';
+
 const firebase = require('firebase');
 
 const config = {
@@ -310,7 +312,7 @@ module.exports = class Bot extends Discord.Client {
 
             let options = {
                 method : 'GET',
-                url    : 'https://www.scirra.com/blog',
+                url    : 'https://www.construct.net/blogs',
                 headers: {
                     'postman-token': '1b97c5c0-e824-005d-ada1-feb10f276375',
                     'cache-control': 'no-cache'
@@ -326,8 +328,12 @@ module.exports = class Bot extends Discord.Client {
                 // console.info("Requested");
 
                 const $         = cheerio.load(body);
-                const new_title = $('#Form1 > div.content-wrap > div.inner-content-wrap > h1').text();
-                //			Let new_desc = $('meta[property="description"]').attr('content');
+                const new_title = $('#form1 > div.bodyWrapper > div > div > div > div.viewBlogLayout > div.rightCol > div:nth-child(3) > div > div > div.titleOuterWrap > div > div.right > a')
+                    .text().trim();
+                let author      = $('form#form1 div:nth-child(3) > div > div > div.statWrap > div:nth-child(2) > div > div#Wrapper > ul > li.username > a')
+                    .text();
+                let timeToRead  = $('#form1 > div.bodyWrapper > div > div > div > div.viewBlogLayout > div.rightCol > div:nth-child(3) > div > div > div.statWrap > div:nth-child(1) > div > ul > li:nth-child(2)')
+                    .text().replace(/<img(.*)>/, '').replace('read time', '').trim();
 
                 database.ref('blog').once('value').then(snapshot => {
                     let title;
@@ -336,8 +342,9 @@ module.exports = class Bot extends Discord.Client {
                     } else {
                         title = snapshot.val();
                     }
-                    //console.info('Database : \'' + title + '\' vs Online : \'' + new_title + '\'');
-                    //				console.info("Desc : " + new_desc);
+                    /*                    console.info('Database : \'' + title + '\' vs Online : \'' + new_title + '\'');
+                                        console.log(author);
+                                        console.log(timeToRead);*/
                     if (title !== new_title && new_title !== '') {
                         this.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
                             embed: {
@@ -350,7 +357,7 @@ module.exports = class Bot extends Discord.Client {
                                     url: 'https://cdn.discordapp.com/attachments/244447929400688650/328696208719740929/BLOGiconsmall.png'
                                 },
                                 author     : {
-                                    name    : 'A NEW BLOG POST BY SCIRRA JUST WENT LIVE!',
+                                    name    : `A NEW BLOG POST BY ${author} JUST WENT LIVE!`,
                                     icon_url: 'https://cdn.discordapp.com/attachments/244447929400688650/328647581984882709/AlfredBotlerSmall.png'
                                 },
                                 fields     : [
@@ -359,7 +366,7 @@ module.exports = class Bot extends Discord.Client {
                                         value: 'ᅠ'
                                     },
                                     {
-                                        name : 'Read the new blog post:',
+                                        name : `Read the new blog post (${timeToRead}):`,
                                         value: '<https://www.scirra.com/blog>'
                                     }
                                 ]
@@ -367,142 +374,6 @@ module.exports = class Bot extends Discord.Client {
                         });
 
                         database.ref('blog').set(new_title);
-                        console.info('Set!');
-                    }
-                });
-            });
-
-            /**
-             * Ashley post
-             */
-
-            options = {
-                method : 'GET',
-                url    : 'https://www.scirra.com/blog/ashley',
-                headers: {
-                    'postman-token': '1b97c5c0-e824-005d-ada1-feb10f276375',
-                    'cache-control': 'no-cache'
-                }
-            };
-
-            request(options, (error, response, body) => {
-                if (error) {
-                    throw new Error(error);
-                }
-
-                // console.info(body);
-                // console.info("Requested");
-
-                const $         = cheerio.load(body);
-                const new_title = $('#Form1 > div.content-wrap > div.inner-content-wrap > h1').text();
-                //			Let new_desc = $('meta[property="description"]').attr('content');
-
-                database.ref('blog-ashley').once('value').then(snapshot => {
-                    let title;
-                    if (snapshot.val() === undefined) {
-                        title = '-';
-                    } else {
-                        title = snapshot.val();
-                    }
-                    //console.info('Database : \'' + title + '\' vs Online : \'' + new_title + '\'');
-                    //				console.info("Desc : " + new_desc);
-                    if (title !== new_title && new_title !== '') {
-                        this.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
-                            embed: {
-                                description: `${new_title}`,
-                                color      : 3593036,
-                                footer     : {
-                                    text: CONSTANTS.MESSAGE.SCIRRA_FOOTER
-                                },
-                                thumbnail  : {
-                                    url: 'https://cdn.discordapp.com/attachments/244447929400688650/328696208719740929/BLOGiconsmall.png'
-                                },
-                                author     : {
-                                    name    : 'A NEW BLOG POST BY ASHLEY JUST WENT LIVE!',
-                                    icon_url: 'https://cdn.discordapp.com/attachments/244447929400688650/328647581984882709/AlfredBotlerSmall.png'
-                                },
-                                fields     : [
-                                    {
-                                        name : CONSTANTS.MESSAGE.SEPARATOR,
-                                        value: 'ᅠ'
-                                    },
-                                    {
-                                        name : 'Read the new blog post:',
-                                        value: '<https://www.scirra.com/blog/ashley>'
-                                    }
-                                ]
-                            }
-                        });
-
-                        database.ref('blog-ashley').set(new_title);
-                        console.info('Set!');
-                    }
-                });
-            });
-
-            /**
-             * Tom post
-             */
-
-            options = {
-                method : 'GET',
-                url    : 'https://www.scirra.com/blog/tom',
-                headers: {
-                    'postman-token': '1b97c5c0-e824-005d-ada1-feb10f276375',
-                    'cache-control': 'no-cache'
-                }
-            };
-
-            request(options, (error, response, body) => {
-                if (error) {
-                    throw new Error(error);
-                }
-
-                // console.info(body);
-                // console.info("Requested");
-
-                const $         = cheerio.load(body);
-                const new_title = $('#Form1 > div.content-wrap > div.inner-content-wrap > h1').text();
-                //			Let new_desc = $('meta[property="description"]').attr('content');
-
-                database.ref('blog-tom').once('value').then(snapshot => {
-                    let title;
-                    if (snapshot.val() === undefined) {
-                        title = '-';
-                    } else {
-                        title = snapshot.val();
-                    }
-                    //console.info('Database : \'' + title + '\' vs Online : \'' + new_title + '\'');
-                    //				console.info("Desc : " + new_desc);
-                    if (title !== new_title && new_title !== '') {
-                        this.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
-                            embed: {
-                                description: `${new_title}`,
-                                color      : 3593036,
-                                footer     : {
-                                    text: CONSTANTS.MESSAGE.SCIRRA_FOOTER
-                                },
-                                thumbnail  : {
-                                    url: 'https://cdn.discordapp.com/attachments/244447929400688650/328696208719740929/BLOGiconsmall.png'
-                                },
-                                author     : {
-                                    name    : 'A NEW BLOG POST BY TOM JUST WENT LIVE!',
-                                    icon_url: 'https://cdn.discordapp.com/attachments/244447929400688650/328647581984882709/AlfredBotlerSmall.png'
-                                },
-                                fields     : [
-                                    {
-                                        name : CONSTANTS.MESSAGE.SEPARATOR,
-                                        value: 'ᅠ'
-                                    },
-                                    {
-                                        name : 'Read the new blog post:',
-                                        value: '<https://www.scirra.com/blog/tom>'
-                                    }
-                                ]
-                            }
-                        });
-
-                        database.ref('blog-tom').set(new_title);
                         console.info('Set!');
                     }
                 });
@@ -636,160 +507,162 @@ module.exports = class Bot extends Discord.Client {
                     }
                 });
             });
-        }, 6000/*00*/);
+        }, isDev ? 10000 : 600000);
     }
 
     checkNewPlugins () {
         setInterval(() => {
-        /**
-         * C3
-         */
+            /**
+             * C3
+             */
 
-        let options = {
-            method : 'GET',
-            url    : 'https://www.construct.net/make-games/addons?sort=0&q=',
-            headers: {
-                'cache-control': 'no-cache'
-            }
-        };
-
-        request(options, (error, response, body) => {
-            if (error) {
-                throw new Error(error);
-            }
-
-            const $                = cheerio.load(body);
-            const image            = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > a > img')
-                .data('src');
-            const new_title        = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > div.top > a')
-                .text().replace(/\n/, '');
-            const link             = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > div.top > a')
-                .attr('href');
-            const smallDescription = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > p')
-                .text();
-/*
-            console.log(image);
-            console.log(new_title);
-            console.log(smallDescription);
-            console.log(link);*/
-
-            database.ref('lastc3plugin').once('value').then(snapshot => {
-                let title;
-                if (snapshot.val() === undefined) {
-                    title = '-';
-                } else {
-                    title = snapshot.val();
+            let options = {
+                method : 'GET',
+                url    : 'https://www.construct.net/make-games/addons?sort=0&q=',
+                headers: {
+                    'cache-control': 'no-cache'
                 }
-                if (title !== new_title && new_title !== '') {
+            };
 
-                    this.channels.get(CONSTANTS.CHANNELS.PLUGIN_ANNOUNCE).send({
-                        embed: {
-                            description: `${smallDescription}`,
-                            color      : 2683090,
-                            footer     : {
-                                text: CONSTANTS.MESSAGE.SCIRRA_FOOTER
-                            },
-                            thumbnail  : {
-                                url: image.split('.').pop() === "svg" ? "https://cdn.discordapp.com/attachments/244447929400688650/388355208247246848/channeladdedicon.png" : image
-                            },
-                            author     : {
-                                name    : `${new_title.toUpperCase()} (C3 ADDON) JUST WENT LIVE!`,
-                                icon_url: 'https://cdn.discordapp.com/attachments/244447929400688650/328647581984882709/AlfredBotlerSmall.png'
-                            },
-                            "fields": [
-                                {
-                                    "name": CONSTANTS.MESSAGE.SEPARATOR,
-                                    "value": "ᅠ"
+            request(options, (error, response, body) => {
+                if (error) {
+                    throw new Error(error);
+                }
+
+                const $                = cheerio.load(body);
+                const image            = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > a > img')
+                    .data('src');
+                const new_title        = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > div.top > a')
+                    .text().replace(/\n/, '');
+                const link             = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > div.top > a')
+                    .attr('href');
+                const smallDescription = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > p')
+                    .text();
+                /*
+                            console.log(image);
+                            console.log(new_title);
+                            console.log(smallDescription);
+                            console.log(link);*/
+
+                database.ref('lastc3plugin').once('value').then(snapshot => {
+                    let title;
+                    if (snapshot.val() === undefined) {
+                        title = '-';
+                    } else {
+                        title = snapshot.val();
+                    }
+                    if (title !== new_title && new_title !== '') {
+
+                        this.channels.get(CONSTANTS.CHANNELS.PLUGIN_ANNOUNCE).send({
+                            embed: {
+                                description: `${smallDescription}`,
+                                color      : 2683090,
+                                footer     : {
+                                    text: CONSTANTS.MESSAGE.SCIRRA_FOOTER
                                 },
-                                {
-                                    "name": "View the addon page:",
-                                    "value": `https://www.construct.net${link}`
-                                }
-                            ]
-                        }
-                    });
+                                thumbnail  : {
+                                    url: image.split('.')
+                                              .pop() === 'svg' ? 'https://cdn.discordapp.com/attachments/244447929400688650/388355208247246848/channeladdedicon.png' : image
+                                },
+                                author     : {
+                                    name    : `${new_title.toUpperCase()} (C3 ADDON) JUST WENT LIVE!`,
+                                    icon_url: 'https://cdn.discordapp.com/attachments/244447929400688650/328647581984882709/AlfredBotlerSmall.png'
+                                },
+                                'fields'   : [
+                                    {
+                                        'name' : CONSTANTS.MESSAGE.SEPARATOR,
+                                        'value': 'ᅠ'
+                                    },
+                                    {
+                                        'name' : 'View the addon page:',
+                                        'value': `https://www.construct.net${link}`
+                                    }
+                                ]
+                            }
+                        });
 
-                    database.ref('lastc3plugin').set(new_title);
+                        database.ref('lastc3plugin').set(new_title);
 
-                }
+                    }
+                });
+
             });
 
-        });
+            /**
+             * C2
+             */
 
-        /**
-         * C2
-         */
-
-        options = {
-            method : 'GET',
-            url    : 'https://www.construct.net/construct-2/addons?sort=0&q=',
-            headers: {
-                'cache-control': 'no-cache'
-            }
-        };
-
-        request(options, (error, response, body) => {
-            if (error) {
-                throw new Error(error);
-            }
-
-            const $                = cheerio.load(body);
-            const image            = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > a > img:nth-child(1)')
-                .data('src');
-            const new_title        = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > div.top > a')
-                .text().replace(/\n/, '');
-            const link             = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > div.top > a')
-                .attr('href');
-            const smallDescription = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > p')
-                .text();
-
-            /*console.log(image);
-            console.log(new_title);
-            console.log(smallDescription);
-            console.log(link);*/
-
-            database.ref('lastc2plugin').once('value').then(snapshot => {
-                let title;
-                if (snapshot.val() === undefined) {
-                    title = '-';
-                } else {
-                    title = snapshot.val();
+            options = {
+                method : 'GET',
+                url    : 'https://www.construct.net/construct-2/addons?sort=0&q=',
+                headers: {
+                    'cache-control': 'no-cache'
                 }
-                if (title !== new_title && new_title !== '') {
+            };
 
-                    this.channels.get(CONSTANTS.CHANNELS.PLUGIN_ANNOUNCE).send({
-                        embed: {
-                            description: `${smallDescription}`,
-                            color      : 16316662,
-                            footer     : {
-                                text: CONSTANTS.MESSAGE.SCIRRA_FOOTER
-                            },
-                            thumbnail  : {
-                                url: image.split('.').pop() === "svg" ? "https://cdn.discordapp.com/attachments/244447929400688650/388355208247246848/channeladdedicon.png" : image
-                            },
-                            author     : {
-                                name    : `${new_title.toUpperCase()} (C2 ADDON) JUST WENT LIVE!`,
-                                icon_url: 'https://cdn.discordapp.com/attachments/244447929400688650/328647581984882709/AlfredBotlerSmall.png'
-                            },
-                            "fields": [
-                                {
-                                    "name": CONSTANTS.MESSAGE.SEPARATOR,
-                                    "value": "ᅠ"
+            request(options, (error, response, body) => {
+                if (error) {
+                    throw new Error(error);
+                }
+
+                const $                = cheerio.load(body);
+                const image            = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > a > img:nth-child(1)')
+                    .data('src');
+                const new_title        = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > div.top > a')
+                    .text().replace(/\n/, '');
+                const link             = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > div.top > a')
+                    .attr('href');
+                const smallDescription = $('#form1 > div.bodyWrapper > div > div > div.twoCol > div:nth-child(2) > div:nth-child(2) > p')
+                    .text();
+
+                /*console.log(image);
+                console.log(new_title);
+                console.log(smallDescription);
+                console.log(link);*/
+
+                database.ref('lastc2plugin').once('value').then(snapshot => {
+                    let title;
+                    if (snapshot.val() === undefined) {
+                        title = '-';
+                    } else {
+                        title = snapshot.val();
+                    }
+                    if (title !== new_title && new_title !== '') {
+
+                        this.channels.get(CONSTANTS.CHANNELS.PLUGIN_ANNOUNCE).send({
+                            embed: {
+                                description: `${smallDescription}`,
+                                color      : 16316662,
+                                footer     : {
+                                    text: CONSTANTS.MESSAGE.SCIRRA_FOOTER
                                 },
-                                {
-                                    "name": "View the addon page:",
-                                    "value": `https://www.construct.net${link}`
-                                }
-                            ]
-                        }
-                    });
+                                thumbnail  : {
+                                    url: image.split('.')
+                                              .pop() === 'svg' ? 'https://cdn.discordapp.com/attachments/244447929400688650/388355208247246848/channeladdedicon.png' : image
+                                },
+                                author     : {
+                                    name    : `${new_title.toUpperCase()} (C2 ADDON) JUST WENT LIVE!`,
+                                    icon_url: 'https://cdn.discordapp.com/attachments/244447929400688650/328647581984882709/AlfredBotlerSmall.png'
+                                },
+                                'fields'   : [
+                                    {
+                                        'name' : CONSTANTS.MESSAGE.SEPARATOR,
+                                        'value': 'ᅠ'
+                                    },
+                                    {
+                                        'name' : 'View the addon page:',
+                                        'value': `https://www.construct.net${link}`
+                                    }
+                                ]
+                            }
+                        });
 
-                    database.ref('lastc2plugin').set(new_title);
+                        database.ref('lastc2plugin').set(new_title);
 
-                }
+                    }
+                });
+
             });
-
-        });
         }, 30000);
 
     }
