@@ -27,8 +27,8 @@
     </div>
 
     <div class="fields">
-        <div class="fourteen wide field">
-            <div class="ui fluid search selection dropdown">
+        <div class="twelve wide field">
+            <div class="ui fluid search selection dropdown" id="dropdown">
                 <input type="hidden" name="user" id="user">
                 <i class="dropdown icon"></i>
                 <div class="default text">Select User</div>
@@ -39,8 +39,8 @@
                 </div>
             </div>
         </div>
-        <div class="two wide field">
-            <div id="insert" class="ui button">insert</div>
+        <div class="four wide field">
+            <p id="toBeCopied"></p>
         </div>
     </div>
 
@@ -56,16 +56,30 @@
 </style>
 
 <script>
+    function getUsername (id) {
+        console.log("id", id);
+    }
+
     function format (text) {
+
         var userOrMember = /^(?:<@!?)?(\d{17,21})>?$/;
 
-        text = text.replace(userOrMember, '@$1');
+/*        var id = userOrMember.exec(text);
+        let item = $('#dropdown').dropdown('get item', id[1]);
+        let userName = $(item).text()*/
+        text = text.replace(userOrMember, '@user');
 
         return text;
     }
 
     $(document).ready(() => {
-        $('.dropdown').dropdown();
+        $('.dropdown').dropdown({
+            onChange: function (val) {
+                console.log('val', val);
+                var user = $('#user').val();
+                $('#toBeCopied').html('<@' + user + '> ');
+            }
+        });
 
         $('.ui.form').form({
             fields: {
@@ -74,14 +88,8 @@
             }
         });
 
-        $('#insert').on('click', () => {
-            var user = $('#user').val();
-            console.log('user', user);
-            $('#input').val($('#input').val() + '<@' + user + '> ');
-        });
-
         $('#input').on('input', () => {
-            var value = $('#input').text();
+            var value    = $('#input').text();
             var newvalue = format(value);
             $('#formattedMessage').text(newvalue);
         });

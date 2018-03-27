@@ -4,7 +4,6 @@ const CONSTANTS = require('../constants');
 const Discord   = require('discord.js');
 const Raven     = require('raven');
 const request   = require('request');
-const WebSocket = require('ws');
 const cheerio   = require('cheerio');
 
 const isDev = process.env.NODE_ENV === 'development';
@@ -242,66 +241,6 @@ module.exports = class Bot extends Discord.Client {
                 break;
         }
         return false;
-    }
-
-    checkSignaling () {
-        const SIGNALLING_WEBSOCKET_PROTOCOL = 'c2multiplayer';
-
-        function connect (url_) {
-            return new Promise((resolve, reject) => {
-                const ws = new WebSocket(url_, {protocol: SIGNALLING_WEBSOCKET_PROTOCOL});
-                ws.on('open', event => {
-                    resolve(true);
-                });
-                ws.on('error', event => {
-                    // console.info(event);
-                    resolve(false);
-                });
-            });
-        }
-
-        setInterval(() => {
-            connect('wss://multiplayer.scirra.com').then(ret => {
-                // console.info(ret);
-                database.ref('signaling').once('value').then(snapshot => {
-                    let status;
-                    if (snapshot.val() === undefined) {
-                        return;
-                    }
-
-                    status = snapshot.val();
-
-                    //console.info('Database : \'' + status + '\' vs Online : \'' + ret + '\'');
-                    if (status !== ret) {
-                        this.channels.get(CONSTANTS.CHANNELS.COMMUNITY_ANNOUNCEMENTS).send({
-                            embed: {
-                                description: (ret ? `The Scirra signaling server is online` : `The Scirra signaling server is offline`),
-                                color      : (ret ? 65280 : 16719647),
-                                footer     : {
-                                    text: 'Event-Watcher made by Armaldio • (Some events might be delayed!)'
-                                },
-                                thumbnail  : {
-                                    url: 'https://cdn.discordapp.com/attachments/244447929400688650/328699716563107840/WATCHERiconsmall.png'
-                                },
-                                author     : {
-                                    name    : 'WARNING, AN EVENT OCCURRED!',
-                                    icon_url: 'https://cdn.discordapp.com/attachments/244447929400688650/328647581984882709/AlfredBotlerSmall.png'
-                                },
-                                fields     : [
-                                    {
-                                        name : CONSTANTS.MESSAGE.SEPARATOR,
-                                        value: 'ᅠ'
-                                    }
-                                ]
-                            }
-                        });
-
-                        database.ref('signaling').set(ret);
-                        console.info('Set!');
-                    }
-                });
-            });
-        }, 300000);
     }
 
     checkBlogsAndUpdates () {

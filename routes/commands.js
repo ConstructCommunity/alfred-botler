@@ -3,31 +3,32 @@ const router    = express.Router();
 const CONSTANTS = require('../constants');
 
 router.get('/revivebot', function (req, res, next) {
+    let bot   = res.locals.bot;
+    let guild = bot.guilds.get(CONSTANTS.GUILD_ID);
 
-    console.log('req.user.username', req.user.username);
+    bot.destroy();
 
-    /*    let bot = res.locals.bot;
+    bot.on('ready', () => {
+        res.render('dashboard', {message: 'Bot successfully restarted!'});
+    });
 
-        bot.on('ready', () => {
-            res.render('dashboard', {message: 'Bot successfully restarted!'});
-        });
-
-        bot.login(CONSTANTS.BOT.TOKEN);
-        res.render('dashboard', {message: 'Bot successfully restarted!'});*/
-
+    bot.login(CONSTANTS.BOT.TOKEN).then((ret) => {
+        console.log('ret', ret);
+    });
+    //res.render('dashboard', {message: 'Bot successfully restarted!'});
 });
 
 router.get('/sendmessage', function (req, res, next) {
-    let bot = res.locals.bot;
-    console.log('guild', bot.guilds);
-    res.json(bot.guilds);
-    /*let channels = guild.channels.array().filter(x => x.type === 'text');
-    let users = guild.members.array();
+    let bot   = res.locals.bot;
+    let guild = bot.guilds.get(CONSTANTS.GUILD_ID);
+
+    let channels = guild.channels.array().filter(x => x.type === 'text');
+    let users    = guild.members.array();
 
     res.render('sendmessage', {
         channels,
         users
-    });*/
+    });
 });
 
 router.post('/sendmessage', async (req, res, next) => {

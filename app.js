@@ -238,7 +238,6 @@ bot.on('presenceUpdate', () => {
     console.log('Bot ready');
     updateStatus();
 
-    bot.checkSignaling();
     bot.checkBlogsAndUpdates();
     bot.updateMessage();
     bot.checkNewPlugins();
