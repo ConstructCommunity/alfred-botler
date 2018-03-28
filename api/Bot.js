@@ -56,7 +56,7 @@ module.exports = class Bot extends Discord.Client {
         });
     }
 
-    parse (message) {
+    async parse (message) {
         if (message.channel.type === 'group') {
             return;
         }
@@ -78,20 +78,20 @@ module.exports = class Bot extends Discord.Client {
         let name   = content.shift().substr(1, length);
         let _args  = [...content];
 
-        this.run({
+        let x = await this.run({
             _args,
             name
         });
     }
 
-    run (fakeCmd) {
-        this.commands.some(cmd => {
+    async run (fakeCmd) {
+        for (let h = 0; h < this.commands.length; h++) {
+            let cmd = this.commands[h];
             if (cmd.infos.name === fakeCmd.name) {
 
                 fakeCmd.args = {};
 
                 let i = 0;
-                //if (cmd.infos.args && cmd.infos.args.length > 0) {
 
                 if (cmd.infos.extraArgs === false && cmd.infos.args.length !== fakeCmd._args.length) {
                     cmd.usage(this.message);
@@ -128,11 +128,17 @@ module.exports = class Bot extends Discord.Client {
                     return true;
                 }
 
-                cmd.infos.permissions.roles.some(role => {
+                for (let j = 0; j < cmd.infos.permissions.roles.length; j++) {
+                    let role = cmd.infos.permissions.roles[j];
                     if (role === CONSTANTS.ROLES.ANY ||
                         (this.message.member.roles && this.message.member.roles.has(role))) {
                         hasRole = true;
-                        cmd.infos.permissions.channels.some(async channel => {
+
+                        for (let k = 0; k < cmd.infos.permissions.channels.length; k++) {
+                            let channel = cmd.infos.permissions.channels[k];
+
+                            console.log("channel id: " + channel);
+
                             if (channel === CONSTANTS.CHANNELS.ANY ||
                                 this.message.channel.id === channel ||
                                 this.message.channel.id === CONSTANTS.CHANNELS.TEST ||
@@ -140,8 +146,12 @@ module.exports = class Bot extends Discord.Client {
                                 goodChannel = true;
 
                                 let del;
-                                if (cmd.infos.deleteCmd) {
-                                    del = await                                        this.message.delete();
+                                if (cmd.infos.deleteCmd && this.message.deletable) {
+                                    try {
+                                        del = await this.message.delete();
+                                    } catch (err) {
+                                        console.log("Messages seems to be already deleted");
+                                    }
                                 }
 
                                 try {
@@ -166,10 +176,12 @@ module.exports = class Bot extends Discord.Client {
                                 }
                                 return true;
                             }
-                        });
-                        return true;
+                        }
+                        //return true;
                     }
-                });
+                }
+                
+                console.log("hasRole: " + hasRole + ", goodChannel: " + goodChannel);
 
                 if (!hasRole) {
                     this.message.reply('I\'m sorry, you don\'t have enough rights to execute this command.');
@@ -181,7 +193,7 @@ module.exports = class Bot extends Discord.Client {
 
                 return true;
             }
-        });
+        }
     }
 
     resolve (type, value) {

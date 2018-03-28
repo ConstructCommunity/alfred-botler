@@ -208,7 +208,7 @@ process.on('unhandledRejection', (reason, p) => {
 
 bot.on('presenceUpdate', () => {
     updateStatus();
-}).on('message', message => {
+}).on('message', async message => {
     try {
         function isOnline (id) {
             const user = bot.guilds.get(CONSTANTS.GUILD_ID).members.get(id);
@@ -224,7 +224,11 @@ bot.on('presenceUpdate', () => {
             }
         }
 
-        bot.parse(message);
+        try {
+            let x = await bot.parse(message);
+        } catch(err) {
+            console.log(err);
+        }
 
     } catch (e) {
         Raven.captureException(e);
