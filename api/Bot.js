@@ -337,7 +337,7 @@ module.exports = class Bot extends Discord.Client {
                                     },
                                     {
                                         name : `Read the new blog post (${timeToRead}):`,
-                                        value: '<https://www.scirra.com/blog>'
+                                        value: '<https://www.construct.net/blogs/>'
                                     }
                                 ]
                             }
