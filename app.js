@@ -182,10 +182,8 @@ let getConnectedUsers = function () {
 
 let updateStatus = function () {
     const users = getConnectedUsers();
-    bot.user.setPresence({
-        game: {
-            name: `with ${users} users`
-        }
+    bot.user.setActivity(`${users} users`, {
+        type: 'WATCHING'
     });
 };
 
@@ -226,7 +224,7 @@ bot.on('presenceUpdate', () => {
 
         try {
             let x = await bot.parse(message);
-        } catch(err) {
+        } catch (err) {
             console.log(err);
         }
 
