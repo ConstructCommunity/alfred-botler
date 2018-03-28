@@ -18,7 +18,7 @@ module.exports = class status extends Command {
             deleteCmd  : true,
             permissions: {
                 roles   : [CONSTANTS.ROLES.ANY],
-                channels: [CONSTANTS.CHANNELS.ALFRED_COMMANDS]
+                channels: [CONSTANTS.CHANNELS.ALFRED_COMMANDS, CONSTANTS.CHANNELS.GENERAL, CONSTANTS.CHANNELS.OFFTOPIC]
             },
             rate       : { //1 per 5 min
                 allow: 1,

@@ -240,7 +240,7 @@ Permissions:
 
 | Allowed roles | Allowed channels |
 | :-----------: | :--------------: |
-| Any  | #commands  |
+| Any  | #commands #general #off-topic  |
 Examples: 
 
 `!status` 

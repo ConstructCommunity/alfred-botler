@@ -13,7 +13,7 @@
   },
   "author": "Armaldio",
   "license": "MIT",
-  "homepage": "https://alfred-botler.now.sh",
+  "homepage": "https://alfred.armaldio.xyz",
   "dependencies": {
     "@types/passport": "^0.4.1",
     "body-parser": "~1.18.2",
@@ -59,6 +59,7 @@
     "@types/firebase": "^2.4.32",
     "ava": "^0.24.0",
     "esdoc": "^1.0.4",
-    "esdoc-standard-plugin": "^1.0.0"
+    "esdoc-standard-plugin": "^1.0.0",
+    "pm2": "^2.10.1"
   }
 }
