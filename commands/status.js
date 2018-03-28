@@ -12,7 +12,7 @@ const isReachable = require('is-reachable');
 module.exports = class status extends Command {
     constructor (client) {
         super(client, {
-            name       : 'test',
+            name       : 'status',
             description: 'Output the current status of the Scirra websites',
             examples   : ['status'],
             deleteCmd  : true,
