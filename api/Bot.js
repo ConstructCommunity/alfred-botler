@@ -282,7 +282,7 @@ module.exports = class Bot extends Discord.Client {
 
             let options = {
                 method : 'GET',
-                url    : 'https://www.construct.net/blogs',
+                url    : 'https://www.construct.net/blogs/posts',
                 headers: {
                     'postman-token': '1b97c5c0-e824-005d-ada1-feb10f276375',
                     'cache-control': 'no-cache'
@@ -298,11 +298,11 @@ module.exports = class Bot extends Discord.Client {
                 // console.info("Requested");
 
                 const $         = cheerio.load(body);
-                const new_title = $('#form1 > div.bodyWrapper > div > div > div > div.viewBlogLayout > div.rightCol > div:nth-child(3) > div > div > div.titleOuterWrap > div > div.right > a')
+                const new_title = $('form#form1 div:nth-child(3) > div:nth-child(1) > div > div.titleOuterWrap > div > div.right > a')
                     .text().trim();
-                let author      = $('form#form1 div:nth-child(3) > div > div > div.statWrap > div:nth-child(2) > div > div#Wrapper > ul > li.username > a')
+                let author      = $('form#form1 div:nth-child(3) > div:nth-child(1) > div > div.statWrap > div:nth-child(2) > div > div#Wrapper > ul > li.username > a')
                     .text();
-                let timeToRead  = $('#form1 > div.bodyWrapper > div > div > div > div.viewBlogLayout > div.rightCol > div:nth-child(3) > div > div > div.statWrap > div:nth-child(1) > div > ul > li:nth-child(2)')
+                let timeToRead  = $('form#form1 div:nth-child(3) > div:nth-child(1) > div > div.statWrap > div:nth-child(1) > div > ul > li:nth-child(2)')
                     .text().replace(/<img(.*)>/, '').replace('read time', '').trim();
 
                 database.ref('blog').once('value').then(snapshot => {
@@ -312,7 +312,7 @@ module.exports = class Bot extends Discord.Client {
                     } else {
                         title = snapshot.val();
                     }
-                    /*                    console.info('Database : \'' + title + '\' vs Online : \'' + new_title + '\'');
+/*                                        console.info('Database : \'' + title + '\' vs Online : \'' + new_title + '\'');
                                         console.log(author);
                                         console.log(timeToRead);*/
                     if (title !== new_title && new_title !== '') {
@@ -327,7 +327,7 @@ module.exports = class Bot extends Discord.Client {
                                     url: 'https://cdn.discordapp.com/attachments/244447929400688650/328696208719740929/BLOGiconsmall.png'
                                 },
                                 author     : {
-                                    name    : `A NEW BLOG POST BY ${author} JUST WENT LIVE!`,
+                                    name    : `A NEW BLOG POST BY ${author.toUpperCase()} JUST WENT LIVE!`,
                                     icon_url: 'https://cdn.discordapp.com/attachments/244447929400688650/328647581984882709/AlfredBotlerSmall.png'
                                 },
                                 fields     : [
@@ -337,7 +337,7 @@ module.exports = class Bot extends Discord.Client {
                                     },
                                     {
                                         name : `Read the new blog post (${timeToRead}):`,
-                                        value: '<https://www.construct.net/blogs/>'
+                                        value: '<https://www.construct.net/blogs/posts>'
                                     }
                                 ]
                             }
