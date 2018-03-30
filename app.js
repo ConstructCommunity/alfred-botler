@@ -20,6 +20,7 @@ require('pretty-error').start();
 const documentation = require('./routes/documentation');
 const donation      = require('./routes/donation');
 const api           = require('./routes/api');
+const hook           = require('./routes/hook');
 const commands      = require('./routes/commands');
 const dashboard     = require('./routes/dashboard');
 
@@ -127,6 +128,7 @@ app.get('/login', passport.authenticate('discord', {scope: scopes}), function (r
 app.use('/doc', documentation);
 app.use('/donation', donation);
 app.use('/api', api);
+app.use('/hook', hook);
 app.use('/commands', checkAuth, commands);
 app.use('/dashboard', checkAuth, dashboard);
 
