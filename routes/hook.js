@@ -5,7 +5,7 @@ const CONSTANTS = require('../constants');
 
 const passport = require('passport');
 
-router.get('/job', (req, res, next) => {
+router.post('/job', (req, res, next) => {
         let bot   = res.locals.bot;
         let guild = bot.guilds.get(CONSTANTS.GUILD_ID);
 
