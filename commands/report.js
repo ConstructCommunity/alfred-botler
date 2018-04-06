@@ -11,7 +11,7 @@ const isDev = process.env.NODE_ENV === 'development';
 module.exports = class report extends Command {
     constructor (client, database) {
         super(client, {
-            name       : 'report',
+            name       : 'report2',
             description: 'Anonymously report an individual to the CCStaff for breaking a rule.',
             examples   : ['report @user1 [optional: reason]'],
             extraArgs  : true,
@@ -83,7 +83,7 @@ module.exports = class report extends Command {
             if (_extra !== undefined)
                 _extra = _extra.join(' ');
 
-            _ = await msg.guild.channels.get(isDev ? CONSTANTS.CHANNELS.DEVCHANNEL : CONSTANTS.CHANNELS.MODERATORS)
+            _ = await msg.guild.channels.get(CONSTANTS.CHANNELS.MODERATORS)
                          .send(`**${msg.author.username}** just reported **${user.username}** inside **<#${msg.channel.id}>** at **${this.timeStamp()}** (reason: **${_extra === undefined ? '[No reason]' : _extra}**). <@&${CONSTANTS.ROLES.STAFF}> A manual review is required!`, {
                              embed: {
                                  'description': CONSTANTS.MESSAGE.EMPTY,

@@ -29,8 +29,8 @@ Raven.config('https://d27747b9414d435ab6dae396ce61a4d2:caaa873cdb824239b3f422e0e
 
 const app = express();
 
-const port = process.env.PORT || 80;
-const ip   = process.env.IP || '0.0.0.0';
+const port = process.env.PORT || 5555;
+const ip   = process.env.IP || 'localhost';
 
 console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 
