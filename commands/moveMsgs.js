@@ -112,12 +112,12 @@ module.exports = class move extends Command {
                 embed: {
                     'title'      : `Last messages from #${msg.channel.name}`,
                     'description': CONSTANTS.MESSAGE.EMPTY,
-                    'color'      : 15844367,
+                    'color'      : 11962861,
                     'footer'     : {
                         'text': CONSTANTS.MESSAGE.EMPTY
                     },
                     'thumbnail'  : {
-                        'url': 'https://cdn.discordapp.com/attachments/244447929400688650/331776445955309568/ROLEREMiconsmall.png'
+                        'url': 'https://cdn.discordapp.com/attachments/244447929400688650/431836205164789765/movemessageicon.png'
                     },
                     'fields'     : fields
                 }
