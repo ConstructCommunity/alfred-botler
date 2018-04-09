@@ -11,7 +11,7 @@ const isDev = process.env.NODE_ENV === 'development';
 module.exports = class report extends Command {
     constructor (client, database) {
         super(client, {
-            name       : 'report2',
+            name       : 'report',
             description: 'Anonymously report an individual to the CCStaff for breaking a rule.',
             examples   : ['report @user1 [optional: reason]'],
             extraArgs  : true,

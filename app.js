@@ -29,12 +29,13 @@ Raven.config('https://d27747b9414d435ab6dae396ce61a4d2:caaa873cdb824239b3f422e0e
 
 const app = express();
 
-const port = process.env.PORT || 5555;
+const isDev = process.env.NODE_ENV === 'development';
+
+const port = process.env.PORT || (isDev ? 5555 : 80);
 const ip   = process.env.IP || 'localhost';
 
 console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 
-const isDev = process.env.NODE_ENV === 'development';
 
 let bot;
 
@@ -117,11 +118,11 @@ function empty (a, b, next) {
   next();
 }
 
-/*app.use(function (req, res, next) {
+app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
   res.setHeader('Access-Control-Allow-Origin', 'https://cc_forms.armaldio.xyz');
   next();
-});*/
+});
 
 /* GET home page. */
 app.get('/', function (req, res) {
