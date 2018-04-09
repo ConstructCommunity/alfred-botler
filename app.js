@@ -117,11 +117,11 @@ function empty (a, b, next) {
   next();
 }
 
-app.use(function (req, res, next) {
+/*app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
   res.setHeader('Access-Control-Allow-Origin', 'https://cc_forms.armaldio.xyz');
   next();
-});
+});*/
 
 /* GET home page. */
 app.get('/', function (req, res) {
