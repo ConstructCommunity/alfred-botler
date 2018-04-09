@@ -32,7 +32,7 @@ const app = express();
 const isDev = process.env.NODE_ENV === 'development';
 
 const port = process.env.PORT || (isDev ? 5555 : 80);
-const ip   = process.env.IP || 'localhost';
+const ip   = process.env.IP || (isDev ? '0.0.0.0' : 'localhost');
 
 console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 
