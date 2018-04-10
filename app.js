@@ -23,7 +23,6 @@ const api           = require('./routes/api');
 const hook          = require('./routes/hook');
 const commands      = require('./routes/commands');
 const dashboard     = require('./routes/dashboard');
-const cors          = require('cors');
 
 const Raven = require('raven');
 Raven.config('https://d27747b9414d435ab6dae396ce61a4d2:caaa873cdb824239b3f422e0e2c76d1a@sentry.io/260708').install();
@@ -46,18 +45,7 @@ app.set('view engine', 'hbs');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 //app.use(logger('dev'));
-const whitelist = ['http://localhost:8080/', 'https://cc_jobs.armaldio.xyz/', 'https://alfred.armaldio.xyz/'];
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  }
-};
 
-app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());

@@ -4,8 +4,20 @@ const router  = express.Router();
 const CONSTANTS = require('../constants');
 
 const passport = require('passport');
+const cors     = require('cors');
 
-router.post('/job', async (req, res, next) => {
+const whitelist   = ['http://localhost:8080/', 'https://cc_jobs.armaldio.xyz/', 'https://alfred.armaldio.xyz/'];
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+};
+
+router.post('/job', cors(corsOptions), async (req, res, next) => {
   let bot   = res.locals.bot;
   let guild = bot.guilds.get(CONSTANTS.GUILD_ID);
 
