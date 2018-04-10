@@ -23,6 +23,7 @@ const api           = require('./routes/api');
 const hook          = require('./routes/hook');
 const commands      = require('./routes/commands');
 const dashboard     = require('./routes/dashboard');
+const cors          = require('cors');
 
 const Raven = require('raven');
 Raven.config('https://d27747b9414d435ab6dae396ce61a4d2:caaa873cdb824239b3f422e0e2c76d1a@sentry.io/260708').install();
@@ -36,7 +37,6 @@ const ip   = process.env.IP || (isDev ? 'localhost' : '0.0.0.0');
 
 console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 
-
 let bot;
 
 // view engine setup
@@ -46,6 +46,7 @@ app.set('view engine', 'hbs');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 //app.use(logger('dev'));
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
@@ -117,12 +118,6 @@ function checkAuth (req, res, next) {
 function empty (a, b, next) {
   next();
 }
-
-app.use(function (req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
-  res.setHeader('Access-Control-Allow-Origin', 'https://cc_forms.armaldio.xyz');
-  next();
-});
 
 /* GET home page. */
 app.get('/', function (req, res) {

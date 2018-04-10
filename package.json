@@ -20,6 +20,7 @@
     "btoa": "^1.1.2",
     "cheerio": "^1.0.0-rc.2",
     "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
     "cross-env": "^5.1.4",
     "day-of-year": "^0.1.0",
     "debug": "~2.6.9",
