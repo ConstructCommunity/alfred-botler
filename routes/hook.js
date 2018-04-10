@@ -18,6 +18,8 @@ const corsOptions = {
   methods: ['POST']
 };
 
+router.use(cors());
+router.options('*', cors());
 router.post('/job', cors(/*corsOptions*/), async (req, res, next) => {
   let bot   = res.locals.bot;
   let guild = bot.guilds.get(CONSTANTS.GUILD_ID);
