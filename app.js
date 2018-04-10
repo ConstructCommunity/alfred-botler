@@ -46,7 +46,7 @@ app.set('view engine', 'hbs');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 //app.use(logger('dev'));
-const whitelist = ['http://localhost:8080/', 'https://cc_jobs.armaldio.xyz/'];
+const whitelist = ['http://localhost:8080/', 'https://cc_jobs.armaldio.xyz/', 'https://alfred.armaldio.xyz/'];
 const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
