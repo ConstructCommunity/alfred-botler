@@ -32,7 +32,7 @@ router.post('/job', cors(/*corsOptions*/), async (req, res, next) => {
 
   let user = await bot.fetchUser(body.user);
 
-  guild.channels.get('321770336804667413').send({
+  guild.channels.get('244447929400688650').send({
     embed: {
       'description': body.title,
       'color'      : 11962861,
