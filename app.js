@@ -226,7 +226,19 @@ bot.on('presenceUpdate', () => {
     }
 
     try {
-      let x = await bot.parse(message);
+      if (message.webhookID === null) {
+        let msgText = message.content;
+        let owner   = message.author;
+        owner.send(`Posting in <#${message.channel.id}> is retricted. Please use the following form: https://cc_jobs.armaldio.xyz/?user=${owner.id}`, {
+          embed: {
+            title      : 'Your previous message:',
+            description: msgText
+          }
+        });
+        await message.delete();
+      } else {
+        await bot.parse(message);
+      }
     } catch (err) {
       console.log(err);
     }

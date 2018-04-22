@@ -30,43 +30,53 @@ router.post('/job', cors(/*corsOptions*/), async (req, res, next) => {
   console.log(req.body);
   let {body} = req;
 
-  let user = await bot.fetchUser(body.user);
+  try {
 
-  guild.channels.get('244447929400688650').send({
-    embed: {
-      'description': body.title,
-      'color'      : 11962861,
-      'footer'     : {
-        'text': 'Create your own offers now by visiting: https://cc_jobs.armaldio.xyz.'
-      },
-      'thumbnail'  : {
-        'url': 'https://cdn.discordapp.com/attachments/244447929400688650/429264763940503552/joboffericon.png'
-      },
-      'author'     : {
-        'name'    : `NEW OFFER BY @${user.username.toUpperCase()}`,
-        'icon_url': 'https://cdn.discordapp.com/attachments/244447929400688650/328647581984882709/AlfredBotlerSmall.png'
-      },
-      'fields'     : [
-        {
-          'name' : CONSTANTS.MESSAGE.SEPARATOR,
-          'value': CONSTANTS.MESSAGE.EMPTY
+    let user = await bot.fetchUser(body.user);
+
+    // Webhook part
+    let webhook = await guild.channels.get(CONSTANTS.CHANNELS.JOBOFFERS)
+                             .createWebhook(user.username, user.avatarURL, 'Temp Webhook for sending offer in #job-offers');
+
+    await webhook.send({
+      embeds: [{
+        'description': body.title,
+        'color'      : 11962861,
+        'thumbnail'  : {
+          'url': 'https://cdn.discordapp.com/attachments/244447929400688650/429264763940503552/joboffericon.png'
         },
-        {
-          'name' : 'Offer Conditions:',
-          'value': `- **Type:** ${body.announceType.type}${body.announceType.id === 1 ? ' (' + body.amount + (body.paymentType.id === 0 ? '$)\n' : '%)\n') : '\n'}${body.announceType.id === 1 ? '- **Details:** ' + body.paymentDetails : ''}- **Contact:** ${body.contact}\n
+        'author'     : {
+          'name'    : `NEW OFFER BY ${user.username.toUpperCase()}`,
+          'icon_url': 'https://cdn.discordapp.com/attachments/244447929400688650/328647581984882709/AlfredBotlerSmall.png'
+        },
+        'fields'     : [
+          {
+            'name' : CONSTANTS.MESSAGE.SEPARATOR,
+            'value': CONSTANTS.MESSAGE.EMPTY
+          },
+          {
+            'name' : 'Offer Conditions:',
+            'value': `- **Type:** ${body.announceType.type}${body.announceType.id === 1 ? ' (' + body.amount + (body.paymentType.id === 0 ? '$)\n' : '%)\n') : '\n'}${body.announceType.id === 1 ? '\n- **Details:**\n' + body.paymentDetails + '\n' : ''}\n- **Contact:**\n${body.contact}\n
 ᅠ`
-        },
-        {
-          'name' : 'Offer Details:',
-          'value': body.details
-        },
-        {
-          'name' : CONSTANTS.MESSAGE.EMPTY,
-          'value': CONSTANTS.MESSAGE.SEPARATOR
-        }
-      ]
-    }
-  });
+          },
+          {
+            'name' : 'Offer Details:',
+            'value': body.details
+          },
+          {
+            'name' : CONSTANTS.MESSAGE.EMPTY,
+            'value': CONSTANTS.MESSAGE.SEPARATOR
+          }
+        ]
+      }]
+    });
+
+    await webhook.delete('This webhook fulfilled its goal. It may now turn into ashes.');
+
+  } catch (e) {
+    console.log('Error on sending webhook', e);
+  }
+
   res.sendStatus(200);
 });
 module.exports = router;
