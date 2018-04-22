@@ -226,7 +226,7 @@ bot.on('presenceUpdate', () => {
     }
 
     try {
-      if (message.webhookID === null) {
+      if (message.webhookID === null && channel.id === CONSTANTS.CHANNELS.JOBOFFERS) {
         let msgText = message.content;
         let owner   = message.author;
         owner.send(`Posting in <#${message.channel.id}> is retricted. Please use the following form: https://cc_jobs.armaldio.xyz/?user=${owner.id}`, {
