@@ -17,7 +17,7 @@ module.exports = class iam extends Command {
   constructor (client) {
     super(client, {
       name       : 'iam',
-      description: 'Add or remove a user from a role',
+      description: 'Add or remove a user from a role\nFor more infos, check https://lnk.armaldio.xyz/cc_roles',
       examples   : ['iam dev', 'iam artist'],
       extraArgs  : false,
       args       : [

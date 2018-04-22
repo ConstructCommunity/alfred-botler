@@ -63,7 +63,8 @@ Examples:
 
 `!help` 
 
-</div><br><div class="section">**iam** - Add or remove a user from a role 
+</div><br><div class="section">**iam** - Add or remove a user from a role
+For more infos, check https://lnk.armaldio.xyz/cc_roles 
 
 Accept extra arguments: No 
 
