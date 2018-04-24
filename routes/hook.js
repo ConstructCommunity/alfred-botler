@@ -56,7 +56,7 @@ router.post('/job', cors(/*corsOptions*/), async (req, res, next) => {
           },
           {
             'name' : 'Offer Conditions:',
-            'value': `- **Type:** ${body.announceType.type}${body.announceType.id === 1 ? ' (' + body.amount + (body.paymentType.id === 0 ? '$)\n' : '%)\n') : '\n'}${body.announceType.id === 1 ? '\n- **Details:**\n' + body.paymentDetails + '\n' : ''}\n- **Contact:**\n${body.contact}\n
+            'value': `- **Type:** ${body.announceType.type}${body.announceType.id !== 0 ? ' - ' + body.amount + (body.announceType.id === 1 /* percentage */ ? "%" : body.currency.symbol + ' (' + body.currency.name + ')') : '\n'}${body.announceType.id === 1 ? '\n- **Details:**\n' + body.paymentDetails + '\n' : ''}\n- **Contact:**\n${body.contact}\n
 ᅠ`
           },
           {
