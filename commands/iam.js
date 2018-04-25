@@ -52,7 +52,8 @@ module.exports = class iam extends Command {
         return msg.reply('You should ask <@155322717422354432> to be sure');
       default:
         if (typeof roles[role] === 'undefined') {
-          return msg.reply('Sorry, this role is invalid');
+          msg.reply('Sorry, this role is invalid');
+          this.usage(msg);
         } else if (msg.member.roles.has(roles[role])) {
           msg.member.removeRole(roles[role]);
           return msg.channel.send({
