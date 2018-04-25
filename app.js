@@ -229,7 +229,7 @@ bot.on('presenceUpdate', () => {
       if (message.webhookID === null && message.channel.id === CONSTANTS.CHANNELS.JOBOFFERS) {
         let msgText = message.content;
         let owner   = message.author;
-        owner.send(`Posting in <#${message.channel.id}> is retricted. Please use the following form: https://cc_jobs.armaldio.xyz/?user=${owner.id}`, {
+        owner.send(`Posting in <#${message.channel.id}> is retricted. Please use the following form: https://cc_jobs.armaldio.xyz/#/new?user=${owner.id}`, {
           embed: {
             title      : 'Your previous message:',
             description: msgText
