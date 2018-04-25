@@ -10,7 +10,7 @@ const roles     = {
   artist       : CONSTANTS.ROLES.ARTIST,
   gamedesigner : CONSTANTS.ROLES.GAME_DESIGNER,
   sounddesigner: CONSTANTS.ROLES.SOUND_DESIGNER,
-  multimediadev: CONSTANTS.ROLES.SOUND_DESIGNER,
+  multimediadev: CONSTANTS.ROLES.MULTIMEDIADEV,
 };
 
 module.exports = class iam extends Command {
