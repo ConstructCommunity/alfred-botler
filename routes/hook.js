@@ -68,35 +68,45 @@ router.post('/job', cors(/*corsOptions*/), async (req, res, next) => {
     // Confirmation part
 
     let confirmation = await user.send(
-      `Someone is trying to post an announce inside <#${CONSTANTS.CHANNELS.JOBOFFERS}>. Please confirm this by clicking the emote at the bottom of this message. If it wasn't you, just ignore this message.`,
+      `Someone is trying to post an announce inside <#${CONSTANTS.CHANNELS.JOBOFFERS}>. Please confirm this by clicking the emote at the bottom of this message. If it wasn't you, click the ❌ emoji to cancel.`,
       {
         embed: announce
       }
     );
     await confirmation.react('🆗');
-    const filter = (reaction, usr) => reaction.emoji.name === '🆗' && user.id === usr.id;
+    await confirmation.react('❌');
+    const filter = (reaction, usr) => (reaction.emoji.name === '🆗' || reaction.emoji.name === '❌') && user.id === usr.id;
     confirmation.awaitReactions(filter, {
       max   : 1,
       time  : 600000,
       errors: ['time']
     }).then(async collected => {
       console.log(collected);
+      const reaction = collected.first();
 
-      console.log(`Collected ${collected.size} reactions`, collected);
+      if (reaction.emoji.name === '🆗'){
+        console.log(`Collected ${collected.size} reactions`, collected);
 
-      // Webhook part
-      let webhook = await guild.channels.get(CONSTANTS.CHANNELS.JOBOFFERS)
-                               .createWebhook(user.username, user.avatarURL, 'Temp Webhook for sending offer in #job-offers');
+        // Webhook part
+        let webhook = await guild.channels.get(CONSTANTS.CHANNELS.JOBOFFERS)
+                                 .createWebhook(user.username, user.avatarURL, 'Temp Webhook for sending offer in #job-offers');
 
-      await webhook.send({
-        embeds: [announce]
-      });
+        await webhook.send({
+          embeds: [announce]
+        });
 
-      await webhook.delete('This webhook fulfilled its goal. It may now turn into ashes.');
+        await webhook.delete('This webhook fulfilled its goal. It may now turn into ashes.');
 
-      user.send('Announce validated!');
+        user.send('Announce validated!');
 
-      res.sendStatus(200);
+        res.sendStatus(200);
+      } else {
+        user.send('Announce canceled!');
+
+        res.status(500).send('Cancelled');
+      }
+
+
     }).catch(error => {
       user.send('Timeout! You must submit again.');
 
