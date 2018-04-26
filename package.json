@@ -6,7 +6,7 @@
   "main": "app.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production ./node_modules/.bin/pm2 start app.js",
-    "dev": "cross-env NODE_ENV=development node app.js",
+    "dev": "cross-env NODE_ENV=development nodemon app.js",
     "test": "ava tests",
     "doc": "node doc/generator.js",
     "publish": "node management/publish.js"
