@@ -106,7 +106,7 @@ router.post('/job', cors(/*corsOptions*/), async (req, res, next) => {
   } catch (e) {
     console.log('Error on sending webhook', e);
 
-    res.sendStatus(500);
+    res.status(400).send(e);
   }
 });
 module.exports = router;
