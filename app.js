@@ -247,12 +247,7 @@ bot.on('presenceUpdate', () => {
       if (message.webhookID === null && message.channel.id === CONSTANTS.CHANNELS.CREATIONCLUB) {
         let msgText = message.content;
         let owner   = message.author;
-        owner.send(`Posting in <#${message.channel.id}> is retricted.`, {
-          embed: {
-            title      : 'Your previous message:',
-            description: msgText
-          }
-        });
+        owner.send(`**Join the Construct Creation Club by visiting the following link:** https://github.com/WebCreationClub`);
         await message.delete();
       } else {
         await bot.parse(message);
