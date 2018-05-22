@@ -247,7 +247,7 @@ bot.on('presenceUpdate', () => {
       if (message.webhookID === null && message.channel.id === CONSTANTS.CHANNELS.CREATIONCLUB) {
         let msgText = message.content;
         let owner   = message.author;
-        owner.send(`**Join the Construct Creation Club by visiting the following link:** https://github.com/WebCreationClub`);
+        owner.send(`**Join the Construct Creation Club by visiting the following link:** https://lnk.armaldio.xyz/WebCreationClub`);
         await message.delete();
       } else {
         await bot.parse(message);
