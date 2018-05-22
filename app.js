@@ -243,6 +243,24 @@ bot.on('presenceUpdate', () => {
       console.log(err);
     }
 
+    try {
+      if (message.webhookID === null && message.channel.id === CONSTANTS.CHANNELS.CREATIONCLUB) {
+        let msgText = message.content;
+        let owner   = message.author;
+        owner.send(`Posting in <#${message.channel.id}> is retricted.`, {
+          embed: {
+            title      : 'Your previous message:',
+            description: msgText
+          }
+        });
+        await message.delete();
+      } else {
+        await bot.parse(message);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
   } catch (e) {
     Raven.captureException(e);
     console.log('ERROR PARSING MESSAGE', e);
