@@ -119,12 +119,12 @@ module.exports = class move extends Command {
       const interval    = 10000;
       const tempContent = sent.content;
       const timer       = setInterval(async () => {
-        time -= interval;
         await sent.edit(`${tempContent} (${millisToMinutesAndSeconds(time)})`);
         if (time < 0) {
           clearInterval(timer);
           await sent.delete();
         }
+        time -= interval;
       }, interval);
 
       sent = await channel.send({
