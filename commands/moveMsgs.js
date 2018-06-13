@@ -112,19 +112,20 @@ module.exports = class move extends Command {
       function millisToMinutesAndSeconds (millis) {
         const minutes = Math.floor(millis / 60000);
         const seconds = ((millis % 60000) / 1000).toFixed(0);
-        return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+        return minutes + 'm ' + (seconds < 10 ? '0' : '') + seconds + 's';
       }
 
       let time          = 300000; // 5 min
+      const interval    = 10000;
       const tempContent = sent.content;
       const timer       = setInterval(async () => {
-        time -= 1000;
+        time -= interval;
         await sent.edit(`${tempContent} (${millisToMinutesAndSeconds(time)})`);
         if (time < 0) {
           clearInterval(timer);
           await sent.delete();
         }
-      }, 1000);
+      }, interval);
 
       sent = await channel.send({
         embed: {
