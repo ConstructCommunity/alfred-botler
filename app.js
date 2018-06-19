@@ -249,8 +249,6 @@ bot.on('presenceUpdate', () => {
         let owner   = message.author;
         owner.send(`**Join the Construct Creation Club by visiting the following link:** https://lnk.armaldio.xyz/WebCreationClub`);
         await message.delete();
-      } else {
-        await bot.parse(message);
       }
     } catch (err) {
       console.log(err);
