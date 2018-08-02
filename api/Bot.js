@@ -99,10 +99,10 @@ module.exports = class Bot extends Discord.Client {
         }
 
         if (cmd.infos.args && cmd.infos.args.length > 0) {
-/*          if (cmd.infos.args.length >= fakeCmd._args.length) {
-            cmd.usage(this.message);
-            return true;
-          }*/
+          /*          if (cmd.infos.args.length >= fakeCmd._args.length) {
+                      cmd.usage(this.message);
+                      return true;
+                    }*/
           for (let j = 0; j < cmd.infos.args.length; j++) {
             let arg = cmd.infos.args[j];
             let res = this.resolve(arg.type, fakeCmd._args[j]);
@@ -307,6 +307,8 @@ module.exports = class Bot extends Discord.Client {
           .text();
         let timeToRead  = $('form#form1 div:nth-child(3) > div:nth-child(1) > div > div.statWrap > div:nth-child(1) > div > ul > li:nth-child(2)')
           .text().replace(/<img(.*)>/, '').replace('read time', '').trim();
+        const link      = $('#form1 > div.bodyWrapper > div > div > div > div:nth-child(3) > div:nth-child(1) > div > div.titleOuterWrap > div > div.right > a')
+          .attr('href').replace (/^\/(.*?)\/blogs/, 'https://www.construct.net/blogs');
 
         database.ref('blog').once('value').then(snapshot => {
           let title;
@@ -340,7 +342,7 @@ module.exports = class Bot extends Discord.Client {
                   },
                   {
                     name : `Read the new blog post (${timeToRead}):`,
-                    value: '<https://www.construct.net/blogs/posts>'
+                    value: `<${link}>`
                   }
                 ]
               }
