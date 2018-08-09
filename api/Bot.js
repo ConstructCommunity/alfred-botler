@@ -308,7 +308,7 @@ module.exports = class Bot extends Discord.Client {
         let timeToRead  = $('form#form1 div:nth-child(3) > div:nth-child(1) > div > div.statWrap > div:nth-child(1) > div > ul > li:nth-child(2)')
           .text().replace(/<img(.*)>/, '').replace('read time', '').trim();
         const link      = $('#form1 > div.bodyWrapper > div > div > div > div:nth-child(3) > div:nth-child(1) > div > div.titleOuterWrap > div > div.right > a')
-          .attr('href').replace (/^\/(.*?)\/blogs/, 'https://www.construct.net/blogs');
+          .attr('href').trim().replace(/^(.*?)\/blogs/, 'https://www.construct.net/blogs');
 
         database.ref('blog').once('value').then(snapshot => {
           let title;
