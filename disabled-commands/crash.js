@@ -2,7 +2,7 @@
  * Created by Armaldio on 11/12/2017.
  */
 
-const Command = require('../api/Command');
+const Command = require('../bot/Command');
 const CONSTANTS = require('../constants');
 
 module.exports = class crash extends Command
