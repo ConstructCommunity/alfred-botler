@@ -5,7 +5,7 @@
   "private": true,
   "main": "app.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production ./node_modules/.bin/pm2 start app.js",
+    "start": "cross-env NODE_ENV=production ./node_modules/.bin/pm2 start app.js --interpreter ./node_modules/.bin/babel-node",
     "dev": "cross-env NODE_ENV=development nodemon --exec babel-node app.js",
     "test": "ava tests"
   },
