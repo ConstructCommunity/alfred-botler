@@ -1,7 +1,7 @@
 import { CommandoClient } from 'discord.js-commando';
 import path from 'path';
 import firebase from 'firebase';
-import CONSTANTS from './constants.json';
+import CONSTANTS from './constants.js';
 
 require('dotenv').config();
 

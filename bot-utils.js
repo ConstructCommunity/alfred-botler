@@ -9,6 +9,24 @@ const isDev = process.env.NODE_ENV === 'development';
 
 const truncate = (string, max) => (string.length > max ? `${string.substring(0, max)}...` : string);
 
+export const hasPermissions = (client, permissions, msg) => {
+  const hasRole = msg.member.roles
+    .array()
+    .some(
+      role => permissions.roles.includes(role.id),
+    ); // stop and return true if predicate match
+  const isInChannel = (
+    permissions.channels.includes(CONSTANTS.CHANNELS.ANY)
+    || permissions.channels.includes(msg.channel.id)
+    || msg.channel.id === CONSTANTS.CHANNELS.PRIVATE_TESTS
+    || msg.channel.id === CONSTANTS.CHANNELS.TEST
+  );
+
+  console.log('hasRole', hasRole);
+  console.log('isInChannel', isInChannel);
+  return hasRole && isInChannel;
+};
+
 // eslint-disable-next-line
 export const checkBlogsAndUpdates = () => {
   setInterval(() => {

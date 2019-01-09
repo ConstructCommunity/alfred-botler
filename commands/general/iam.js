@@ -4,6 +4,7 @@
 
 import { Command } from 'discord.js-commando';
 import CONSTANTS from '../../constants';
+import { hasPermissions } from '../../bot-utils';
 
 const roles = {
   expert: CONSTANTS.ROLES.EXPERT,
@@ -29,16 +30,15 @@ export default class iam extends Command {
           type: 'string',
         },
       ],
-      permissions: {
-        roles: [CONSTANTS.ROLES.ANY],
-        channels: [CONSTANTS.CHANNELS.ALFRED_COMMANDS],
-      },
     });
   }
 
   hasPermission(msg) {
-    console.log('this.permissions', this.permissions);
-    return this.client.isOwner(msg.author);
+    const permissions = {
+      roles: [CONSTANTS.ROLES.ANY],
+      channels: [CONSTANTS.CHANNELS.ALFRED_COMMANDS],
+    };
+    return hasPermissions(this.client, permissions, msg);
   }
 
   run(msg, { role }) {
