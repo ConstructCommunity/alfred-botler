@@ -24,7 +24,10 @@ export const hasPermissions = (client, permissions, msg) => {
 
   console.log('hasRole', hasRole);
   console.log('isInChannel', isInChannel);
-  return hasRole && isInChannel;
+
+  if (hasRole && isInChannel) return true;
+  if (!hasRole) return 'You are not pemritted to use this command!';
+  if (!isInChannel) return `Wrong channel! This command is available only in ${permissions.channels.map(chan => `<#${chan.id}>`)}`;
 };
 
 // eslint-disable-next-line
