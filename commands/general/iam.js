@@ -26,7 +26,7 @@ export default class iam extends Command {
       args: [
         {
           key: 'role',
-          prompt: 'A string representing a role',
+          prompt: 'What role do you want ?',
           type: 'string',
         },
       ],
