@@ -12,7 +12,7 @@ router.get('/revivebot', function (req, res, next) {
         res.render('dashboard', {message: 'Bot successfully restarted!'});
     });
 
-    bot.login(CONSTANTS.BOT.TOKEN).then((ret) => {
+    bot.login(process.env.TOKEN).then((ret) => {
         console.log('ret', ret);
     });
     //res.render('dashboard', {message: 'Bot successfully restarted!'});

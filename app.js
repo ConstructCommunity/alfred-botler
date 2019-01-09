@@ -3,6 +3,8 @@ import path from 'path';
 import firebase from 'firebase';
 import CONSTANTS from './constants.json';
 
+require('dotenv').config();
+
 // import Discord    from 'discord.js';
 // import {RateLimiter} from 'limiter';
 // import prettyms   from 'pretty-ms';
@@ -10,11 +12,11 @@ import CONSTANTS from './constants.json';
 // const isDev = process.env.NODE_ENV === 'development';
 
 const config = {
-  apiKey: 'AIzaSyCwfY--Cp_9zrzxKBLpCAqCJUM8LT4fxQo',
-  authDomain: 'construct2discord.firebaseapp.com',
-  databaseURL: 'https://construct2discord.firebaseio.com',
-  storageBucket: 'construct2discord.appspot.com',
-  messagingSenderId: '271095494978',
+  apiKey: process.env.apiKey,
+  authDomain: process.env.authDomain,
+  databaseURL: process.env.databaseURL,
+  storageBucket: process.env.storageBucket,
+  messagingSenderId: process.env.messagingSenderId,
 };
 firebase.initializeApp(config);
 
@@ -120,7 +122,7 @@ client
     try {
       if (
         message.webhookID === null
-        && message.author.id !== CONSTANTS.BOT.ID
+        && message.author.id !== process.env.ID
         && message.channel.id === CONSTANTS.CHANNELS.CREATIONCLUB
       ) {
         const owner = message.author;
@@ -136,4 +138,4 @@ client
     console.info('Close Event : ', closeEvent);
   });
 
-client.login(CONSTANTS.BOT.TOKEN);
+client.login(process.env.TOKEN);

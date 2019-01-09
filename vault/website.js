@@ -52,8 +52,8 @@ passport.deserializeUser(function (obj, done) {
 });
 
 const discordStrat = new DiscordStrategy({
-  clientID    : CONSTANTS.BOT.CLIENT_ID,
-  clientSecret: CONSTANTS.BOT.CLIENT_SECRET,
+  clientID    : process.env.CLIENT_ID,
+  clientSecret: process.env.CLIENT_SECRET,
   callbackURL : isDev ? 'http://localhost:80/bot/discord/callback' : 'https://alfred.armaldio.xyz/bot/discord/callback',
   scope       : scopes
 }, (accessToken, refreshToken, profile, done) => {
