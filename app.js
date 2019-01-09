@@ -1,36 +1,13 @@
 import { CommandoClient } from 'discord.js-commando';
 import path from 'path';
-import firebase from 'firebase';
-import CONSTANTS from './constants.js';
-
-require('dotenv').config();
+import { checkC3Updates } from './bot-utils';
+import CONSTANTS from './constants';
 
 // import Discord    from 'discord.js';
 // import {RateLimiter} from 'limiter';
 // import prettyms   from 'pretty-ms';
 
-// const isDev = process.env.NODE_ENV === 'development';
-
-const config = {
-  apiKey: process.env.apiKey,
-  authDomain: process.env.authDomain,
-  databaseURL: process.env.databaseURL,
-  storageBucket: process.env.storageBucket,
-  messagingSenderId: process.env.messagingSenderId,
-};
-firebase.initializeApp(config);
-
-/*
-const sms = require('free-mobile-sms-bot');
-
-sms.on('sms:error', e => {
-  console.info(e.code + ': ' + e.msg);
-});
-
-sms.on('sms:success', data => {
-  console.info('Success! :D');
-});
-*/
+const isDev = process.env.NODE_ENV === 'development';
 
 const client = new CommandoClient({
   commandPrefix: '!',
@@ -75,6 +52,9 @@ client
   .on('ready', () => {
     console.log('Logged in!');
     updateStatus();
+
+    checkC3Updates(client);
+    setInterval(() => checkC3Updates(client), 600000);
 
     // bot.checkBlogsAndUpdates();
     // bot.updateMessage();

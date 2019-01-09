@@ -4,7 +4,11 @@ export default {
   MESSAGE: {
     SEPARATOR: '──────────────────────────────────',
     EMPTY: 'ᅠ',
-    SCIRRA_FOOTER: 'Construct 2 and Construct 3 by ©Scirra Ltd 2018 • All rights reserved ᅠᅠᅠᅠᅠᅠᅠᅠ Donations: https://go.armaldio.xyz/donation',
+    SCIRRA_FOOTER: '©Scirra Ltd 2019 | Donations: https://go.armaldio.xyz/donation',
+    SCIRRA_C3RELEASES_PREFIX: 'https://www.construct.net',
+  },
+  GITHUB: {
+    RAW_REPO_URL_PREFIX: 'https://raw.githubusercontent.com/Armaldio/alfred-botler/master',
   },
   ROLES: {
     ANY: '116497549237551109', // @everyone

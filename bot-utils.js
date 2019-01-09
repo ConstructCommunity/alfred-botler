@@ -1,13 +1,14 @@
 import cheerio from 'cheerio';
 import got from 'got';
-import firebase from 'firebase';
+import * as firebase from 'firebase';
 import CONSTANTS from './constants';
+import C3Update from './templates/Announcement_C3';
 
 const database = firebase.database();
 
 // const isDev = process.env.NODE_ENV === 'development';
 
-const truncate = (string, max) => (string.length > max ? `${string.substring(0, max)}...` : string);
+// const truncate = (string, max) => (string.length > max ? `${string.substring(0, max)}...` : string);
 
 export const hasPermissions = (client, permissions, msg) => {
   const hasRole = msg.member.roles
@@ -31,6 +32,7 @@ export const hasPermissions = (client, permissions, msg) => {
   return false;
 };
 
+/*
 export const checkBlogPosts = async () => {
   const options = {
     method: 'GET',
@@ -101,10 +103,10 @@ export const checkBlogPosts = async () => {
     });
   });
 };
+*/
+
+/*
 export const checkC2Updates = async () => {
-  /**
-   * C2 releases
-   */
   const options = {
     method: 'GET',
     url: 'https://www.scirra.com/construct2/releases',
@@ -167,64 +169,46 @@ export const checkC2Updates = async () => {
     });
   });
 };
-export const checkC3Updates = async () => {
+*/
+
+export const checkC3Updates = async (client) => {
   try {
-    const { body } = await got('https://www.construct.net/make-games/releases');
+    console.log('Checking C3 updates');
 
+    const { body } = await got('https://www.construct.net/en/make-games/releases');
     const $ = cheerio.load(body);
-    const $releases = $('.releases');
 
-    const newRel = $($releases).find('table > tbody > tr:nth-child(1) .hFont').attr('href')
-      .split('/')
-      .pop();
-    const branch = $($releases).find('table > tbody > tr:nth-child(1) > td:nth-child(2) > a').attr('href')
-      .split('/')
-      .pop();
-    const summary = $($releases).find('table > tbody > tr:nth-child(1) > td.l > a').text()
-      .trim();
+    const url = $('.allReleases ul li:first-child > a').attr('href');
 
-    database.ref('c3release').once('value').then((snapshot) => {
-      let rel;
-      if (snapshot.val() === undefined) {
-        rel = '-';
-      } else {
-        rel = snapshot.val();
-      }
-      // console.log('summary', summary);
-      if (rel !== newRel && newRel !== '') {
-        this.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
-          embed: {
-            description: `${summary}`,
-            color: 2683090,
-            footer: {
-              text: CONSTANTS.MESSAGE.SCIRRA_FOOTER,
-            },
-            thumbnail: {
-              url: 'https://cdn.discordapp.com/attachments/244447929400688650/328682485296922626/C3iconsmall.png',
-            },
-            author: {
-              name: truncate(`CONSTRUCT 3 ${branch.toUpperCase()} UPDATE (${newRel}) IS AVAILABLE!`, 255),
-              icon_url: 'https://cdn.discordapp.com/attachments/244447929400688650/328647581984882709/AlfredBotlerSmall.png',
-            },
-            fields: [
-              {
-                name: CONSTANTS.MESSAGE.SEPARATOR,
-                value: 'ᅠ',
-              },
-              {
-                name: 'View the complete changelog:',
-                value: `https://www.construct.net/make-games/releases/${branch.toLowerCase()}/${newRel.replace('.', '-')}`,
-              },
-            ],
-          },
-        });
+    const matches = url.match(/\/en\/make-games\/releases\/(.+)\/(.+)/);
 
-        database.ref('c3release').set(newRel);
-        console.info('Set c3 release');
-      }
-    });
+    const branch = matches[1];
+    const newVersion = matches[2];
+    const description = $('.allReleases ul li:first-child div.contentCol > div > p').text().trim();
+
+    const snapshot = await database.ref('c3release').once('value');
+    const lastRelease = snapshot.val();
+
+    if (lastRelease !== newVersion && newVersion !== '') {
+      console.log('New C3 release available');
+      client.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
+        embed: C3Update({
+          description,
+          version: newVersion,
+          link: url,
+          icon: branch === 'stable' ? 'C3Stableicon' : 'C3Betaicon',
+        }),
+      });
+
+      await database.ref('c3release').set(newVersion);
+
+      const snap = await database.ref('releases').once('value');
+      const listReleases = snap.val();
+      listReleases[newVersion] = branch;
+      await database.ref('releases').set(listReleases);
+    }
   } catch (error) {
-    console.log(error.response.body);
+    console.log(error);
     //= > 'Internal server error ...'
   }
 };
