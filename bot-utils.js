@@ -120,14 +120,12 @@ export const checkC2Updates = async (client) => {
 
     const summary = $('.releases-wrapper tr:nth-child(1) > td.leftcol > p').text().trim();
 
-    console.log(summary, newVersion, url);
-
     const snapshot = await database.ref('c2release').once('value');
     const lastRelease = snapshot.val();
 
     if (lastRelease !== newVersion && newVersion !== '') {
       console.log('New C2 release available');
-      client.channels.get(CONSTANTS.CHANNELS.PRIVATE_TESTS).send('@here', {
+      client.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send({
         embed: C2Update({
           description: summary,
           version: newVersion,
@@ -135,7 +133,7 @@ export const checkC2Updates = async (client) => {
         }),
       });
 
-      // await database.ref('c2release').set(newVersion);
+      await database.ref('c2release').set(newVersion);
     }
   } catch (error) {
     console.log(error);
@@ -163,7 +161,7 @@ export const checkC3Updates = async (client) => {
 
     if (lastRelease !== newVersion && newVersion !== '') {
       console.log('New C3 release available');
-      client.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
+      client.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send({
         embed: C3Update({
           description,
           version: newVersion,
