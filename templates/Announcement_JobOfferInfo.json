@@ -1,0 +1,28 @@
+{
+   "description": "Hello ###username###! We would like to inform you about an upcoming job offers update in the Construct Community.\n\nThis update requires your current offer(s) to be migrated over to our new system, below you will find all the instructions.",
+   "color": 16719647,
+   "footer": {
+      "text": "©Scirra Ltd 2019 | Donations: https://go.armaldio.xyz/donation"
+   },
+   "thumbnail": {
+      "url": "https://cdn.discordapp.com/attachments/244447929400688650/431836205164789765/movemessageicon.png"
+   },
+   "author": {
+      "name": "JOB OFFERS UPDATE - AN ACTION IS REQUIRED!",
+      "icon_url": "https://raw.githubusercontent.com/Armaldio/alfred-botler/master/assets/mini/AlfredBotlericon.png"
+   },
+   "fields": [
+      {
+         "name": "──────────────────────────────────",
+         "value": "ᅠ"
+      },
+	  {
+         "name": "How to migrate current offers into the new system:",
+         "value": "**1.** Go to the new job offers channel\n**2.** Post inside the new channel and receive a PM by *Alfred Botler*\n**3.** Fill out the job offer form with all the necessary information\n**4.** Confirm your job offer and finish the posting process\n**5.** Remove your old offer(s) inside the old job offers channel\n\n*Thanks for your time and for using our new system!*"
+      },
+	  {
+        "name": "ᅠ",
+        "value": "──────────────────────────────────"
+      }
+   ]
+}

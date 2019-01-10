@@ -1,0 +1,32 @@
+{
+   "description": "###short_description###",
+   "color": 11962861,
+   "footer": {
+      "text": "Create your own offers here: https://alfred.armaldio.xyz/hook/job."
+   },
+   "thumbnail": {
+      "url": "https://raw.githubusercontent.com/Armaldio/alfred-botler/master/assets/mini/JobOfferPaidicon.png"
+   },
+   "author": {
+      "name": "NEW OFFER BY ###USERNAME###",
+      "icon_url": "https://raw.githubusercontent.com/Armaldio/alfred-botler/master/assets/mini/AlfredBotlericon.png"
+   },
+   "fields": [
+      {
+         "name": "──────────────────────────────────",
+         "value": "ᅠ"
+      },
+	  {
+         "name": "Offer Conditions:",
+         "value": "- ###type###\n- ###payment###\n- ###paymentdetails###\n- ###contactinfo###\nᅠ"
+      },
+	  {
+         "name": "Offer Details:",
+         "value": "###fullcustomdesc###"
+      },
+	  {
+         "name": "ᅠ",
+         "value": "──────────────────────────────────"
+      }
+   ]
+}
