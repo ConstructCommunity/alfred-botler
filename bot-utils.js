@@ -2,8 +2,7 @@ import cheerio from 'cheerio';
 import got from 'got';
 import * as firebase from 'firebase';
 import CONSTANTS from './constants';
-import C3Update from './templates/Announcement_C3';
-import C2Update from './templates/Announcement_C2';
+import { C3Update, C2Update, Blog } from './templates';
 
 const database = firebase.database();
 
@@ -33,78 +32,54 @@ export const hasPermissions = (client, permissions, msg) => {
   return false;
 };
 
-/*
-export const checkBlogPosts = async () => {
-  const options = {
-    method: 'GET',
-    url: 'https://www.construct.net/blogs/posts',
-    headers: {
-      'postman-token': '1b97c5c0-e824-005d-ada1-feb10f276375',
-      'cache-control': 'no-cache',
-    },
-  };
+export const checkBlogPosts = async (client) => {
+  const scirraStaff = ['Laura_D', 'Ashley', 'Tom'];
 
-  got(options, (error, response, body) => {
-    if (error) {
-      throw new Error(error);
-    }
-
-    // console.info( body);
-    // console.info("Requested");
+  try {
+    const { body } = await got('https://www.construct.net/blogs/posts');
 
     const $ = cheerio.load(body);
-    const newTitle = $('form#form1 div:nth-child(3) > div:nth-child(1) > div > div.titleOuterWrap > div > div.right > a')
+    const common = $('form#form1 div:nth-child(3) > div:nth-child(1) > div > div');
+    const newTitle = common.find('.titleOuterWrap > div > div.right > a')
       .text().trim();
-    const author = $('form#form1 div:nth-child(3) > div:nth-child(1) > div > div.statWrap > div:nth-child(2) > div > div#Wrapper > ul > li.username > a')
-      .text();
-    const timeToRead = $('form#form1 div:nth-child(3) > div:nth-child(1) > div > div.statWrap > div:nth-child(1) > div > ul > li:nth-child(2)')
+    const author = common.find('.statWrap > div:nth-child(2) > div > div#Wrapper > ul > li.username > a')
+      .text().trim();
+    const timeToRead = common.find('.statWrap > div:nth-child(1) > div > ul > li:nth-child(2)')
       .text().replace(/<img(.*)>/, '').replace('read time', '')
       .trim();
-    const link = $('#form1 > div.bodyWrapper > div > div > div > div:nth-child(3) > div:nth-child(1) > div > div.titleOuterWrap > div > div.right > a')
-      .attr('href').trim().replace(/^(.*?)\/blogs/, 'https://www.construct.net/blogs');
+    const link = common.find('.titleOuterWrap > div > div.right > a')
+      .attr('href').trim()
+      .replace(/^(.*?)\/blogs/, 'https://www.construct.net/blogs');
+    const image = common.find('.statWrap > div:nth-child(2) > div > div#Wrapper > a > div > div > img:nth-child(3)')
+      .attr('data-src');
+
+    console.log(image);
 
     database.ref('blog').once('value').then((snapshot) => {
-      let title;
-      if (snapshot.val() === undefined) {
-        title = '-';
-      } else {
-        title = snapshot.val();
-      }
+      const title = snapshot.val();
+
       if (title !== newTitle && newTitle !== '') {
-        this.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
-          embed: {
-            description: `${newTitle}`,
-            color: 3593036,
-            footer: {
-              text: CONSTANTS.MESSAGE.SCIRRA_FOOTER,
-            },
-            thumbnail: {
-              url: 'https://cdn.discordapp.com/attachments/244447929400688650/328696208719740929/BLOGiconsmall.png',
-            },
-            author: {
-              name: `A NEW BLOG POST BY ${author.toUpperCase()} JUST WENT LIVE!`,
-              icon_url: 'https://cdn.discordapp.com/attachments/244447929400688650/328647581984882709/AlfredBotlerSmall.png',
-            },
-            fields: [
-              {
-                name: CONSTANTS.MESSAGE.SEPARATOR,
-                value: 'ᅠ',
-              },
-              {
-                name: `Read the new blog post (${timeToRead}):`,
-                value: `<${link}>`,
-              },
-            ],
-          },
+        client.channels.get(
+          scirraStaff.includes(author)
+            ? CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS
+            : CONSTANTS.CHANNELS.COMMUNITY_ANNOUNCEMENTS,
+        ).send({
+          embed: Blog({
+            title: newTitle,
+            author,
+            timeToRead,
+            link,
+            image,
+          }),
         });
 
         database.ref('blog').set(newTitle);
-        console.info('Set!');
       }
     });
-  });
+  } catch (e) {
+    console.error(e);
+  }
 };
-*/
 
 export const checkC2Updates = async (client) => {
   try {

@@ -1,16 +1,17 @@
 import CONSTANTS from '../constants';
 
 export default variables => ({
-  description: variables.description,
+  description: variables.title,
   color: 3593036,
   footer: {
     text: CONSTANTS.MESSAGE.SCIRRA_FOOTER,
   },
   thumbnail: {
-    url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/Blogicon.png`,
+    // url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/Blogicon.png`,
+    url: variables.image,
   },
   author: {
-    name: `NEW BLOG POST FROM ${variables.author} JUST WENT LIVE!`,
+    name: `NEW BLOG POST FROM ${variables.author.toUpperCase()} JUST WENT LIVE!`,
     icon_url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/AlfredBotlericon.png`,
   },
   fields: [

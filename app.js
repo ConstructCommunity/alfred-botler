@@ -1,6 +1,6 @@
 import { CommandoClient } from 'discord.js-commando';
 import path from 'path';
-import { checkC3Updates, checkC2Updates } from './bot-utils';
+import { checkC3Updates, checkC2Updates, checkBlogPosts } from './bot-utils';
 import CONSTANTS from './constants';
 
 // import Discord    from 'discord.js';
@@ -53,11 +53,14 @@ client
     console.log('Logged in!');
     updateStatus();
 
-    checkC3Updates(client);
+    // checkC3Updates(client);
     setInterval(() => checkC3Updates(client), 600000);
 
-    checkC2Updates(client);
+    // checkC2Updates(client);
     setInterval(() => checkC2Updates(client), 600000);
+
+    // checkBlogPosts(client);
+    setInterval(() => checkBlogPosts(client), 600000);
   })
   .on('presenceUpdate', () => {
     updateStatus(client);
