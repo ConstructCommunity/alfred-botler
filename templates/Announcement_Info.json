@@ -1,0 +1,44 @@
+{
+    "color": 11962861,
+    "author": {
+      "name": "WELCOME IN THE CONSTRUCT COMMUNITY!",
+      "icon_url": "https://raw.githubusercontent.com/Armaldio/alfred-botler/master/assets/mini/AlfredBotlericon.png"
+    },
+    "thumbnail": {
+      "url": "https://raw.githubusercontent.com/Armaldio/alfred-botler/master/assets/mini/Discordicon.png"
+      },
+    "title": "ᅠ",
+    "description": "Dedicated to the game development software **Construct**!\n(This server is __not official__ and run by community members!)",
+    "fields": [{
+        "name": "──────────────────────────────────",
+        "value": "ᅠ"
+      },
+      {
+        "name": "Our Server Rules:",
+        "value": "https://goo.gl/CdiBmK"
+      },
+      {
+        "name": "Our Invitation Link:",
+        "value": "https://discord.gg/dZDU7Re"
+      },
+      {
+        "name": "Alfred Botler's Commands:",
+        "value": "http://alfred.armaldio.xyz/doc"
+      },
+      {
+        "name": "ᅠ",
+        "value": "──────────────────────────────────"
+      },
+      {
+        "name": "Get Construct 3 Now:",
+        "value": "https://www.construct.net/"
+      },
+      {
+        "name": "Get Construct 2 Now:",
+        "value": "https://www.scirra.com/"
+      }
+    ],
+    "footer": {
+      "text": "©Scirra Ltd 2019 | Donations: https://go.armaldio.xyz/donation"
+    }
+  }
