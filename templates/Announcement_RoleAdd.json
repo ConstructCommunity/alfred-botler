@@ -1,0 +1,17 @@
+{
+   "description": "──────────────────────────────────",
+   "color": 15844367,
+   "thumbnail": {
+      "url": "https://raw.githubusercontent.com/Armaldio/alfred-botler/master/assets/mini/RoleDelicon.png"
+   },
+   "author": {
+      "name": "###role_name### ROLE HAS BEEN REMOVED!",
+      "icon_url": "https://raw.githubusercontent.com/Armaldio/alfred-botler/master/assets/mini/AlfredBotlericon.png"
+   },
+   "fields": [
+      {
+        "name": "Available Roles (https://lnk.armaldio.xyz/cc_roles):",
+        "value": "expert, dev, artist, gamedesigner, sounddesigner, multimediadev"
+      }
+    ]
+}
