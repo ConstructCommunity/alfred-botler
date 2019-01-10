@@ -20,7 +20,7 @@ export default variables => ({
     },
     {
       name: 'View the complete changelog:',
-      value: `${CONSTANTS.MESSAGE.SCIRRA_C3RELEASES_PREFIX}${variables.link}`,
+      value: variables.link,
     },
   ],
 });

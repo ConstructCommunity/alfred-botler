@@ -3,6 +3,7 @@ import got from 'got';
 import * as firebase from 'firebase';
 import CONSTANTS from './constants';
 import C3Update from './templates/Announcement_C3';
+import C2Update from './templates/Announcement_C2';
 
 const database = firebase.database();
 
@@ -105,71 +106,42 @@ export const checkBlogPosts = async () => {
 };
 */
 
-/*
-export const checkC2Updates = async () => {
-  const options = {
-    method: 'GET',
-    url: 'https://www.scirra.com/construct2/releases',
-  };
+export const checkC2Updates = async (client) => {
+  try {
+    console.log('Checking C2 updates');
 
-  got(options, (error, response, body) => {
-    if (error) {
-      throw new Error(error);
-    }
-
+    const { body } = await got('https://www.scirra.com/construct2/releases');
     const $ = cheerio.load(body);
 
-    const newRel = $('#Form1')
-      .find('div.content-wrap > div.inner-content-wrap > div.releases-wrapper > table > tbody > tr:nth-child(1) > td.leftcol > a')
-      .text().trim()
-      .replace('Construct 2 ', '');
-    const summary = $('#Form1')
-      .find('div.content-wrap > div.inner-content-wrap > div.releases-wrapper > table > tbody > tr:nth-child(1) > td.leftcol > p')
-      .text().trim();
+    const url = $('.leftcol:first-child a').attr('href');
 
-    database.ref('c2release').once('value').then((snapshot) => {
-      let rel;
-      if (snapshot.val() === undefined) {
-        rel = '-';
-      } else {
-        rel = snapshot.val();
-      }
-      // console.info('Database : \'' + rel + '\' vs Online : \'' + newRel + '\'');
-      if (rel !== newRel && newRel !== '') {
-        this.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
-          embed: {
-            description: `${summary}`,
-            color: 16316662,
-            footer: {
-              text: CONSTANTS.MESSAGE.SCIRRA_FOOTER,
-            },
-            thumbnail: {
-              url: 'https://cdn.discordapp.com/attachments/244447929400688650/328688092963930112/C2iconsmall.png',
-            },
-            author: {
-              name: truncate(`CONSTRUCT 2 UPDATE (${newRel}) IS AVAILABLE!`, 255),
-              icon_url: 'https://cdn.discordapp.com/attachments/244447929400688650/328647581984882709/AlfredBotlerSmall.png',
-            },
-            fields: [
-              {
-                name: CONSTANTS.MESSAGE.SEPARATOR,
-                value: 'ᅠ',
-              },
-              {
-                name: 'View the complete changelog:',
-                value: `https://www.scirra.com/construct2/releases/${newRel.toLowerCase()}`,
-              },
-            ],
-          },
-        });
+    const matches = url.match(/https:\/\/www\.scirra\.com\/construct2\/releases\/(.+)/);
+    const newVersion = matches[1];
 
-        database.ref('c2release').set(newRel);
-        console.info('Set!');
-      }
-    });
-  });
+    const summary = $('.releases-wrapper tr:nth-child(1) > td.leftcol > p').text().trim();
+
+    console.log(summary, newVersion, url);
+
+    const snapshot = await database.ref('c2release').once('value');
+    const lastRelease = snapshot.val();
+
+    if (lastRelease !== newVersion && newVersion !== '') {
+      console.log('New C2 release available');
+      client.channels.get(CONSTANTS.CHANNELS.PRIVATE_TESTS).send('@here', {
+        embed: C2Update({
+          description: summary,
+          version: newVersion,
+          link: url,
+        }),
+      });
+
+      // await database.ref('c2release').set(newVersion);
+    }
+  } catch (error) {
+    console.log(error);
+    //= > 'Internal server error ...'
+  }
 };
-*/
 
 export const checkC3Updates = async (client) => {
   try {

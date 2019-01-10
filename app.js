@@ -1,13 +1,13 @@
 import { CommandoClient } from 'discord.js-commando';
 import path from 'path';
-import { checkC3Updates } from './bot-utils';
+import { checkC3Updates, checkC2Updates } from './bot-utils';
 import CONSTANTS from './constants';
 
 // import Discord    from 'discord.js';
 // import {RateLimiter} from 'limiter';
 // import prettyms   from 'pretty-ms';
 
-const isDev = process.env.NODE_ENV === 'development';
+// const isDev = process.env.NODE_ENV === 'development';
 
 const client = new CommandoClient({
   commandPrefix: '!',
@@ -56,9 +56,8 @@ client
     checkC3Updates(client);
     setInterval(() => checkC3Updates(client), 600000);
 
-    // bot.checkBlogsAndUpdates();
-    // bot.updateMessage();
-    // bot.checkNewPlugins();
+    checkC2Updates(client);
+    setInterval(() => checkC2Updates(client), 600000);
   })
   .on('presenceUpdate', () => {
     updateStatus(client);
