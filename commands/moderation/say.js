@@ -8,7 +8,7 @@ import { Command } from 'discord.js-commando';
 import { hasPermissions } from '../../bot-utils';
 import CONSTANTS from '../../constants';
 
-module.exports = class say extends Command {
+export default class say extends Command {
   constructor(client) {
     super(client, {
       name: 'say',
@@ -82,4 +82,4 @@ module.exports = class say extends Command {
     // No attachments
     else */
   }
-};
+}

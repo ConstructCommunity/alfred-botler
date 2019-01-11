@@ -2,7 +2,7 @@ import cheerio from 'cheerio';
 import got from 'got';
 import * as firebase from 'firebase';
 import CONSTANTS from './constants';
-import { C3Update, C2Update, Blog } from './templates';
+import { Blog, C3Update, C2Update } from './class-templates';
 
 const database = firebase.database();
 
@@ -63,14 +63,14 @@ export const checkBlogPosts = async (client) => {
           scirraStaff.includes(author)
             ? CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS
             : CONSTANTS.CHANNELS.COMMUNITY_ANNOUNCEMENTS,
-        ).send({
-          embed: Blog({
+        ).send('@here', {
+          embed: new Blog({
             title: newTitle,
             author,
             timeToRead,
             link,
             image,
-          }),
+          }).toEmbed(),
         });
 
         database.ref('blog').set(newTitle);
@@ -100,12 +100,12 @@ export const checkC2Updates = async (client) => {
 
     if (lastRelease !== newVersion && newVersion !== '') {
       console.log('New C2 release available');
-      client.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send({
-        embed: C2Update({
+      client.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
+        embed: new C2Update({
           description: summary,
           version: newVersion,
           link: url,
-        }),
+        }).toEmbed(),
       });
 
       await database.ref('c2release').set(newVersion);
@@ -136,13 +136,13 @@ export const checkC3Updates = async (client) => {
 
     if (lastRelease !== newVersion && newVersion !== '') {
       console.log('New C3 release available');
-      client.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send({
-        embed: C3Update({
+      client.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
+        embed: new C3Update({
           description,
           version: newVersion,
           link: url,
           icon: branch === 'stable' ? 'C3Stableicon' : 'C3Betaicon',
-        }),
+        }).toEmbed(),
       });
 
       await database.ref('c3release').set(newVersion);

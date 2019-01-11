@@ -3,16 +3,12 @@ import path from 'path';
 import { checkC3Updates, checkC2Updates, checkBlogPosts } from './bot-utils';
 import CONSTANTS from './constants';
 
-// import Discord    from 'discord.js';
-// import {RateLimiter} from 'limiter';
-// import prettyms   from 'pretty-ms';
-
-// const isDev = process.env.NODE_ENV === 'development';
+const isDev = process.env.NODE_ENV === 'development';
 
 const client = new CommandoClient({
   commandPrefix: '!',
   owner: CONSTANTS.OWNER,
-  disableEveryone: true,
+  disableEveryone: false,
   unknownCommandResponse: false,
 });
 
@@ -53,14 +49,16 @@ client
     console.log('Logged in!');
     updateStatus();
 
-    // checkC3Updates(client);
-    setInterval(() => checkC3Updates(client), 600000);
+    if (!isDev) {
+      // checkC3Updates(client);
+      setInterval(() => checkC3Updates(client), 600000);
 
-    // checkC2Updates(client);
-    setInterval(() => checkC2Updates(client), 600000);
+      // checkC2Updates(client);
+      setInterval(() => checkC2Updates(client), 600000);
 
-    // checkBlogPosts(client);
-    setInterval(() => checkBlogPosts(client), 600000);
+      // checkBlogPosts(client);
+      setInterval(() => checkBlogPosts(client), 600000);
+    }
   })
   .on('presenceUpdate', () => {
     updateStatus(client);

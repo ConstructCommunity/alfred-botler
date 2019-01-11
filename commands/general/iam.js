@@ -3,7 +3,7 @@
  */
 
 import { Command } from 'discord.js-commando';
-import { RoleToggle, RoleHelp } from '../../templates';
+import { RoleToggle, RoleHelp } from '../../class-templates';
 import CONSTANTS from '../../constants';
 import { hasPermissions } from '../../bot-utils';
 
@@ -65,9 +65,9 @@ export default class iam extends Command {
     if (typeof roles[role] === 'undefined') {
       await msg.reply('Sorry, this role is invalid');
       await msg.channel.send({
-        embed: RoleHelp({
+        embed: new RoleHelp({
           roles,
-        }),
+        }).toEmbed(),
       });
       return;
     }
@@ -86,12 +86,12 @@ export default class iam extends Command {
     }
 
     await msg.channel.send({
-      embed: RoleToggle({
+      embed: new RoleToggle({
         icon,
         toggleText,
         roleName: role.toUpperCase(),
         roles,
-      }),
+      }).toEmbed(),
     });
   }
 }
