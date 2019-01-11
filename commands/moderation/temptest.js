@@ -12,7 +12,7 @@ import * as templates from '../../class-templates';
 export default class temptest extends Command {
   constructor(client) {
     super(client, {
-      name: 'temptestdev',
+      name: 'temptest',
       group: 'moderation',
       memberName: 'temptest',
       description: 'Output a predefined template inside current channel as Alfred',
