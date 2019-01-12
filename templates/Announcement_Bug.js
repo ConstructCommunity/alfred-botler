@@ -1,7 +1,7 @@
 import CONSTANTS from '../constants';
 import Template from './Template';
 
-export default class Blog extends Template {
+export default class Bug extends Template {
   constructor() {
     super('bug', {}, {});
   }

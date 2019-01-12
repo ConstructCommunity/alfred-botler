@@ -7,7 +7,7 @@ import { Command } from 'discord.js-commando';
 import { hasPermissions } from '../../bot-utils';
 import CONSTANTS from '../../constants';
 
-import * as templates from '../../class-templates';
+import * as templates from '../../templates';
 
 export default class temptest extends Command {
   constructor(client) {

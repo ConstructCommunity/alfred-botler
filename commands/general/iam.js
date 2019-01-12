@@ -3,7 +3,7 @@
  */
 
 import { Command } from 'discord.js-commando';
-import { RoleToggle, RoleHelp } from '../../class-templates';
+import { RoleToggle, RoleHelp } from '../../templates';
 import CONSTANTS from '../../constants';
 import { hasPermissions } from '../../bot-utils';
 

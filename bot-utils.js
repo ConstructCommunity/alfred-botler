@@ -2,7 +2,7 @@ import cheerio from 'cheerio';
 import got from 'got';
 import * as firebase from 'firebase';
 import CONSTANTS from './constants';
-import { Blog, C3Update, C2Update } from './class-templates';
+import { Blog, C3Update, C2Update } from './templates';
 
 const database = firebase.database();
 

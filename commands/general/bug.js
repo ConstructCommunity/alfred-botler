@@ -3,7 +3,7 @@
  */
 
 import { Command } from 'discord.js-commando';
-import { Bug } from '../../class-templates';
+import { Bug } from '../../templates';
 import CONSTANTS from '../../constants';
 import { hasPermissions } from '../../bot-utils';
 

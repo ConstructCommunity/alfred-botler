@@ -2,11 +2,12 @@ import CONSTANTS from '../constants';
 
 import Template from './Template';
 
-export default class Blog extends Template {
+export default class C3Update extends Template {
   constructor(variables) {
-    super('c2-update', variables, {
+    super('c3-update', variables, {
       description: 'DESCRIPTION',
       version: 'r120',
+      icon: 'C3Stableicon',
       link: 'https://',
     });
   }
@@ -14,16 +15,16 @@ export default class Blog extends Template {
   toEmbed() {
     return {
       description: this.variables.description,
-      color: 16316662,
+      color: 2683090,
       footer: {
         text: CONSTANTS.MESSAGE.SCIRRA_FOOTER,
       },
       thumbnail: {
-        url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/C2icon.png`,
+        url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/C3icon.png`,
       },
       author: {
-        name: `CONSTRUCT 2 UPDATE (${this.variables.version}) IS AVAILABLE!`,
-        icon_url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/AlfredBotlericon.png`,
+        name: `CONSTRUCT 3 UPDATE (${this.variables.version}) IS AVAILABLE!`,
+        icon_url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/${this.variables.icon}.png`,
       },
       fields: [
         {
@@ -32,7 +33,7 @@ export default class Blog extends Template {
         },
         {
           name: 'View the complete changelog:',
-          value: this.variables.link,
+          value: `${CONSTANTS.MESSAGE.SCIRRA_C3RELEASES_PREFIX}${this.variables.link}`,
         },
       ],
     };
