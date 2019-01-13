@@ -58,12 +58,14 @@ export const checkBlogPosts = async (client) => {
     database.ref('blog').once('value').then((snapshot) => {
       const title = snapshot.val();
 
+      const isScirra = scirraStaff.includes(author);
+
       if (title !== newTitle && newTitle !== '') {
         client.channels.get(
-          scirraStaff.includes(author)
+          isScirra
             ? CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS
             : CONSTANTS.CHANNELS.COMMUNITY_ANNOUNCEMENTS,
-        ).send('@here', {
+        ).send(isScirra ? '@here' : '', {
           embed: new Blog({
             title: newTitle,
             author,

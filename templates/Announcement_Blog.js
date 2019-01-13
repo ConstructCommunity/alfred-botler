@@ -32,7 +32,7 @@ export default class Blog extends Template {
           value: CONSTANTS.MESSAGE.EMPTY,
         },
         {
-          name: `Read the new blog post (${this.variables.timeToRead} mins):`,
+          name: `Read the new blog post (${this.variables.timeToRead}):`,
           value: this.variables.link,
         },
       ],
