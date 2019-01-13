@@ -1,0 +1,24 @@
+{
+   "description": "DESCRIPTION_HERE",
+   "color": 11962861,
+   "footer": {
+      "text": "©Scirra Ltd 2019 | Donations: https://go.armaldio.xyz/donation"
+   },
+   "thumbnail": {
+      "url": "https://raw.githubusercontent.com/Armaldio/alfred-botler/master/assets/mini/Infoicon.png"
+   },
+   "author": {
+      "name": "TITLE_HERE",
+      "icon_url": "https://raw.githubusercontent.com/Armaldio/alfred-botler/master/assets/mini/AlfredBotlericon.png"
+   },
+   "fields": [
+      {
+         "name": "----------------------------------",
+         "value": "ᅠ"
+      },
+	  {
+         "name": "EXAMPLEFIELDHEADER_HERE",
+         "value": "EXAMPLEFIELDBODY_HERE"
+      }
+   ]
+}

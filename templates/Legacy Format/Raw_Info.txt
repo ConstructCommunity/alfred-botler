@@ -1,0 +1,12 @@
+Workflow:
+1. Use raw template for editing and preview (!say #upload)
+2. Use colorcoding based on use case
+3. Convert raw template into final one (!temptest #name#)
+
+
+Colorcoding:
+- Purple "11962861" = Default; Automated Announcement
+- Yellow "15844367" = Interactive; User Modifications
+- Cian "2683090" = Construct 3 Content; Scirra Modern
+- L. Green "16316662" = Construct 2 Content; Scirra Legacy
+- Green "3593036" = Unique Color; Automated Cases
