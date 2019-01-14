@@ -1,0 +1,24 @@
+{
+   "description": "Some messages have been moved based on the channel theme.",
+   "color": 11962861,
+   "footer": {
+      "text": "©Scirra Ltd 2019 | Donations: https://go.armaldio.xyz/donation"
+   },
+   "thumbnail": {
+      "url": "https://raw.githubusercontent.com/Armaldio/alfred-botler/master/assets/mini/MoveMsgicon.png"
+   },
+   "author": {
+      "name": "MESSAGES MOVED FROM ###channel_name###",
+      "icon_url": "https://raw.githubusercontent.com/Armaldio/alfred-botler/master/assets/mini/AlfredBotlericon.png"
+   },
+   "fields": [
+      {
+         "name": "──────────────────────────────────",
+         "value": "ᅠ"
+      },
+	  {
+         "name": "Moved messages:",
+         "value": "**###user_name###:** ###usermessage###\n**###user_name###:** ###usermessage###\n**###user_name###:** ###usermessage###"
+      }
+   ]
+}
