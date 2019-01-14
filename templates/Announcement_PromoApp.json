@@ -1,0 +1,21 @@
+{
+   "description": "Your content is pending for approval and will be available soon.",
+   "color": 15844367,
+   "thumbnail": {
+      "url": "https://raw.githubusercontent.com/Armaldio/alfred-botler/master/assets/mini/Watchericon.png"
+   },
+   "author": {
+      "name": "PROMOTION PENDING APPROVAL!",
+      "icon_url": "https://raw.githubusercontent.com/Armaldio/alfred-botler/master/assets/mini/AlfredBotlericon.png"
+   },
+   "fields": [
+      {
+         "name": "──────────────────────────────────",
+         "value": "ᅠ"
+      },
+	  {
+         "name": "Why the addional approval process?",
+         "value": "This process ensures that no malicious content is being published. Your content will be up and available after the process is done."
+      }
+   ]
+}

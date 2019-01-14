@@ -1,0 +1,21 @@
+{
+   "description": "Your content has been rejected and will not be published.",
+   "color": 16711680,
+   "thumbnail": {
+      "url": "https://raw.githubusercontent.com/Armaldio/alfred-botler/master/assets/mini/Watchericon.png"
+   },
+   "author": {
+      "name": "PROMOTION REJECTED!",
+      "icon_url": "https://raw.githubusercontent.com/Armaldio/alfred-botler/master/assets/mini/AlfredBotlericon.png"
+   },
+   "fields": [
+      {
+         "name": "──────────────────────────────────",
+         "value": "ᅠ"
+      },
+	  {
+         "name": "What are my options?",
+         "value": "Your content most-likly breaks one or more of our channel rules. If you think that it doesn't, use '!appeal' in order to request support"
+      }
+   ]
+}
