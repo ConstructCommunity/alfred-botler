@@ -1,0 +1,24 @@
+{
+   "description": "This is a generated message by the CC Staff.\nPlease do the things mentioned below!",
+   "color": 16711680,
+   "footer": {
+      "text": "► Press 'OK' to confirm the action has been performed."
+   },
+   "thumbnail": {
+      "url": "https://raw.githubusercontent.com/Armaldio/alfred-botler/master/assets/mini/Negativeicon.png"
+   },
+   "author": {
+      "name": "AN ACTION IS REQUIRED!",
+      "icon_url": "https://raw.githubusercontent.com/Armaldio/alfred-botler/master/assets/mini/AlfredBotlericon.png"
+   },
+   "fields": [
+      {
+         "name": "──────────────────────────────────",
+         "value": "ᅠ"
+      },
+	  {
+         "name": "###Action_Headline###",
+         "value": "###Action_Reason###"
+      }
+   ]
+}
