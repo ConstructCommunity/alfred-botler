@@ -1,11 +1,11 @@
 import socketio from 'socket.io';
-import http from 'http';
+import https from 'https';
 import CONSTANTS from './constants';
 
 const handler = () => {
   console.log('Server running');
 };
-const app = http.createServer(handler);
+const app = https.createServer(handler);
 const io = socketio(app);
 app.listen(4545);
 
