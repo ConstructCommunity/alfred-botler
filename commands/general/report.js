@@ -44,7 +44,7 @@ export default class report extends Command {
       });
     }
 
-    await msg.guild.channels.get(CONSTANTS.CHANNELS.PRIVATE_TESTS)
+    await msg.guild.channels.get(CONSTANTS.CHANNELS.MODERATORS)
       .send(`**${msg.author.username}** need a review inside **<#${msg.channel.id}>**\n<@&${CONSTANTS.ROLES.STAFF}> A manual review is required!`, {
         embed: {
           description: CONSTANTS.MESSAGE.EMPTY,
