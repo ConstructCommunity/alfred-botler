@@ -7,15 +7,16 @@ import CONSTANTS from './constants';
 const isDev = process.env.NODE_ENV !== 'production';
 
 const options = {
-  key: fs.readFileSync('~/certs/private.pem'),
-  cert: fs.readFileSync('~/certs/origin.pem'),
+  key: fs.readFileSync('./certs/private.pem'),
+  cert: fs.readFileSync('./certs/origin.pem'),
 };
 
 const handler = (req, res) => {
   console.log('Server running');
 
-  res.writeHead(200);
-  res.end('hello world\n');
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.write('Hello World!');
+  res.end();
 };
 
 const app = isDev ? http.createServer(handler) : https.createServer(options, handler);
