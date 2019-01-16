@@ -11,5 +11,7 @@ export { default as JobOfferCommunity } from './Announcement_JobOfferCommunity';
 export { default as JobOfferInfo } from './Announcement_JobOfferInfo';
 export { default as JobOfferMain } from './Announcement_JobOfferMain';
 
-export { default as RoleToggle } from './Announcement_RoleToggle';
+export { default as Promo } from './Announcement_Promo';
+
 export { default as RoleHelp } from './Announcement_RoleHelp';
+export { default as RoleToggle } from './Announcement_RoleToggle';

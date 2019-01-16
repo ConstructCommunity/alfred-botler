@@ -2,8 +2,10 @@ import { CommandoClient } from 'discord.js-commando';
 import path from 'path';
 import { checkC3Updates, checkC2Updates, checkBlogPosts } from './bot-utils';
 import CONSTANTS from './constants';
+import Socket from './socket';
 
 const isDev = process.env.NODE_ENV === 'development';
+let socket = null;
 
 const client = new CommandoClient({
   commandPrefix: '!',
@@ -37,6 +39,8 @@ const updateStatus = () => {
   client.user.setActivity(`${users} users`, {
     type: 'WATCHING',
   });
+
+  // socket.updateUsers();
 };
 
 /* const isOnline = (id) => {
@@ -44,9 +48,14 @@ const updateStatus = () => {
   return (user.presence.status !== 'offline');
 }; */
 
+
 client
-  .on('ready', () => {
+  .on('ready', async () => {
     console.log('Logged in!');
+
+    const sock = new Socket(client);
+    socket = await sock.connect();
+
     updateStatus();
 
     if (!isDev) {
