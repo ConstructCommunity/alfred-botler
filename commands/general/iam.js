@@ -63,7 +63,6 @@ export default class iam extends Command {
     if (found) return;
 
     if (typeof roles[role] === 'undefined') {
-      await msg.reply('Sorry, this role is invalid');
       await msg.channel.send({
         embed: new RoleHelp({
           roles,
