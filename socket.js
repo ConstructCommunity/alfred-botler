@@ -22,7 +22,7 @@ const handler = (req, res) => {
 const app = isDev ? http.createServer(handler) : https.createServer(options, handler);
 
 const io = socketio(app);
-app.listen(4545);
+app.listen(2053);
 
 export default class {
   constructor(client) {
