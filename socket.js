@@ -7,7 +7,7 @@ import CONSTANTS from './constants';
 const isDev = process.env.NODE_ENV !== 'production';
 
 const options = {
-  key: fs.readFileSync('./certs/private.pem'),
+  key: fs.readFileSync('./certs/private.key'),
   cert: fs.readFileSync('./certs/origin.pem'),
 };
 
