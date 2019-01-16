@@ -1,9 +1,15 @@
 import socketio from 'socket.io';
 import https from 'https';
 import http from 'http';
+import fs from 'fs';
 import CONSTANTS from './constants';
 
 const isDev = process.env.NODE_ENV !== 'production';
+
+const options = {
+  key: fs.readFileSync('~/certs/private.pem'),
+  cert: fs.readFileSync('~/certs/origin.pem'),
+};
 
 const handler = (req, res) => {
   console.log('Server running');
@@ -12,7 +18,7 @@ const handler = (req, res) => {
   res.end('hello world\n');
 };
 
-const app = isDev ? http.createServer(handler) : https.createServer(handler);
+const app = isDev ? http.createServer(handler) : https.createServer(options, handler);
 
 const io = socketio(app);
 app.listen(4545);
