@@ -14,7 +14,7 @@ export default class RoleToggle extends Template {
     });
   }
 
-  toEmbed() {
+  embed() {
     return {
       description: CONSTANTS.MESSAGE.SEPARATOR,
       color: 15844367,

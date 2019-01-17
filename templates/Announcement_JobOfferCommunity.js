@@ -7,7 +7,7 @@ export default class JobOfferCommunity extends Template {
   }
 
   // eslint-disable-next-line
-  toEmbed() {
+  embed() {
     return {
       description: 'To further encourage developers to post their job offers, we\'ve created a new system that makes things easier than ever before!',
       color: 11962861,

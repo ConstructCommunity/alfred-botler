@@ -12,7 +12,7 @@ export default class notice extends Command {
     super(client, {
       name: 'bug',
       memberName: 'bug',
-      group: 'general',
+      group: 'everyone',
       description: 'Show the notice to the user',
       examples: ['bug'],
     });
@@ -30,7 +30,7 @@ export default class notice extends Command {
   async run(msg) {
     try {
       await msg.channel.send({
-        embed: new Bug().toEmbed(),
+        embed: new Bug().embed(),
       });
     } catch (e) {
       console.error(e);

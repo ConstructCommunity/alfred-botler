@@ -10,7 +10,7 @@ export default class report extends Command {
   constructor(client) {
     super(client, {
       name: 'report',
-      group: 'general',
+      group: 'everyone',
       description: 'Anonymously report an individual to the CCStaff for breaking a rule.',
       examples: ['report'],
       memberName: 'report',

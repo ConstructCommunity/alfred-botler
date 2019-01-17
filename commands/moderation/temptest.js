@@ -47,7 +47,7 @@ export default class temptest extends Command {
 
     if (foundTemplate) {
       await msg.channel.send({
-        embed: foundTemplate.toEmbed(),
+        embed: foundTemplate.embed(),
       });
     } else {
       await msg.reply(`Cannot find this template. Use one of: ${myTemplates.map(t => t.name).join(', ')}`);

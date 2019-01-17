@@ -7,7 +7,7 @@ export default class Info extends Template {
   }
 
   // eslint-disable-next-line
-  toEmbed() {
+  embed() {
     return {
       color: 11962861,
       author: {

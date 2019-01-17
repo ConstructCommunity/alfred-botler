@@ -20,7 +20,7 @@ export default class iam extends Command {
   constructor(client) {
     super(client, {
       name: 'iam',
-      group: 'general',
+      group: 'everyone',
       memberName: 'iam',
       description: 'Add or remove a user from a role\nFor more infos, check https://lnk.armaldio.xyz/cc_roles',
       examples: ['iam dev', 'iam artist'],
@@ -66,7 +66,7 @@ export default class iam extends Command {
       await msg.channel.send({
         embed: new RoleHelp({
           roles,
-        }).toEmbed(),
+        }).embed(),
       });
       return;
     }
@@ -90,7 +90,7 @@ export default class iam extends Command {
         toggleText,
         roleName: role.toUpperCase(),
         roles,
-      }).toEmbed(),
+      }).embed(),
     });
   }
 }

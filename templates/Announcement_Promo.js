@@ -10,7 +10,7 @@ export default class Promo extends Template {
     });
   }
 
-  toEmbed() {
+  embed() {
     return {
       title: `NEW PROMOTION FROM ${this.variables.author.toUpperCase()}`,
       description: this.variables.message,

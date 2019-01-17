@@ -12,7 +12,7 @@ export default class RoleHelp extends Template {
     });
   }
 
-  toEmbed() {
+  embed() {
     return {
       description: CONSTANTS.MESSAGE.SEPARATOR,
       color: 11962861,

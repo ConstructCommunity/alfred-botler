@@ -72,7 +72,7 @@ export const checkBlogPosts = async (client) => {
             timeToRead,
             link,
             image,
-          }).toEmbed(),
+          }).embed(),
         });
 
         database.ref('blog').set(newTitle);
@@ -107,7 +107,7 @@ export const checkC2Updates = async (client) => {
           description: summary,
           version: newVersion,
           link: url,
-        }).toEmbed(),
+        }).embed(),
       });
 
       await database.ref('c2release').set(newVersion);
@@ -144,7 +144,7 @@ export const checkC3Updates = async (client) => {
           version: newVersion,
           link: url,
           icon: branch === 'stable' ? 'C3Stableicon' : 'C3Betaicon',
-        }).toEmbed(),
+        }).embed(),
       });
 
       await database.ref('c3release').set(newVersion);

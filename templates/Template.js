@@ -4,8 +4,8 @@ class Template {
     this.variables = Object.assign({}, defaultValues, variables);
   }
 
-  toEmbed() {
-    throw new Error(`Template ${this.name} doesn't have 'toEmbed' function!`);
+  embed() {
+    throw new Error(`Template ${this.name} doesn't have 'embed' function!`);
   }
 }
 

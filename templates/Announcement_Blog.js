@@ -11,7 +11,7 @@ export default class Blog extends Template {
     });
   }
 
-  toEmbed() {
+  embed() {
     return {
       description: this.variables.title,
       color: 3593036,

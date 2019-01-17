@@ -5,7 +5,7 @@ import CONSTANTS from './constants';
 import Socket from './socket';
 
 const isDev = process.env.NODE_ENV === 'development';
-let socket = null;
+// let socket = null;
 
 const client = new CommandoClient({
   commandPrefix: '!',
@@ -17,12 +17,19 @@ const client = new CommandoClient({
 client.registry
   .registerDefaultTypes()
   .registerGroups([
-    ['general', 'Commands available to everyone'],
+    ['test', 'Commands available only for testing'],
+    ['everyone', 'Commands available to everyone'],
     ['moderation', 'Commands available only to our staff members'],
   ])
   .registerDefaultGroups()
-  .registerDefaultCommands()
-  .registerCommandsIn(path.join(__dirname, 'commands'));
+  .registerDefaultCommands();
+
+if (isDev) {
+  client.registry.registerCommandsIn(path.join(__dirname, 'commands', 'test'));
+} else {
+  client.registry.registerCommandsIn(path.join(__dirname, 'commands', 'everyone'));
+  client.registry.registerCommandsIn(path.join(__dirname, 'commands', 'moderation'));
+}
 
 const getConnectedUsers = () => {
   const guild = client.guilds.get(CONSTANTS.GUILD_ID);
@@ -39,8 +46,6 @@ const updateStatus = () => {
   client.user.setActivity(`${users} users`, {
     type: 'WATCHING',
   });
-
-  // socket.updateUsers();
 };
 
 /* const isOnline = (id) => {
@@ -48,13 +53,12 @@ const updateStatus = () => {
   return (user.presence.status !== 'offline');
 }; */
 
-
 client
   .on('ready', async () => {
     console.log('Logged in!');
 
     const sock = new Socket(client);
-    socket = await sock.connect();
+    await sock.connect();
 
     updateStatus();
 
@@ -73,7 +77,7 @@ client
     updateStatus(client);
   })
   .on('unknownCommand', (message) => {
-    message.reply('Alfred is currently in maintenance mode. Full features may not be available currently.');
+    if (!isDev) message.reply('Alfred is currently in maintenance mode. Full features may not be available currently.');
   })
   .on('message', async (message) => {
     // Send sms to me when mentionning and not online

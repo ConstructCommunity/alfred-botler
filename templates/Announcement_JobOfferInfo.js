@@ -8,7 +8,7 @@ export default class JobOfferInfo extends Template {
     });
   }
 
-  toEmbed() {
+  embed() {
     return {
       description: `Hello ${this.variables.username}! We would like to inform you about an upcoming job offers update in the Construct Community.
 

@@ -7,7 +7,7 @@ export default class Bug extends Template {
   }
 
   // eslint-disable-next-line
-  toEmbed() {
+  embed() {
     return {
       description: 'Found something weird, perhaps a sneaky bug? Would you like to suggest something? Please check out the links below!',
       color: 11962861,

@@ -11,7 +11,7 @@ export default class C2Update extends Template {
     });
   }
 
-  toEmbed() {
+  embed() {
     return {
       description: this.variables.description,
       color: 16316662,

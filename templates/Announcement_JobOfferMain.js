@@ -14,7 +14,7 @@ export default class JobOfferMain extends Template {
     });
   }
 
-  toEmbed() {
+  embed() {
     return {
       description: this.variables.description,
       color: 11962861,

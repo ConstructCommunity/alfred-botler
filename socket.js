@@ -15,7 +15,7 @@ const handler = (req, res) => {
   console.log(`Server running in ${isDev ? 'development' : 'production'}`);
 
   res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.write('Hello World!');
+  res.write('OK');
   res.end();
 };
 

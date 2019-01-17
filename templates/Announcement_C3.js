@@ -12,7 +12,7 @@ export default class C3Update extends Template {
     });
   }
 
-  toEmbed() {
+  embed() {
     return {
       description: this.variables.description,
       color: 2683090,

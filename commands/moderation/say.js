@@ -51,7 +51,7 @@ export default class say extends Command {
           json = JSON.parse(body);
         } catch (e) {
           console.log(e);
-          await msg.author.send('Sorry, there was an error with the JSON of your file');
+          await msg.channel.send('Sorry, there was an error with the JSON of your file');
           await msg.delete();
           return;
         }
@@ -68,7 +68,7 @@ export default class say extends Command {
         await msg.delete();
       } catch (e) {
         console.log(e);
-        await msg.author.send('Sorry, there was an error with the embed file');
+        await msg.channel.send('Sorry, there was an error with the embed file');
         await msg.delete();
       }
     } else if (msg.attachments.array().length <= 0) {
