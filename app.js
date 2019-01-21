@@ -77,7 +77,7 @@ client
     updateStatus(client);
   })
   .on('unknownCommand', (message) => {
-    if (!isDev) message.reply('Alfred is currently in maintenance mode. Full features may not be available currently.');
+    if (!isDev && message.channel.id !== CONSTANTS.CHANNELS.PRIVATE_TESTS) message.reply('Alfred is currently in maintenance mode. Full features may not be available currently.');
   })
   .on('message', async (message) => {
     // Send sms to me when mentionning and not online
