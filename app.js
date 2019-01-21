@@ -1,6 +1,8 @@
 import { CommandoClient } from 'discord.js-commando';
 import path from 'path';
-import { checkC3Updates, checkC2Updates, checkBlogPosts } from './bot-utils';
+import {
+  checkC3Updates, checkC2Updates, checkBlogPosts, checkMessageForSafety,
+} from './bot-utils';
 import CONSTANTS from './constants';
 import Socket from './socket';
 
@@ -58,7 +60,7 @@ client
     console.log('Logged in!');
 
     const sock = new Socket(client);
-    await sock.connect();
+    sock.connect();
 
     updateStatus();
 
@@ -111,6 +113,8 @@ client
       console.log(err);
     }
     */
+
+    checkMessageForSafety(message);
 
     try {
       if (

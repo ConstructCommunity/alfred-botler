@@ -24,6 +24,7 @@
     "firebase": "^5.7.2",
     "got": "^9.5.0",
     "is-reachable": "^2.4.0",
+    "moment": "^2.23.0",
     "socket.io": "^2.2.0"
   },
   "devDependencies": {

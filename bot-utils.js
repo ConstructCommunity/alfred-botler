@@ -1,14 +1,48 @@
 import cheerio from 'cheerio';
 import got from 'got';
+import Discord from 'discord.js';
 import * as firebase from 'firebase';
 import CONSTANTS from './constants';
 import { Blog, C3Update, C2Update } from './templates';
+import moment from 'moment';
 
 const database = firebase.database();
 
 // const isDev = process.env.NODE_ENV === 'development';
 
 // const truncate = (string, max) => (string.length > max ? `${string.substring(0, max)}...` : string);
+
+export const checkMessageForSafety = async (msg) => {
+  console.log(msg.member.joinedAt);
+  // if (moment(msg.member.joinedAt))
+}
+
+export const duplicateMessage = async (msg, toChannelId, contentEditor = () => {
+}) => {
+  const toChannel = msg.guild.channels.get(toChannelId); // Makes it easier to get the channels rather than doing the msg.mentions.channels thing
+  if (!toChannel) {
+    console.log('Could not find mentioned channel');
+    return;
+  }
+
+  let wb;
+  const wbs = await toChannel.fetchWebhooks();
+  if (wbs.size < 20) wb = await toChannel.createWebhook('Message duplication');
+
+  try {
+    const message = await wb.send(contentEditor(msg.content || ''), {
+      username: msg.author.username,
+      avatarURL: msg.author.avatarURL,
+      embeds: msg.embeds,
+      files: [new Discord.Attachment(msg.attachments.first().url, msg.attachments.first().filename)],
+    });
+    await wb.delete('Message duplicated successfully');
+    return message;
+  } catch (e) {
+    await wb.delete('Message duplicated successfully');
+    console.log(e);
+  }
+};
 
 export const hasPermissions = (client, permissions, msg) => {
   const hasRole = msg.member.roles
@@ -22,9 +56,6 @@ export const hasPermissions = (client, permissions, msg) => {
     || msg.channel.id === CONSTANTS.CHANNELS.PRIVATE_TESTS
     || msg.channel.id === CONSTANTS.CHANNELS.TEST
   );
-
-  console.log('hasRole', hasRole);
-  console.log('isInChannel', isInChannel);
 
   if (hasRole && isInChannel) return true;
   if (!hasRole) return 'You are not pemritted to use this command!';
@@ -50,7 +81,7 @@ export const checkBlogPosts = async (client) => {
     const link = common.find('.titleOuterWrap > div > div.right > a')
       .attr('href').trim()
       .replace(/^(.*?)\/blogs/, 'https://www.construct.net/blogs');
-    const image = common.find('.statWrap > div:nth-child(2) > div > div#Wrapper > a > div > div > img:nth-child(3)')
+    const image = common.find('.statWrap > div:nth-child(2) > div > div#Wrapper > a > div > div > img')
       .attr('data-src');
 
     console.log(image);

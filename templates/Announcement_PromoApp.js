@@ -7,13 +7,14 @@ export default class PromoApp extends Template {
     super('promo-app', variables, {});
   }
 
+  // eslint-disable-next-line
   embed() {
     return new RichEmbed()
       .setDescription('Your content is pending for approval and will be available soon.')
       .setColor(15844367)
-      .setThumbnail('https://raw.githubusercontent.com/Armaldio/alfred-botler/master/assets/mini/Watchericon.png')
-      .setAuthor('PROMOTION PENDING APPROVAL!', 'https://raw.githubusercontent.com/Armaldio/alfred-botler/master/assets/mini/AlfredBotlericon.png', '')
-      .addField('──────────────────────────────────', 'ᅠ', false)
-      .addField('Why the addional approval process?', 'This process ensures that no malicious content is being published. Your content will be up and available after the process is done.', false);
+      .setThumbnail(`${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/Watchericon.png`)
+      .setAuthor('PROMOTION PENDING APPROVAL!', `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/AlfredBotlericon.png`)
+      .addField(CONSTANTS.MESSAGE.SEPARATOR, CONSTANTS.MESSAGE.EMPTY)
+      .addField('Why the addional approval process?', 'This process ensures that no malicious content is being published. Your content will be up and available after the process is done.');
   }
 }
