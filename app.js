@@ -78,22 +78,7 @@ client
   .on('presenceUpdate', () => {
     updateStatus(client);
   })
-  .on('unknownCommand', (message) => {
-    if (!isDev && message.channel.id !== CONSTANTS.CHANNELS.PRIVATE_TESTS) message.reply('Alfred is currently in maintenance mode. Full features may not be available currently.');
-  })
   .on('message', async (message) => {
-    // Send sms to me when mentionning and not online
-    /* if (message.mentions.users.exists('id', CONSTANTS.OWNER) || message.content.toLowerCase()
-      .includes('armaldio')) {
-      if (!isOnline(CONSTANTS.OWNER)) {
-        const text =
-          `[DISCORD] #${message.channel.name} @${message.author.username}
-          said: ${message.content.trim()}`;
-        sms.account(95222614, 'OWoVbMFNlat344');
-        sms.send(encodeURIComponent(text));
-      }
-    } */
-
     /*
     try {
       if (message.webhookID === null && message.channel.id === CONSTANTS.CHANNELS.JOBOFFERS) {

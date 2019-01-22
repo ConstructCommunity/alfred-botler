@@ -2,9 +2,9 @@ import cheerio from 'cheerio';
 import got from 'got';
 import Discord from 'discord.js';
 import * as firebase from 'firebase';
+import moment from 'moment';
 import CONSTANTS from './constants';
 import { Blog, C3Update, C2Update } from './templates';
-import moment from 'moment';
 
 const database = firebase.database();
 
@@ -12,13 +12,7 @@ const database = firebase.database();
 
 // const truncate = (string, max) => (string.length > max ? `${string.substring(0, max)}...` : string);
 
-export const checkMessageForSafety = async (msg) => {
-  console.log(msg.member.joinedAt);
-  // if (moment(msg.member.joinedAt))
-}
-
-export const duplicateMessage = async (msg, toChannelId, contentEditor = () => {
-}) => {
+export const duplicateMessage = async (msg, toChannelId, contentEditor) => {
   const toChannel = msg.guild.channels.get(toChannelId); // Makes it easier to get the channels rather than doing the msg.mentions.channels thing
   if (!toChannel) {
     console.log('Could not find mentioned channel');
@@ -30,17 +24,58 @@ export const duplicateMessage = async (msg, toChannelId, contentEditor = () => {
   if (wbs.size < 20) wb = await toChannel.createWebhook('Message duplication');
 
   try {
-    const message = await wb.send(contentEditor(msg.content || ''), {
+    const options = {
       username: msg.author.username,
       avatarURL: msg.author.avatarURL,
-      embeds: msg.embeds,
-      files: [new Discord.Attachment(msg.attachments.first().url, msg.attachments.first().filename)],
-    });
+    };
+    if (msg.embeds !== null) options.embeds = msg.embeds;
+    if (msg.attachments.array().length > 0) options.files = [new Discord.Attachment(msg.attachments.first().url, msg.attachments.first().filename)];
+
+    const message = await wb.send(contentEditor(msg.content || ''), options);
     await wb.delete('Message duplicated successfully');
     return message;
   } catch (e) {
     await wb.delete('Message duplicated successfully');
     console.log(e);
+  }
+};
+
+/**
+ *
+ * @param {Message} msg
+ * @return {Promise<void>}
+ */
+export const checkMessageForSafety = async (msg) => {
+  if (msg.author.id === CONSTANTS.BOT) return;
+  if (msg.webhookID !== null) return;
+  // if (msg.channel.id !== CONSTANTS.CHANNELS.PRIVATE_TESTS) return;
+
+  const t = moment().diff(moment(msg.member.joinedTimestamp), 'hours');
+  if (t < 24) {
+    if (msg.content.match(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/)) {
+      console.log('match url');
+      if (msg.content.search(/(sex|gambling|porn)/) !== -1) {
+        console.log('match search: ', msg.content);
+
+        // censor message in public channel
+        await duplicateMessage(msg, msg.channel.id, () => '[CENSORED]');
+
+        // send a message to dm of author
+        await msg.author.send(`You message was censored because:
+- It's been less than 24 hours you're part of this server
+- You posted content with blacklisted words
+
+If you think it's a false positive, please let the Staff know. We'll be happy to help.`);
+
+        // make a duplicate without censor inside #bin
+        await msg.guild.channels.get(CONSTANTS.CHANNELS.BIN).send('Censored message below:');
+        await duplicateMessage(msg, CONSTANTS.CHANNELS.BIN, content => content);
+        await msg.guild.channels.get(CONSTANTS.CHANNELS.BIN).send(CONSTANTS.MESSAGE.SEPARATOR);
+
+        // delete the original message
+        await msg.delete();
+      }
+    }
   }
 };
 
