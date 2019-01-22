@@ -19,3 +19,5 @@ export { default as PromoApp } from './Announcement_PromoApp';
 export { default as PromoDeny } from './Announcement_PromoDeny';
 export { default as PromoDown } from './Announcement_PromoDown';
 export { default as PromoUp } from './Announcement_PromoUp';
+
+export { default as Notify } from './Announcement_Notify';

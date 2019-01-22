@@ -10,7 +10,12 @@ const database = firebase.database();
 
 // const isDev = process.env.NODE_ENV === 'development';
 
-// const truncate = (string, max) => (string.length > max ? `${string.substring(0, max)}...` : string);
+export const truncate = (string, max) => (string.length > max ? `${string.substring(0, max)}...` : string);
+
+/**
+ * @param  {Array} arr
+ */
+export const removeDuplicates = arr => arr.reduce((x, y) => (x.includes(y) ? x : [...x, y]), []);
 
 export const duplicateMessage = async (msg, toChannelId, contentEditor) => {
   const toChannel = msg.guild.channels.get(toChannelId); // Makes it easier to get the channels rather than doing the msg.mentions.channels thing
