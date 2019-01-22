@@ -12,7 +12,7 @@ export default class notify extends Command {
     super(client, {
       name: 'notify',
       memberName: 'notify',
-      group: 'test',
+      group: 'moderation',
       description: 'Notify user and waits for their reactions',
       examples: ['notify @user1 @user2 message', 'notify Hello @user1 @user2, can you please ...'],
     });
