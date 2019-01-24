@@ -59,7 +59,7 @@ export const checkMessageForSafety = async (msg) => {
   if (t < 24) {
     if (msg.content.match(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/)) {
       console.log('match url');
-      if (msg.content.search(/(sex|gambling|porn)/) !== -1) {
+      if (msg.content.search(/(sex|gambling|porn|dating)/) !== -1) {
         console.log('match search: ', msg.content);
 
         // censor message in public channel
