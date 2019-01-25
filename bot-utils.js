@@ -17,7 +17,7 @@ export const truncate = (string, max) => (string.length > max ? `${string.substr
  */
 export const removeDuplicates = arr => arr.reduce((x, y) => (x.includes(y) ? x : [...x, y]), []);
 
-export const duplicateMessage = async (msg, toChannelId, contentEditor) => {
+export const duplicateMessage = async (msg, toChannelId, contentEditor, includeAttachments = true) => {
   const toChannel = msg.guild.channels.get(toChannelId); // Makes it easier to get the channels rather than doing the msg.mentions.channels thing
   if (!toChannel) {
     console.log('Could not find mentioned channel');
@@ -33,8 +33,11 @@ export const duplicateMessage = async (msg, toChannelId, contentEditor) => {
       username: msg.author.username,
       avatarURL: msg.author.avatarURL,
     };
-    if (msg.embeds !== null) options.embeds = msg.embeds;
-    if (msg.attachments.array().length > 0) options.files = [new Discord.Attachment(msg.attachments.first().url, msg.attachments.first().filename)];
+
+    if (includeAttachments) {
+      if (msg.embeds !== null) options.embeds = msg.embeds;
+      if (msg.attachments.array().length > 0) options.files = [new Discord.Attachment(msg.attachments.first().url, msg.attachments.first().filename)];
+    }
 
     const message = await wb.send(contentEditor(msg.content || ''), options);
     await wb.delete('Message duplicated successfully');
@@ -63,10 +66,10 @@ export const checkMessageForSafety = async (msg) => {
         console.log('match search: ', msg.content);
 
         // censor message in public channel
-        await duplicateMessage(msg, msg.channel.id, () => '[CENSORED]');
+        await duplicateMessage(msg, msg.channel.id, () => '[Censored by Alfred]', false);
 
         // send a message to dm of author
-        await msg.author.send(`You message was censored because:
+        await msg.author.send(`Your message was censored because:
 - It's been less than 24 hours you're part of this server
 - You posted content with blacklisted words
 
@@ -74,6 +77,7 @@ If you think it's a false positive, please let the Staff know. We'll be happy to
 
         // make a duplicate without censor inside #bin
         await msg.guild.channels.get(CONSTANTS.CHANNELS.BIN).send('Censored message below:');
+        await msg.guild.channels.get(CONSTANTS.CHANNELS.BIN).send(CONSTANTS.MESSAGE.SEPARATOR);
         await duplicateMessage(msg, CONSTANTS.CHANNELS.BIN, content => content);
         await msg.guild.channels.get(CONSTANTS.CHANNELS.BIN).send(CONSTANTS.MESSAGE.SEPARATOR);
 
