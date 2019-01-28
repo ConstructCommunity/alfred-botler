@@ -11,7 +11,7 @@ export default class promo extends Command {
     super(client, {
       name: 'move',
       memberName: 'move',
-      group: 'everyone',
+      group: 'moderation',
       description: 'Move a certain amount of messages from one channel to another',
       examples: ['move 10 <#226376432064921600>'],
       extraArgs: false,

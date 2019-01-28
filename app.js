@@ -1,4 +1,4 @@
-import { CommandoClient } from 'discord.js-commando';
+import Commando, { CommandoClient } from 'discord.js-commando';
 import path from 'path';
 import {
   checkC3Updates, checkC2Updates, checkBlogPosts, checkMessageForSafety,
@@ -17,14 +17,21 @@ const client = new CommandoClient({
 });
 
 client.registry
+  .registerDefaultGroups()
   .registerDefaultTypes()
+  .registerDefaultCommands({
+    help: false,
+    prefix: false,
+    eval: false,
+    ping: true,
+    unknownCommand: false,
+    commandState: false,
+  })
   .registerGroups([
     ['test', 'Commands available only for testing'],
     ['everyone', 'Commands available to everyone'],
     ['moderation', 'Commands available only to our staff members'],
-  ])
-  .registerDefaultGroups()
-  .registerDefaultCommands();
+  ]);
 
 if (isDev) {
   client.registry.registerCommandsIn(path.join(__dirname, 'commands', 'test'));
@@ -56,6 +63,40 @@ const updateStatus = () => {
 }; */
 
 client
+  .on('error', console.error)
+  .on('warn', console.warn)
+  .on('debug', console.log)
+
+  .on('reconnecting', () => {
+    console.warn('Reconnecting...');
+  })
+  .on('commandError', (cmd, err) => {
+    if (err instanceof Commando.FriendlyError) return;
+    console.error(`Error in command ${cmd.groupID}:${cmd.memberName}`, err);
+  })
+  .on('commandBlocked', (msg, reason) => {
+    console.log(`
+      Command ${msg.command ? `${msg.command.groupID}:${msg.command.memberName}` : ''}
+      blocked; ${reason}`);
+  })
+  .on('commandPrefixChange', (guild, prefix) => {
+    console.log(`
+      Prefix ${prefix === '' ? 'removed' : `changed to ${prefix || 'the default'}`}
+      ${guild ? `in guild ${guild.name} (${guild.id})` : 'globally'}.`);
+  })
+  .on('commandStatusChange', (guild, command, enabled) => {
+    console.log(`
+      Command ${command.groupID}:${command.memberName}
+      ${enabled ? 'enabled' : 'disabled'}
+      ${guild ? `in guild ${guild.name} (${guild.id})` : 'globally'}.`);
+  })
+  .on('groupStatusChange', (guild, group, enabled) => {
+    console.log(`
+      Group ${group.id}
+      ${enabled ? 'enabled' : 'disabled'}
+      ${guild ? `in guild ${guild.name} (${guild.id})` : 'globally'}.`);
+  })
+
   .on('ready', async () => {
     console.log('Logged in!');
 

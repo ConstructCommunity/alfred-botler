@@ -11,7 +11,7 @@ export default class report extends Command {
     super(client, {
       name: 'report',
       group: 'everyone',
-      description: 'Anonymously report an individual to the CCStaff for breaking a rule.',
+      description: 'Report an individual to the CCStaff for breaking a rule.',
       examples: ['report'],
       memberName: 'report',
     });

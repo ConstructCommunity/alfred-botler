@@ -3,10 +3,9 @@
  */
 
 import { Command } from 'discord.js-commando';
-import Discord from 'discord.js';
-import { Promo } from '../../templates';
 import CONSTANTS from '../../constants';
-import { hasPermissions } from '../../bot-utils';
+import { hasPermissions, duplicateMessage } from '../../bot-utils';
+import { PromoUp } from '../../templates';
 
 export default class promo extends Command {
   constructor(client) {
@@ -27,38 +26,80 @@ export default class promo extends Command {
     return hasPermissions(this.client, permissions, msg);
   }
 
-  // TODO https://pastebin.com/raw/H8inQcnZ
   // eslint-disable-next-line
   async run(msg) {
-    // TODO use webhooks
-    const content = msg.content.replace(/!promo ?/, '');
-
-    const final = {};
-
-    let attachments = [];
-    if (msg.attachments.array().length > 0) {
-      attachments = msg.attachments.array().map(a => a.url);
+    if (msg.attachments.array().length === 0
+        // eslint-disable-next-line
+        && msg.content.search(/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi) === -1) {
+      await msg.author.send('Hey you\'re not using that command properly!\nYou should have at least one link, one embed, or one attachment.');
+      return;
     }
 
-    /* if (msg.attachments.array().length > 0) {
-      let attachments = msg.attachments.array();
-      attachments = attachments.map(a => new Discord.Attachment(a.url, a.filename));
-      final.files = attachments;
-    } */
+    await duplicateMessage(msg, CONSTANTS.CHANNELS.PRIVATE_TESTS, content => content.replace(/!promo ?/, ''));
 
-    final.embed = new Promo({
-      message: content,
-      author: msg.author.username,
-      originalChan: msg.channel.name,
-      profilePicUrl: msg.author.avatarURL,
-    }).embed();
+    // send pending approval notification
+    await msg.author.send({
+      embed: new PromoUp({}).embed(),
+    });
 
-    const promoEmbed = await msg.guild.channels.get(CONSTANTS.CHANNELS.PRIVATE_TESTS).send(attachments.join('\n'), final);
+    /*
+    await newMessage.react('👍');
+    await newMessage.react('👎');
 
-    await msg.author.send(`Hey, I have added your message to <#${CONSTANTS.CHANNELS.COLLECTION}> . Here is that message's code: **__${promoEmbed.id}__**.
-You can use \`!del ${promoEmbed.id}\` to remove that message if you ever wish to delete it. (Use inside <#${CONSTANTS.CHANNELS.ALFRED_COMMANDS}>!)
+    const collected = await newMessage.awaitReactions(async (reaction) => {
+      if (reaction.emoji.name === '👍' || reaction.emoji.name === '👎') {
+        return true;
+      }
+      return false;
+    }, {
+      time: 43200000, // 12h
+      max: 2,
+    });
 
-Your message was:
-\`\`\`${content}\`\`\``);
+    // find the emoji with two votes (alfred + the user
+    const emoji = collected.array().find(reaction => reaction.count === 2);
+
+    // if emoji is a thumbsup
+    if (emoji && emoji.emoji.name === '👍') {
+      try {
+        await duplicateMessage(msg, CONSTANTS.CHANNELS.TEST,
+        content => content.replace(/!promo ?/, ''));
+        await msg.author.send({
+          embed: new PromoUp({}).embed(),
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    } else {
+      // if emoji is a thumbsdown
+      // ask why
+      const whyMessage = await newMessage.channel
+        .send('Why ?');
+
+      // wait for messages from the author
+      const messages = await newMessage.channel.awaitMessages((message) => {
+        if (emoji.users.array().find(u => u.id === message.author.id)) {
+          return true;
+        }
+        return false;
+      }, {
+        max: 1,
+        time: 60000, // 1 min
+        errors: ['time'],
+      });
+
+
+      const reason = messages.first();
+
+      await msg.author.send({
+        embed: new PromoDeny({
+          reason: reason.content,
+        }).embed(),
+      });
+      await whyMessage.delete();
+      await reason.delete();
+    }
+    await newMessage.delete();
+  */
   }
 }
