@@ -3,18 +3,17 @@
  */
 
 import { Command } from 'discord.js-commando';
-import { Bug } from '../../templates';
 import CONSTANTS from '../../constants';
 import { hasPermissions } from '../../bot-utils';
 
-export default class notice extends Command {
+export default class help extends Command {
   constructor(client) {
     super(client, {
-      name: 'bug',
-      memberName: 'bug',
+      name: 'help',
+      memberName: 'help',
       group: 'everyone',
-      description: 'Show the notice in the channel',
-      examples: ['bug'],
+      description: 'Send you help instructions',
+      examples: ['help'],
     });
   }
 
@@ -29,9 +28,7 @@ export default class notice extends Command {
   // eslint-disable-next-line
   async run(msg) {
     try {
-      await msg.channel.send({
-        embed: new Bug().embed(),
-      });
+      await msg.author.send('Please see https://github.com/Armaldio/alfred-botler/README.md for help');
     } catch (e) {
       console.error(e);
     }
