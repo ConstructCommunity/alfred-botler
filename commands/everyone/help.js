@@ -28,7 +28,7 @@ export default class help extends Command {
   // eslint-disable-next-line
   async run(msg) {
     try {
-      await msg.author.send('Please see https://github.com/Armaldio/alfred-botler/README.md for help');
+      await msg.author.send('Please see https://github.com/Armaldio/alfred-botler/blob/master/README.md for help');
     } catch (e) {
       console.error(e);
     }
