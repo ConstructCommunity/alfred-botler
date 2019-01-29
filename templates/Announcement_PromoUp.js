@@ -15,6 +15,6 @@ export default class PromoUp extends Template {
       .setThumbnail(`${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/UploadIcon.png`)
       .setAuthor('PROMOTION SUBMISSION SUCCESSFUL!', `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/AlfredBotlericon.png`, '')
       .addField(CONSTANTS.MESSAGE.SEPARATOR, CONSTANTS.MESSAGE.EMPTY)
-      .addField('How can I remove this message ?', 'To remove your message, gently ask a member of the staff to do so with the desired message id or timestamp');
+      .addField('How to submit takedown requests?', 'To request the removal of promoted content, please contact the CCstaff.');
   }
 }
