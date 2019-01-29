@@ -1,4 +1,7 @@
-<p align="center"> <img src="https://raw.githubusercontent.com/WebCreationClub/alfred-botler/master/assets/large/Alfred%20Header.png"></p>
+<p align="center"> 
+<img src="https://raw.githubusercontent.com/WebCreationClub/alfred-botler/master/assets/large/Alfred%20Header.png">
+</p>
+
 ___
 # Information
 _Alfred Botler_ is a Discord bot, specifically made for the [Construct Community Discord](https://discord.gg/dZDU7Re) server. 
