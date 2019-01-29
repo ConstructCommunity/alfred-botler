@@ -15,6 +15,6 @@ export default class Warn extends Template {
       .setThumbnail('https://raw.githubusercontent.com/Armaldio/alfred-botler/master/assets/mini/Negativeicon.png')
       .setAuthor('YOU JUST RECEIVED A WARNING!', 'https://raw.githubusercontent.com/Armaldio/alfred-botler/master/assets/mini/AlfredBotlericon.png', '')
       .addField('──────────────────────────────────', 'ᅠ', false)
-      .addField('What are my options?', 'You can ask for the reason and support by using \'!warnreason\'.', false);
+      .addField('What are my options?', 'You can ask for the reason and support by contacting the CCStaff', false);
   }
 }
