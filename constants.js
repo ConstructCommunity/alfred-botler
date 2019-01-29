@@ -9,7 +9,7 @@ export default {
     SCIRRA_C3RELEASES_PREFIX: 'https://www.construct.net',
   },
   GITHUB: {
-    RAW_REPO_URL_PREFIX: 'https://raw.githubusercontent.com/Armaldio/alfred-botler/master',
+    RAW_REPO_URL_PREFIX: 'https://raw.githubusercontent.com/WebCreationClub/alfred-botler/master',
   },
   ROLES: {
     ANY: '116497549237551109', // @everyone
