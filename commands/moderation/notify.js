@@ -55,7 +55,6 @@ export default class notify extends Command {
 
       if (count === mentionIds.length) {
         sent.delete();
-        msg.author.send(`Your message to ${ids.join(', ')} has been succesfully validated by all the concerned users`);
       }
 
       return true;

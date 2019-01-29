@@ -27,7 +27,7 @@ export default class report extends Command {
 
   // eslint-disable-next-line
   async run(msg) {
-    await msg.author.send('Your report has been submitted and will be reviewed by a staff member shortly! (Please note that wrong or malicious reporting might result in a permanent block from using this command.)');
+    await msg.author.send('Your report has been submitted and will be reviewed as soon as possible. (Please note that wrong or malicious reporting might result in a permanent block from using this command!)');
 
     let _messages = await msg.channel.fetchMessages({
       limit: 10,
@@ -45,7 +45,7 @@ export default class report extends Command {
     }
 
     await msg.guild.channels.get(CONSTANTS.CHANNELS.MODERATORS)
-      .send(`**${msg.author.username}** need a review inside **<#${msg.channel.id}>**\n<@&${CONSTANTS.ROLES.STAFF}> A manual review is required!`, {
+      .send(`**${msg.author.username}** requested a review inside **<#${msg.channel.id}>**\n<@&${CONSTANTS.ROLES.STAFF}> A manual review is required!`, {
         embed: {
           description: CONSTANTS.MESSAGE.EMPTY,
           title: 'Context:',

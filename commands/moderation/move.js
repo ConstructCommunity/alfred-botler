@@ -42,7 +42,7 @@ export default class promo extends Command {
   // eslint-disable-next-line
   async run(msg, { amount, channel }) {
     if (amount <= 0) {
-      msg.author.send('Amount of message must be greater that 0');
+      msg.author.send('Amount of message must be greater that 0!');
       return;
     }
 
@@ -60,7 +60,7 @@ export default class promo extends Command {
       await msg.author.send({
         embed: {
           title: 'Error!',
-          description: 'Too much messages selected, maximum number of characters exceeded! Reduce the number of messages and try again!',
+          description: 'Too many messages selected, maximum number of characters exceeded! Reduce the number of messages and try again!',
           color: 15844367,
         },
       });
