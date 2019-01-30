@@ -3,11 +3,11 @@
 </p>
 
 ___
-# Information
+# Description
 _Alfred Botler_ is a Discord bot, specifically made for the [Construct Community Discord](https://discord.gg/dZDU7Re) server. 
 <br />_Alfred_ is able to perform a lot of tasks, from keeping track of things to advanced server management.
 
-# Commands (Public)
+# Commands
 ### iam
 > Add or remove selected [Server Roles](https://lnk.armaldio.xyz/cc_roles).\
 Ex: `!iam dev`
@@ -21,10 +21,10 @@ Ex: `!bug`
 Ex: `!promo`
 
 ### report
-> Report one or more individuals for breaking a rule.\
+> Request manual review for rule breaking content inside current channel.\
 Ex: `!report`
 
-# Commands (Mods Only)
+# Commands (Staff Only)
 ### move
 > Move one or more messages to another channel.\
 Ex: `!move 1 #bin`
