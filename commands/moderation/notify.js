@@ -28,9 +28,14 @@ export default class notify extends Command {
 
   // eslint-disable-next-line
   async run(msg) {
-    await msg.delete();
+    // await msg.delete();
 
     const mentions = msg.mentions.members.array();
+
+    if (mentions.length < 1) {
+      msg.author.send('You must specify at least one person');
+      return;
+    }
 
     const ids = removeDuplicates(mentions.map(m => `<@${m.user.id}>`));
 
@@ -55,9 +60,10 @@ export default class notify extends Command {
 
       if (count === mentionIds.length) {
         sent.delete();
+        msg.author.send(`Your message in <#${msg.channel.id}> was accepted by everyone`);
       }
 
-      return true;
+      return;
     });
   }
 }
