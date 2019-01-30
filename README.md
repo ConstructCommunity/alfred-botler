@@ -31,7 +31,7 @@ Ex: `!move 1 #bin`
 
 ### warn
 > Warn a user for breaking a rule. (Requires additional logging!)\
-Ex: `!warn #user_name#`
+Ex: `!warn [@user [punishment [reason]]]`
 
 ### notify
 > Post an interactive request inside current channel.\
