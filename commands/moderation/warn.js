@@ -20,6 +20,7 @@ export default class warn extends Command {
       group: 'moderation',
       description: 'Warn a user with different level of severity',
       examples: ['warn [@user [punishment [reason]]]'],
+      argsPromptLimit: 0,
       args: [
         {
           key: 'user',
