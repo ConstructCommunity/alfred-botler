@@ -62,7 +62,7 @@ export const checkMessageForSafety = async (msg) => {
   if (t < 24) {
     if (msg.content.match(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/)) {
       console.log('match url');
-      if (msg.content.search(/(sex|gambling|porn|dating)/) !== -1) {
+      if (msg.content.search(/(sex|gambling|porn|dating|service)/) !== -1) {
         console.log('match search: ', msg.content);
 
         // censor message in public channel
@@ -102,7 +102,7 @@ export const hasPermissions = (client, permissions, msg) => {
   );
 
   if (hasRole && isInChannel) return true;
-  if (!hasRole) return 'You are not pemritted to use this command!';
+  if (!hasRole) return 'You are not permitted to use this command!';
   if (!isInChannel) return `Wrong channel! This command is available only in ${permissions.channels.map(chan => `<#${chan.id}>`)}`;
   return false;
 };

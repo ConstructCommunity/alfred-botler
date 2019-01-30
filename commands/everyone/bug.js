@@ -1,7 +1,3 @@
-/**
- * Created by Armaldio on 11/12/2017.
- */
-
 import { Command } from 'discord.js-commando';
 import { Bug } from '../../templates';
 import CONSTANTS from '../../constants';

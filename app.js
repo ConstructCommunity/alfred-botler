@@ -16,30 +16,6 @@ const client = new CommandoClient({
   unknownCommandResponse: false,
 });
 
-client.registry
-  .registerDefaultGroups()
-  .registerDefaultTypes()
-  .registerDefaultCommands({
-    help: false,
-    prefix: false,
-    eval: false,
-    ping: true,
-    unknownCommand: false,
-    commandState: false,
-  })
-  .registerGroups([
-    ['test', 'Commands available only for testing'],
-    ['everyone', 'Commands available to everyone'],
-    ['moderation', 'Commands available only to our staff members'],
-  ]);
-
-if (isDev) {
-  client.registry.registerCommandsIn(path.join(__dirname, 'commands', 'test'));
-} else {
-  client.registry.registerCommandsIn(path.join(__dirname, 'commands', 'everyone'));
-  client.registry.registerCommandsIn(path.join(__dirname, 'commands', 'moderation'));
-}
-
 const getConnectedUsers = () => {
   const guild = client.guilds.get(CONSTANTS.GUILD_ID);
 
@@ -160,5 +136,29 @@ client
     console.info('BOT DISCONNECTING');
     console.info('Close Event : ', closeEvent);
   });
+
+client.registry
+  .registerDefaultGroups()
+  .registerDefaultTypes()
+  .registerDefaultCommands({
+    help: false,
+    prefix: false,
+    eval: false,
+    ping: true,
+    unknownCommand: false,
+    commandState: false,
+  })
+  .registerGroups([
+    ['test', 'Commands available only for testing'],
+    ['everyone', 'Commands available to everyone'],
+    ['moderation', 'Commands available only to our staff members'],
+  ]);
+
+if (isDev) {
+  client.registry.registerCommandsIn(path.join(__dirname, 'commands', 'test'));
+} else {
+  client.registry.registerCommandsIn(path.join(__dirname, 'commands', 'everyone'));
+  client.registry.registerCommandsIn(path.join(__dirname, 'commands', 'moderation'));
+}
 
 client.login(process.env.TOKEN);
