@@ -211,7 +211,13 @@ export const checkC3Updates = async (client) => {
     const snapshot = await database.ref('c3release').once('value');
     const lastRelease = snapshot.val();
 
-    if (lastRelease !== newVersion && newVersion !== '') {
+    console.log('last release:', lastRelease, 'new version', newVersion);
+
+    const snap = await database.ref('releases').once('value');
+    const listReleases = snap.val();
+
+    //  release different from latest, not empty,          not already posted
+    if (lastRelease !== newVersion && newVersion !== '' && !listReleases[newVersion]) {
       console.log('New C3 release available');
       client.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
         embed: new C3Update({
@@ -224,8 +230,6 @@ export const checkC3Updates = async (client) => {
 
       await database.ref('c3release').set(newVersion);
 
-      const snap = await database.ref('releases').once('value');
-      const listReleases = snap.val();
       listReleases[newVersion] = branch;
       await database.ref('releases').set(listReleases);
     }
