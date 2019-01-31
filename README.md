@@ -44,3 +44,5 @@ Ex: `!say Hello`
 ### temptest
 > Experimental debugging for templates.\
 Ex: `!temptest #template_name#`
+
+<iframe src="https://canary.discordapp.com/widget?id=116497549237551109&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0"></iframe>
