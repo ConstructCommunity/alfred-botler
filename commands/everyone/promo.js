@@ -5,7 +5,7 @@
 import { Command } from 'discord.js-commando';
 import CONSTANTS from '../../constants';
 import { hasPermissions, duplicateMessage } from '../../bot-utils';
-import { PromoApp, PromoUp, PromoDeny } from '../../templates';
+import { PromoUp } from '../../templates';
 
 export default class promo extends Command {
   constructor(client) {
@@ -28,6 +28,19 @@ export default class promo extends Command {
 
   // eslint-disable-next-line
   async run(msg) {
-    msg.author.send('This command is currently not available. Please try again later.');
+    if (msg.attachments.array().length === 0
+        // eslint-disable-next-line
+        && msg.content.search(/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi) === -1
+        && msg.content.length < 20) {
+      await msg.author.send('Hey you\'re not using that command properly!\nYou should have at least one link, one embed, or one attachment and the associated text must be at least 20 characters long.');
+      return;
+    }
+
+    await duplicateMessage(msg, CONSTANTS.CHANNELS.PROMO, content => content.replace(/!promo ?/, ''));
+
+    // send pending approval notification
+    await msg.author.send({
+      embed: new PromoUp({}).embed(),
+    });
   }
 }
