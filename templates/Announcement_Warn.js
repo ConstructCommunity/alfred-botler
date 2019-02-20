@@ -10,9 +10,8 @@ export default class Warn extends Template {
   // eslint-disable-next-line
   embed() {
     return new RichEmbed()
-      .setDescription('This is a warning message sent because of your recent activities.')
+      .setDescription('This is a warning message for your recent activities.')
       .setColor(16711680)
-      .setFooter(CONSTANTS.MESSAGE.SCIRRA_FOOTER)
       .setThumbnail(`${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/Negativeicon.png`)
       .setAuthor('YOU JUST RECEIVED A WARNING!', `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/AlfredBotlericon.png`)
       .addField(CONSTANTS.MESSAGE.SEPARATOR, CONSTANTS.MESSAGE.EMPTY)

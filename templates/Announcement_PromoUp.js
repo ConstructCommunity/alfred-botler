@@ -10,7 +10,7 @@ export default class PromoUp extends Template {
   // eslint-disable-next-line
   embed() {
     return new RichEmbed()
-      .setDescription(`Your content is now available inside the <#${CONSTANTS.CHANNELS.PROMO}> channel!`)
+      .setDescription(`Your content is now available inside the <#${CONSTANTS.CHANNELS.PROMO}> channel.`)
       .setColor(11962861)
       .setThumbnail(`${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/UploadIcon.png`)
       .setAuthor('PROMOTION SUBMISSION SUCCESSFUL!', `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/AlfredBotlericon.png`, '')
