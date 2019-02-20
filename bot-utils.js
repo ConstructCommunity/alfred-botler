@@ -60,9 +60,9 @@ export const checkMessageForSafety = async (msg) => {
 
   const t = moment().diff(moment(msg.member.joinedTimestamp), 'hours');
   if (t < 24) {
-    if (msg.content.match(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/)) {
+    if (msg.content.match(/https?:\/\/(www\.)?.*\s/igm)) {
       console.log('match url');
-      if (msg.content.search(/(sex|gambling|porn|dating|service|essay)/i) !== -1) {
+      if (msg.content.search(/(sex|gambling|porn|dating|service|essay)/igm) !== -1) {
         console.log('match search: ', msg.content);
 
         // censor message in public channel
