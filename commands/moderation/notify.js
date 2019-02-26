@@ -28,7 +28,7 @@ export default class notify extends Command {
 
   // eslint-disable-next-line
   async run(msg) {
-    // await msg.delete();
+    await msg.delete();
 
     const mentions = msg.mentions.members.array();
 
