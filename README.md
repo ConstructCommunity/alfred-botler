@@ -1,5 +1,5 @@
 <p align="center"> 
-<img src="https://raw.githubusercontent.com/WebCreationClub/alfred-botler/master/assets/large/Alfred%20Header.png">
+<img src="https://raw.githubusercontent.com/WebCreationClub/alfred-botler/master/assets/large/Alfred%20Botler%20Header.png">
 </p>
 
 ___
