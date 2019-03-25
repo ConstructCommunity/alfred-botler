@@ -186,7 +186,7 @@ export const checkC2Updates = async (client) => {
       });
 
       await database.ref('c2release').set(newVersion);
-      await sent.react(':voteup:');
+      await sent.react('🆗');
     }
   } catch (error) {
     console.log(error);
