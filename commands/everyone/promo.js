@@ -4,7 +4,7 @@
 
 import { Command } from 'discord.js-commando';
 import CONSTANTS from '../../constants';
-import { hasPermissions, duplicateMessage } from '../../bot-utils';
+import { hasPermissions, duplicateMessage, addReactions } from '../../bot-utils';
 import { PromoUp } from '../../templates';
 
 export default class promo extends Command {
@@ -39,8 +39,9 @@ export default class promo extends Command {
     await duplicateMessage(msg, CONSTANTS.CHANNELS.PROMO, content => content.replace(/!promo ?/, ''));
 
     // send pending approval notification
-    await msg.author.send({
+    const sent = await msg.author.send({
       embed: new PromoUp({}).embed(),
     });
+    await addReactions(sent, 'promo');
   }
 }

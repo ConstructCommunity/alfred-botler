@@ -107,6 +107,13 @@ export const hasPermissions = (client, permissions, msg) => {
   return false;
 };
 
+export const addReactions = async (sent, type) => {
+  await sent.react(':voteup:');
+
+  if (type === 'c3') await sent.react(':z_scirra_c3Alfred:');
+  else await sent.react(':z_scirra_c2Princess:');
+};
+
 export const checkBlogPosts = async (client) => {
   const scirraStaff = ['Laura_D', 'Ashley', 'Tom'];
 
@@ -130,13 +137,13 @@ export const checkBlogPosts = async (client) => {
 
     console.log(image);
 
-    database.ref('blog').once('value').then((snapshot) => {
+    database.ref('blog').once('value').then(async (snapshot) => {
       const title = snapshot.val();
 
       const isScirra = scirraStaff.includes(author);
 
       if (title !== newTitle && newTitle !== '') {
-        client.channels.get(
+        const sent = await client.channels.get(
           isScirra
             ? CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS
             : CONSTANTS.CHANNELS.COMMUNITY_ANNOUNCEMENTS,
@@ -149,6 +156,8 @@ export const checkBlogPosts = async (client) => {
             image,
           }).embed(),
         });
+
+        await addReactions(sent, 'blog');
 
         database.ref('blog').set(newTitle);
       }
@@ -177,13 +186,14 @@ export const checkC2Updates = async (client) => {
 
     if (lastRelease !== newVersion && newVersion !== '') {
       console.log('New C2 release available');
-      client.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
+      const sent = await client.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
         embed: new C2Update({
           description: summary,
           version: newVersion,
           link: url,
         }).embed(),
       });
+      await addReactions(sent, 'c2');
 
       await database.ref('c2release').set(newVersion);
     }
@@ -219,7 +229,7 @@ export const checkC3Updates = async (client) => {
     //  release different from latest, not empty,          not already posted
     if (lastRelease !== newVersion && newVersion !== '' && !listReleases[newVersion]) {
       console.log('New C3 release available');
-      client.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
+      const sent = await client.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
         embed: new C3Update({
           description,
           version: newVersion,
@@ -227,6 +237,8 @@ export const checkC3Updates = async (client) => {
           icon: branch === 'stable' ? 'C3Stableicon' : 'C3Betaicon',
         }).embed(),
       });
+
+      await addReactions(sent, 'c3');
 
       await database.ref('c3release').set(newVersion);
 
