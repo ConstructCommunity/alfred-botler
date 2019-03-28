@@ -82,14 +82,15 @@ client
     updateStatus();
 
     if (!isDev) {
-      // checkC3Updates(client);
       setInterval(() => checkC3Updates(client), 600000);
 
-      // checkC2Updates(client);
       setInterval(() => checkC2Updates(client), 600000);
 
-      // checkBlogPosts(client);
       setInterval(() => checkBlogPosts(client), 600000);
+    } else {
+      checkC3Updates(client);
+      checkC2Updates(client);
+      checkBlogPosts(client);
     }
   })
   .on('presenceUpdate', () => {

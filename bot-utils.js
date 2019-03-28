@@ -210,9 +210,11 @@ export const checkC3Updates = async (client) => {
     const { body } = await got('https://www.construct.net/en/make-games/releases');
     const $ = cheerio.load(body);
 
-    const url = $('.allReleases ul li:first-child > a').attr('href');
+    let url = $('.allReleases ul li:first-child > a').attr('href');
 
     const matches = url.match(/\/en\/make-games\/releases\/(.+)\/(.+)/);
+
+    url = url.replace('/en/make-games', '/make-games');
 
     const branch = matches[1];
     const newVersion = matches[2];
