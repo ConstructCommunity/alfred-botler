@@ -1,0 +1,28 @@
+--- HEADLINE ---
+The Construct Community - Open Discussions & Tips
+
+--- CONTENT ---
+[img="https://raw.githubusercontent.com/WebCreationClub/alfred-botler/master/assets/large/Topic%20Header%20NEW.png"][h2]What is the Construct Community about?[/h2]
+The Construct Community is a free Discord server for game developers and those interested in getting into it, using [i]Construct Classic[/i], [i]Construct 2[/i] and [i]Construct 3[/i].
+([url=https://discordapp.com/]Discord[/url] itself is kind of like an IRC Client and Teamspeak combined with a modern interface.)[hr]
+
+[h2]Why should I join the Construct Community?[/h2]
+[h3]► Friendly & Helpful Community[/h3]
+With over 1000 members (about 150 active members every day), there is always someone around to provide you with quick help or to have a friendly and informative discussion with.
+
+[h3]► Multiple text & voice channels[/h3]
+We offer a number of text channels such as: #general, #help, #sdk and many more. Voice channels are also available for all sorts of conversations.
+
+[h3]► Instantly share files & images[/h3]
+All members are allowed to upload and share files and images. Makes sharing free addons or examples for reproduction simple and fast.
+
+[h3]► Roles & member mentions[/h3]
+If you would like to let other members know that you have a special talent, if you are for example an [i]artist[/i] or perhaps a Construct [i]expert[/i]. You can easily add or remove selected roles at any time.
+
+[h3]► An alternative & not a replacement[/h3]
+The Construct Community Discord server was not made in order to compete with the official forum! It is just a different medium for fast and punctual interactions.*[hr]
+
+[h2]How can I join the Construct Community?[/h2]
+[b][url=https://discord.gg/dZDU7Re]✱✱✱ Join the Construct Community ➚ ✱✱✱[/url][/b][hr]
+
+[i]*Please note that this Discord server is [b]not official[/b] and run by community members![/i]

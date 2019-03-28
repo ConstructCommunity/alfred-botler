@@ -146,7 +146,7 @@ export const checkBlogPosts = async (client) => {
         const sent = await client.channels.get(
           isScirra
             ? CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS
-            : CONSTANTS.CHANNELS.COMMUNITY_ANNOUNCEMENTS,
+            : CONSTANTS.CHANNELS.PROMO,
         ).send(isScirra ? '@here' : '', {
           embed: new Blog({
             title: newTitle,
