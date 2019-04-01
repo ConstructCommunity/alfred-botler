@@ -23,7 +23,7 @@ export default class C2Update extends Template {
       },
       author: {
         name: `CONSTRUCT 2 UPDATE (${this.variables.version}) IS AVAILABLE!`,
-        icon_url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/AlfredBotlericon.png`,
+        icon_url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/C2Newicon.png`,
       },
       fields: [
         {

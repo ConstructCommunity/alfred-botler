@@ -14,7 +14,7 @@ export default class Info extends Template {
         name: 'WELCOME IN THE CONSTRUCT COMMUNITY!',
       },
       thumbnail: {
-        url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/master/assets/mini/Discordicon.png`,
+        url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}assets/mini/Discordicon.png`,
       },
       title: 'ᅠ',
       description: 'Dedicated to the game development software **Construct**!\n(This server is __not official__ and run by community members!)',
@@ -43,7 +43,7 @@ export default class Info extends Template {
         value: 'https://www.construct.net/',
       },
       {
-        name: 'Try Out Construct 3 Now:',
+        name: 'Try Construct 3 Now:',
         value: 'https://editor.construct.net/',
       },
       ],
