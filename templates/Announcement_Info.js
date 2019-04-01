@@ -14,9 +14,8 @@ export default class Info extends Template {
         name: 'WELCOME IN THE CONSTRUCT COMMUNITY!',
       },
       thumbnail: {
-        url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}assets/mini/Discordicon.png`,
+        url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/Discordicon.png`,
       },
-      title: 'ᅠ',
       description: 'Dedicated to the game development software **Construct**!\n(This server is __not official__ and run by community members!)',
       fields: [{
         name: CONSTANTS.MESSAGE.SEPARATOR,
