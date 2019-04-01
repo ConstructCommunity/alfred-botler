@@ -108,10 +108,18 @@ export const hasPermissions = (client, permissions, msg) => {
 };
 
 export const addReactions = async (sent, type) => {
-  await sent.react(':voteup:');
+  try {
+    const voteUp = sent.guild.emojis.get('276908986744438794');
+    const alfred = sent.guild.emojis.get('278258103474978816');
+    const princess = sent.guild.emojis.get('239703354526269440');
 
-  if (type === 'c3') await sent.react(':z_scirra_c3Alfred:');
-  else await sent.react(':z_scirra_c2Princess:');
+    await sent.react(voteUp);
+
+    if (type === 'c3') await sent.react(alfred);
+    else await sent.react(princess);
+  } catch (e) {
+    console.log('Cannot add reactions', e);
+  }
 };
 
 export const checkBlogPosts = async (client) => {
