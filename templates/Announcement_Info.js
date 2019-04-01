@@ -12,7 +12,6 @@ export default class Info extends Template {
       color: 11962861,
       author: {
         name: 'WELCOME IN THE CONSTRUCT COMMUNITY!',
-        icon_url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/master/assets/mini/AlfredBotlericon.png`,
       },
       thumbnail: {
         url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/master/assets/mini/Discordicon.png`,
@@ -33,19 +32,19 @@ export default class Info extends Template {
       },
       {
         name: 'Alfred Botler\'s Commands:',
-        value: 'https://alfred.armaldio.xyz/docs',
+        value: 'http://bit.ly/botler_source ',
       },
       {
         name: CONSTANTS.MESSAGE.EMPTY,
         value: CONSTANTS.MESSAGE.SEPARATOR,
       },
       {
-        name: 'Get Construct 3 Now:',
+        name: 'Purchase Construct 3 Now:',
         value: 'https://www.construct.net/',
       },
       {
-        name: 'Get Construct 2 Now:',
-        value: 'https://www.scirra.com/',
+        name: 'Try Out Construct 3 Now:',
+        value: 'https://editor.construct.net/',
       },
       ],
       footer: {
