@@ -20,7 +20,7 @@ export default class Blog extends Template {
       .setThumbnail(this.variables.image)
       .setAuthor(
         `NEW BLOG POST FROM ${this.variables.author.toUpperCase()} JUST WENT LIVE!`,
-        `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/AlfredBotlericon.png`,
+        `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/C3Blogicon.png`,
       )
       .addField(CONSTANTS.MESSAGE.SEPARATOR,
         CONSTANTS.MESSAGE.EMPTY,
