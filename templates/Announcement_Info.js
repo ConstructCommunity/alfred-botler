@@ -12,10 +12,10 @@ export default class Info extends Template {
       color: 11962861,
       author: {
         name: 'WELCOME IN THE CONSTRUCT COMMUNITY!',
+        icon_url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/AlfredBotlericon.png`,
       },
       thumbnail: {
         url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/Discordicon.png`,
-        icon_url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/AlfredBotlericon.png`,
       },
       description: 'Dedicated to the game development software **Construct**!\n(This server is __not official__ and run by community members!)',
       fields: [{
