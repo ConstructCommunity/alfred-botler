@@ -12,7 +12,7 @@ export default class Info extends Template {
       color: 11962861,
       author: {
         name: 'WELCOME IN THE CONSTRUCT COMMUNITY!',
-        icon_url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/AlfredBotlericon.png`,
+        icon_url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/DiscordNotifyicon.png`,
       },
       thumbnail: {
         url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/Discordicon.png`,

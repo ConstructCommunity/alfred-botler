@@ -21,7 +21,7 @@ export default class RoleHelp extends Template {
       },
       author: {
         name: 'HOW TO ADD/REMOVE SELECTED ROLES',
-        icon_url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/AlfredBotlericon.png`,
+        icon_url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/DiscordNotifyicon.png`,
       },
       fields: [
         {
