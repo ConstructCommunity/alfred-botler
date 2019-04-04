@@ -23,16 +23,16 @@ export default class Info extends Template {
         value: CONSTANTS.MESSAGE.EMPTY,
       },
       {
-        name: 'Our Server Rules:',
-        value: 'https://goo.gl/CdiBmK',
-      },
-      {
-        name: 'Our Invitation Link:',
-        value: 'https://discord.gg/dZDU7Re',
+        name: 'Rules & Acknowledgements:',
+        value: 'http://bit.ly/CC_rules',
       },
       {
         name: 'Alfred Botler\'s Commands:',
-        value: 'http://bit.ly/botler_source ',
+        value: 'http://bit.ly/botler_source',
+      },
+      {
+        name: 'Global Invitation Link:',
+        value: 'https://discord.gg/dZDU7Re',
       },
       {
         name: CONSTANTS.MESSAGE.EMPTY,

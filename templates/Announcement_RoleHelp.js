@@ -26,11 +26,15 @@ export default class RoleHelp extends Template {
       fields: [
         {
           name: 'Step by step guide:',
-          value: '**1.** Select a role (see available roles below)\n**2.** Write the command \'!iam\' in the messagebox\n**3.** Add an empty space followed by your role',
+          value: '**1.** Select any role (see available roles below)\n**2.** Write the command \'!iam\' in the messagebox\n**3.** Add an empty space followed by your role',
         },
         {
           name: 'Example:',
           value: '*!iam gamedesigner*',
+        },
+        {
+          name: CONSTANTS.MESSAGE.EMPTY,
+          value: CONSTANTS.MESSAGE.SEPARATOR,
         },
         {
           name: 'Available Roles (https://lnk.armaldio.xyz/cc_roles):',
