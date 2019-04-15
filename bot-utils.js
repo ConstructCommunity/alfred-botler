@@ -65,17 +65,17 @@ export const checkMessageForSafety = async (msg) => {
       if (msg.content.match(/(sex|gambling|porn|dating|service|essay)/igm)) {
         console.log('match search: ', msg.content);
 
-        // censor message in public channel
-        await duplicateMessage(msg, msg.channel.id, () => '[Censored by Alfred]', false);
+        // remove message in public channel
+        await duplicateMessage(msg, msg.channel.id, () => '[Message removed by Alfred]', false);
 
         // send a message to dm of author
-        await msg.author.send(`Your message was censored because:
-- It's been less than 24 hours you're part of this server
-- You posted content with blacklisted words
+        await msg.author.send(`Your message was removed because:
+- You have to be a member for at least 24h before posting links
+- You posted NSFW content or content with blacklisted words
 
-If you think it's a false positive, please let the Staff know. We'll be happy to help.`);
+If this is a false positive, please let the CCStaff know. We'll be happy to help.`);
 
-        // make a duplicate without censor inside #bin
+        // make a duplicate without removing inside #bin
         await msg.guild.channels.get(CONSTANTS.CHANNELS.BIN).send('Censored message below:');
         await msg.guild.channels.get(CONSTANTS.CHANNELS.BIN).send(CONSTANTS.MESSAGE.SEPARATOR);
         await duplicateMessage(msg, CONSTANTS.CHANNELS.BIN, content => content);
