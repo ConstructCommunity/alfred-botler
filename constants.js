@@ -5,7 +5,7 @@ export default {
   MESSAGE: {
     SEPARATOR: '──────────────────────────────────',
     EMPTY: 'ᅠ',
-    SCIRRA_FOOTER: '©Scirra Ltd 2019 | Donations: https://go.armaldio.xyz/donation',
+    SCIRRA_FOOTER: '©Scirra Ltd 2019 | Donations: http://lnk.armaldio.xyz/donation',
     SCIRRA_C3RELEASES_PREFIX: 'https://www.construct.net',
   },
   GITHUB: {
