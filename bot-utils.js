@@ -75,7 +75,7 @@ export const checkMessageForSafety = async (msg) => {
 
 If this is a false positive, please let the CCStaff know. We'll be happy to help.`);
 
-        // make a duplicate without removing inside #bin
+        // make a duplicate without removing initial message inside #bin
         await msg.guild.channels.get(CONSTANTS.CHANNELS.BIN).send('Censored message below:');
         await msg.guild.channels.get(CONSTANTS.CHANNELS.BIN).send(CONSTANTS.MESSAGE.SEPARATOR);
         await duplicateMessage(msg, CONSTANTS.CHANNELS.BIN, content => content);
