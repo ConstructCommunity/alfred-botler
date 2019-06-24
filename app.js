@@ -96,7 +96,10 @@ client
   .on('presenceUpdate', () => {
     updateStatus(client);
   })
-  .on('message', async (message) => {
+  .on('guildMemberAdd', async (member) => {
+    const role = await member.addRole('588420010574086146'); // @Member
+    console.log('role', role);
+  }).on('message', async (message) => {
     /*
     try {
       if (message.webhookID === null && message.channel.id === CONSTANTS.CHANNELS.JOBOFFERS) {
