@@ -3,7 +3,7 @@ export default {
   OWNER: '107180621981298688',
   BOT: '168340128622706688',
   MESSAGE: {
-    SEPARATOR: '──────────────────────────────────',
+    SEPARATOR: '──────────────────────────',
     EMPTY: 'ᅠ',
     SCIRRA_FOOTER: '©Scirra Ltd 2019 | Donations: http://lnk.armaldio.xyz/donation',
     SCIRRA_C3RELEASES_PREFIX: 'https://www.construct.net',
