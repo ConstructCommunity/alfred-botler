@@ -25,8 +25,8 @@ export default class RoleHelp extends Template {
       },
       fields: [
         {
-          name: 'Step by step guide:',
-          value: '**1.** Select any role (see available roles below)\n**2.** Write the command \'!iam\' in the messagebox\n**3.** Add an empty space followed by your role\nᅠ',
+          name: 'Step By Step Guide:',
+          value: '**1.** Select any available role\n**2.** Write the command \'!iam\' in the messagebox\n**3.** Add an empty space followed by the role\nᅠ',
         },
         {
           name: 'Example:',
