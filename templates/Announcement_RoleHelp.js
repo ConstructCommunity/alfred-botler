@@ -20,7 +20,7 @@ export default class RoleHelp extends Template {
         url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/Infoicon.png`,
       },
       author: {
-        name: 'HOW TO ADD/REMOVE SELECTED ROLES',
+        name: 'CONSTRUCT COMMUNITY ROLE HELPER',
         icon_url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/DiscordNotifyicon.png`,
       },
       fields: [
