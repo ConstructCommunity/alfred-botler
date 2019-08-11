@@ -30,7 +30,7 @@ export default class RoleHelp extends Template {
         },
         {
           name: 'Roles For Members:',
-          value: '**Expert:** *!iam expert*\n**Code Dev:** *!iam dev*\n**Game Artist:** *!iam artist*\n**Game Designer:** *!iam gamedesigner*\n**Sound Designer:** *!iam sounddesigner*\n**Multimedia Dev:** *!iam multimediadev*\nᅠ',
+          value: '**Expert:** `!iam expert`\n**Code Dev:** `!iam dev`\n**Game Artist:** `!iam artist`\n**Game Designer:** `!iam gamedesigner`\n**Sound Designer:** `!iam sounddesigner`\n**Multimedia Dev:** `!iam multimediadev`\nᅠ',
         },
         {
           name: 'Roles With Application Process:',

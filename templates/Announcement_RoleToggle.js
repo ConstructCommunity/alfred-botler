@@ -28,7 +28,7 @@ export default class RoleToggle extends Template {
       fields: [
         {
           name: 'Available Roles:',
-          value: 'Please use the *!rolelist* command.',
+          value: 'Please use the `!rolelist` command.',
         },
       ],
     };
