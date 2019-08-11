@@ -27,8 +27,8 @@ export default class RoleToggle extends Template {
       },
       fields: [
         {
-          name: 'Available Roles (https://lnk.armaldio.xyz/cc_roles):',
-          value: Object.keys(this.variables.roles).join(', '),
+          name: 'Role List:',
+          value: '*!rolelist*',
         },
       ],
     };
