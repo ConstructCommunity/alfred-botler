@@ -26,15 +26,15 @@ export default class RoleHelp extends Template {
       fields: [
 	    {
           name: 'Exclusive Roles:',
-          value: '**Patreon Supporter:** Support CC on Patreon.\n**Nitro Supporter:** Support CC using Discord Nitro.\n',
+          value: '**Patreon Supporter:** Support CC on Patreon.\n**Nitro Supporter:** Support CC using Discord Nitro.\nᅠ',
         },
         {
           name: 'Roles For Members:',
-          value: '**Expert:** !iam expert\n**Code Dev:** !iam dev\n**Game Artist:** !iam artist\n**Game Designer:** !iam gamedesigner\n**Sound Designer:** !iam sounddesigner\n**Multimedia Dev:** !iam multimediadev\n',
+          value: '**Expert:** !iam expert\n**Code Dev:** !iam dev\n**Game Artist:** !iam artist\n**Game Designer:** !iam gamedesigner\n**Sound Designer:** !iam sounddesigner\n**Multimedia Dev:** !iam multimediadev\nᅠ',
         },
         {
           name: 'Roles With Application Process:',
-		value: '**Helper:** Members providing in-depth help.\n**Staff:** Members from exclusive platforms.\n**Tester:** Members that help with testing things.\n',
+		value: '**Helper:** Members providing in-depth help.\n**Staff:** Members from exclusive platforms.\n**Tester:** Members that help with testing things.\nᅠ',
         },
       ],
 	  footer: {
