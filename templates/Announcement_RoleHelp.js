@@ -34,7 +34,7 @@ export default class RoleHelp extends Template {
         },
         {
           name: 'Available Roles:',
-          value: '*!rolelist*\nᅠ',
+          value: '`!rolelist`\nᅠ',
         },
       ],
       footer: {
