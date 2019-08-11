@@ -24,13 +24,17 @@ export default class RoleHelp extends Template {
         icon_url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/DiscordNotifyicon.png`,
       },
       fields: [
+	    {
+          name: 'Exclusive Roles:',
+          value: '**Patreon Supporter:** Support CC on Patreon.\n**Nitro Supporter:** Support CC using Discord Nitro.\n',
+        },
         {
           name: 'Roles For Members:',
-          value: '**RoleName:** !iam rolename\n**RoleName:** !iam rolename\n**RoleName:** !iam rolename\n**RoleName:** !iam rolename',
+          value: '**Expert:** !iam expert\n**Code Dev:** !iam dev\n**Game Artist:** !iam artist\n**Game Designer:** !iam gamedesigner\n**Sound Designer:** !iam sounddesigner\n**Multimedia Dev:** !iam multimediadev\n',
         },
         {
           name: 'Roles With Application Process:',
-          value: '**RoleName:** !iam rolename\n**RoleName:** !iam rolename\n**RoleName:** !iam rolename\n**RoleName:** !iam rolename',
+		value: '**Helper:** Members providing in-depth help.\n**Staff:** Members from exclusive platforms.\n**Tester:** Members that help with testing things.\n',
         },
       ],
 	  footer: {
