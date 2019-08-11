@@ -30,7 +30,7 @@ export default class RoleHelp extends Template {
         },
         {
           name: 'Example:',
-          value: '*!iam gamedesigner*\nᅠ',
+          value: '`!iam gamedesigner`\nᅠ',
         },
         {
           name: 'Available Roles:',
