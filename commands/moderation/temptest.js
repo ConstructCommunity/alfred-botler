@@ -50,7 +50,7 @@ export default class temptest extends Command {
         embed: foundTemplate.embed(),
       });
     } else {
-      await msg.reply(`Cannot find this template. Use one of: ${myTemplates.map(t => t.name).join(', ')}`);
+      await msg.reply(`Cannot find this template. Templates:\n${myTemplates.map(t => t.name).join(', ')}`);
     }
     await msg.delete();
   }

@@ -4,7 +4,7 @@ import Template from './Template';
 
 export default class RoleHelp extends Template {
   constructor(variables) {
-    super('role-help', variables, {
+    super('role-info', variables, {
       roles: {
         role1: '111',
         role2: '222',
