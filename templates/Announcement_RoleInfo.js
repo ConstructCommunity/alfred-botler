@@ -26,7 +26,7 @@ export default class RoleHelp extends Template {
       fields: [
 	    {
           name: 'Exclusive Roles:',
-          value: '**Patreon Supporter:** Support CC on Patreon.\n**Nitro Supporter:** Support CC using Discord Nitro.\nᅠ',
+          value: '**Nitro Supporter:** Members supporting the server using Discord Nitro.\nᅠ',
         },
         {
           name: 'Roles For Members:',
