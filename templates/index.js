@@ -9,7 +9,7 @@ export { default as Info } from './Announcement_Info';
 
 export { default as RoleHelp } from './Announcement_RoleHelp';
 export { default as RoleToggle } from './Announcement_RoleToggle';
-export { default as RoleInfo } from './Announcement_RoleList';
+export { default as RoleList } from './Announcement_RoleList';
 
 export { default as PromoUp } from './Announcement_PromoUp';
 
