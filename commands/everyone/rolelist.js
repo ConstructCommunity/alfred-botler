@@ -1,16 +1,16 @@
 import { Command } from 'discord.js-commando';
-import { roleinfo } from '../../templates';
+import { RoleList } from '../../templates';
 import CONSTANTS from '../../constants';
 import { hasPermissions } from '../../bot-utils';
 
 export default class notice extends Command {
   constructor(client) {
     super(client, {
-      name: 'roleinfo',
-      memberName: 'roleinfo',
+      name: 'rolelist',
+      memberName: 'rolelist',
       group: 'everyone',
-      description: 'Show the notice in the channel',
-      examples: ['roleinfo'],
+      description: 'Show the rolelist in the channel',
+      examples: ['rolelist'],
     });
   }
 
@@ -26,7 +26,7 @@ export default class notice extends Command {
   async run(msg) {
     try {
       await msg.channel.send({
-        embed: new roleinfo().embed(),
+        embed: new RoleList().embed(),
       });
     } catch (e) {
       console.error(e);

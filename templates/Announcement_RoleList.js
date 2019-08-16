@@ -1,15 +1,10 @@
+import { RichEmbed } from 'discord.js';
 import CONSTANTS from '../constants';
-
 import Template from './Template';
 
-export default class RoleHelp extends Template {
-  constructor(variables) {
-    super('role-info', variables, {
-      roles: {
-        role1: '111',
-        role2: '222',
-      },
-    });
+export default class Bug extends Template {
+  constructor() {
+    super('rolelist', {}, {});
   }
 
   embed() {
@@ -34,7 +29,7 @@ export default class RoleHelp extends Template {
         },
         {
           name: 'Roles With Application Process:',
-		value: '**Helper:** Members providing in-depth help.\n**Staff:** Members from exclusive platforms.\n**Tester:** Members that help with testing things.\nᅠ',
+		  value: '**Helper:** Members providing in-depth help.\n**Staff:** Members from exclusive platforms.\n**Tester:** Members that help with testing things.\nᅠ',
         },
       ],
 	  footer: {
