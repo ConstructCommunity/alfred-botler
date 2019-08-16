@@ -27,7 +27,7 @@ export default class iam extends Command {
       args: [
         {
           key: 'role',
-          prompt: 'What role would you like?\n(Available Roles: Please use the `!rolelist` command.)  }',
+          prompt: 'What role would you like? (Available Roles: Please use the `!rolelist` command.)',
           type: 'string',
         },
       ],

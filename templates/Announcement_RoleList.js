@@ -7,34 +7,20 @@ export default class Rolelist extends Template {
     super('rolelist', {}, {});
   }
 
+  // eslint-disable-next-line
   embed() {
-    return {
-      description: CONSTANTS.MESSAGE.SEPARATOR,
-      color: 11962861,
-      thumbnail: {
-        url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/Infoicon.png`,
-      },
-      author: {
-        name: 'CONSTRUCT COMMUNITY ROLE LIST',
-        icon_url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/DiscordNotifyicon.png`,
-      },
-      fields: [
-	    {
-          name: 'Exclusive Roles:',
-          value: '**Nitro Supporter:** Members server boosting with Nitro.\nᅠ',
-        },
-        {
-          name: 'Roles For Members:',
-          value: '**Expert:** `!iam expert`\n**Code Dev:** `!iam dev`\n**Game Artist:** `!iam artist`\n**Game Designer:** `!iam gamedesigner`\n**Sound Designer:** `!iam sounddesigner`\n**Multimedia Dev:** `!iam multimediadev`\nᅠ',
-        },
-        {
-          name: 'Roles With Application Process:',
-		  value: '**Helper:** Members providing in-depth help.\n**Staff:** Members from exclusive platforms.\n**Tester:** Members that help with testing things.\nᅠ',
-        },
-      ],
-	  footer: {
-        text: CONSTANTS.MESSAGE.SCIRRA_FOOTER,
-      },
-    };
+    return new RichEmbed()
+      .setDescription('Found something weird, perhaps a sneaky bug? Would you like to suggest something? Please check out the links below!')
+      .setColor(11962861)
+      .setFooter(CONSTANTS.MESSAGE.SCIRRA_FOOTER)
+      .setThumbnail(`${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}//assets/mini/Infoicon.png`)
+      .setAuthor('HELLO THERE, HERE IS A LIST OF USEFUL STUFF!', `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/DiscordNotifyicon.png`)
+      .addField(CONSTANTS.MESSAGE.SEPARATOR, CONSTANTS.MESSAGE.EMPTY)
+      .addField('Report Construct 3 bugs here:', 'https://goo.gl/HKKs1b')
+      .addField('Report Construct 2 bugs here:', 'https://goo.gl/mGVcUo')
+      .addField('Suggest Construct 3 features here:', 'https://goo.gl/uuUMTV')
+      .addField(CONSTANTS.MESSAGE.EMPTY, CONSTANTS.MESSAGE.SEPARATOR)
+      .addField('Get started with Construct 3 here:', 'https://www.construct.net/')
+      .addField('Get started with Construct 2 here:', 'https://www.scirra.com/');
   }
 }
