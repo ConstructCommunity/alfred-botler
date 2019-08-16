@@ -3,7 +3,7 @@ import { RoleList } from '../../templates';
 import CONSTANTS from '../../constants';
 import { hasPermissions } from '../../bot-utils';
 
-export default class notice extends Command {
+export default class rolehelper extends Command {
   constructor(client) {
     super(client, {
       name: 'rolelist',
