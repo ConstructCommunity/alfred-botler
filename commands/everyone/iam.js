@@ -22,12 +22,12 @@ export default class iam extends Command {
       name: 'iam',
       group: 'everyone',
       memberName: 'iam',
-      description: 'Add or remove a user from a role\nFor more infos, check https://lnk.armaldio.xyz/cc_roles',
+      description: 'Add or remove roles',
       examples: ['iam dev', 'iam artist'],
       args: [
         {
           key: 'role',
-          prompt: 'What role do you want ?',
+          prompt: 'What role would you like?\n(Available Roles: Please use the `!rolelist` command.)  }',
           type: 'string',
         },
       ],
@@ -48,7 +48,7 @@ export default class iam extends Command {
       ['god', 'Sorry, Armaldio is our only god ...'],
       ['ashley', 'No, Ash is too busy adding features ;)'],
       ['armaldio', 'No, you are not.\nOr maybe you are. I don\'t know.'],
-      ['helper', 'Helper role is an important thing. You must request it to a Staff member.'],
+      ['helper', 'This role requires an application process.'],
     ];
 
     let found = false;
