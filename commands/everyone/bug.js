@@ -11,6 +11,7 @@ export default class notice extends Command {
       group: 'everyone',
       description: 'Show the notice in the channel',
       examples: ['bug'],
+	  deleteCmd: true,
     });
   }
 

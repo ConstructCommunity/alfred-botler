@@ -11,6 +11,7 @@ export default class rolehelper extends Command {
       group: 'everyone',
       description: 'Show the rolelist in the channel',
       examples: ['rolelist'],
+	  deleteCmd: true,
     });
   }
 
