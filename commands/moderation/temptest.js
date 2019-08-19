@@ -42,7 +42,7 @@ export default class temptest extends Command {
       myTemplates.push(new templates[key]());
     });
 
-    const foundTemplate = myTemplates.find(template => template.name === text);
+    const foundTemplate = myTemplates.find((template) => template.name === text);
     console.log('foundTemplate', foundTemplate);
 
     if (foundTemplate) {
@@ -50,7 +50,7 @@ export default class temptest extends Command {
         embed: foundTemplate.embed(),
       });
     } else {
-      await msg.reply(`Cannot find this template. Templates:\n${myTemplates.map(t => t.name).join(', ')}`);
+      await msg.reply(`Cannot find this template. Templates:\n${myTemplates.map((t) => t.name).join(', ')}`);
     }
     await msg.delete();
   }

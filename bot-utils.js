@@ -15,10 +15,16 @@ export const truncate = (string, max) => (string.length > max ? `${string.substr
 /**
  * @param  {Array} arr
  */
-export const removeDuplicates = arr => arr.reduce((x, y) => (x.includes(y) ? x : [...x, y]), []);
+export const removeDuplicates = (arr) => arr.reduce((x, y) => (x.includes(y) ? x : [...x, y]), []);
 
-export const duplicateMessage = async (msg, toChannelId, contentEditor, includeAttachments = true) => {
-  const toChannel = msg.guild.channels.get(toChannelId); // Makes it easier to get the channels rather than doing the msg.mentions.channels thing
+export const duplicateMessage = async (
+  msg,
+  toChannelId,
+  contentEditor,
+  includeAttachments = true,
+) => {
+  // Makes it easier to get the channels rather than doing the msg.mentions.channels thing
+  const toChannel = msg.guild.channels.get(toChannelId);
   if (!toChannel) {
     console.log('Could not find mentioned channel');
     return;
@@ -78,7 +84,7 @@ If this is a false positive, please let the CCStaff know. We'll be happy to help
         // make a duplicate without removing initial message inside #bin
         await msg.guild.channels.get(CONSTANTS.CHANNELS.BIN).send('Censored message below:');
         await msg.guild.channels.get(CONSTANTS.CHANNELS.BIN).send(CONSTANTS.MESSAGE.SEPARATOR);
-        await duplicateMessage(msg, CONSTANTS.CHANNELS.BIN, content => content);
+        await duplicateMessage(msg, CONSTANTS.CHANNELS.BIN, (content) => content);
         await msg.guild.channels.get(CONSTANTS.CHANNELS.BIN).send(CONSTANTS.MESSAGE.SEPARATOR);
 
         // delete the original message
@@ -92,7 +98,7 @@ export const hasPermissions = (client, permissions, msg) => {
   const hasRole = msg.member.roles
     .array()
     .some(
-      role => permissions.roles.map(r => r.id).includes(role.id),
+      (role) => permissions.roles.map((r) => r.id).includes(role.id),
     ); // stop and return true if predicate match
   const isInChannel = (
     permissions.channels.includes(CONSTANTS.CHANNELS.ANY)
@@ -103,7 +109,7 @@ export const hasPermissions = (client, permissions, msg) => {
 
   if (hasRole && isInChannel) return true;
   if (!hasRole) return 'You are not permitted to use this command!';
-  if (!isInChannel) return `Wrong channel! This command is available only in ${permissions.channels.map(chan => `<#${chan.id}>`)}`;
+  if (!isInChannel) return `Wrong channel! This command is available only in ${permissions.channels.map((chan) => `<#${chan.id}>`)}`;
   return false;
 };
 
@@ -262,8 +268,8 @@ export const checkC3Updates = async (client) => {
 };
 
 export const checkForNotificationBot = async (message) => {
-  if (message.author.id === "159985870458322944") {
+  if (message.author.id === '159985870458322944') {
     // sent from the "notification" bot
-    await addReactions(message, 'notification')
+    await addReactions(message, 'notification');
   }
-}
+};

@@ -11,9 +11,9 @@ const isDev = process.env.NODE_ENV === 'development';
 // let socket = null;
 
 const client = new CommandoClient({
-  commandPrefix         : '!',
-  owner                 : CONSTANTS.OWNER,
-  disableEveryone       : false,
+  commandPrefix: '!',
+  owner: CONSTANTS.OWNER,
+  disableEveryone: false,
   unknownCommandResponse: false,
 });
 
@@ -22,7 +22,7 @@ const getConnectedUsers = () => {
 
   const guildMembers = guild.members;
 
-  const connectedUsers = guildMembers.filter(member => (member.presence.status !== 'offline'));
+  const connectedUsers = guildMembers.filter((member) => (member.presence.status !== 'offline'));
 
   return connectedUsers.size;
 };
@@ -77,8 +77,8 @@ client
   .on('ready', async () => {
     console.log('Logged in!');
 
-    /*const sock = new Socket(client);
-    sock.connect();*/
+    /* const sock = new Socket(client);
+    sock.connect(); */
 
     updateStatus();
 
@@ -101,7 +101,8 @@ client
     console.log('new member');
     const role = await member.addRole('588420010574086146'); // @Member
     console.log('role added', role);
-  }).on('message', async (message) => {
+  })
+  .on('message', async (message) => {
   /*
   try {
     if (message.webhookID === null && message.channel.id === CONSTANTS.CHANNELS.JOBOFFERS) {
@@ -122,51 +123,51 @@ client
   }
   */
 
-  checkMessageForSafety(message);
+    checkMessageForSafety(message);
 
-  await checkForNotificationBot(message);
+    await checkForNotificationBot(message);
 
-  try {
-    if (
-      message.webhookID === null
+    try {
+      if (
+        message.webhookID === null
       && message.author.id !== process.env.ID
       && message.channel.id === CONSTANTS.CHANNELS.CREATIONCLUB
-    ) {
-      const owner = message.author;
-      owner.send('**Join the Construct Creation Club by visiting the following link:** https://lnk.armaldio.xyz/WebCreationClub');
-      await message.delete();
+      ) {
+        const owner = message.author;
+        owner.send('**Join the Construct Creation Club by visiting the following link:** https://lnk.armaldio.xyz/WebCreationClub');
+        await message.delete();
+      }
+    } catch (err) {
+      console.log(err);
     }
-  } catch (err) {
-    console.log(err);
-  }
-})
+  })
   .on('disconnect', (closeEvent) => {
     console.info('BOT DISCONNECTING');
     console.info('Close Event : ', closeEvent);
   });
 
 client.registry
-      .registerDefaultGroups()
-      .registerDefaultTypes()
-      .registerDefaultCommands({
-        help          : false,
-        prefix        : false,
-        eval          : false,
-        ping          : true,
-        unknownCommand: false,
-        commandState  : false,
-      })
-      .registerGroups([
-        [ 'test', 'Commands available only for testing' ],
-        [ 'everyone', 'Commands available to everyone' ],
-        [ 'moderation', 'Commands available only to our staff members' ],
-      ]);
+  .registerDefaultGroups()
+  .registerDefaultTypes()
+  .registerDefaultCommands({
+    help: false,
+    prefix: false,
+    eval: false,
+    ping: true,
+    unknownCommand: false,
+    commandState: false,
+  })
+  .registerGroups([
+    ['test', 'Commands available only for testing'],
+    ['everyone', 'Commands available to everyone'],
+    ['moderation', 'Commands available only to our staff members'],
+  ]);
 
-// if (isDev) {
-// client.registry.registerCommandsIn(path.join(__dirname, 'commands', 'test'));
-// } else {
-client.registry.registerCommandsIn(path.join(__dirname, 'commands', 'everyone'));
-client.registry.registerCommandsIn(path.join(__dirname, 'commands', 'moderation'));
-// }
+if (isDev) {
+  client.registry.registerCommandsIn(path.join(__dirname, 'commands', 'test'));
+} else {
+  client.registry.registerCommandsIn(path.join(__dirname, 'commands', 'everyone'));
+  client.registry.registerCommandsIn(path.join(__dirname, 'commands', 'moderation'));
+}
 
 client.login(process.env.TOKEN);
