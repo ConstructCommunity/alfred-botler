@@ -92,7 +92,7 @@ export const hasPermissions = (client, permissions, msg) => {
   const hasRole = msg.member.roles
     .array()
     .some(
-      role => permissions.roles.includes(role.id),
+      role => permissions.roles.map(r => r.id).includes(role.id),
     ); // stop and return true if predicate match
   const isInChannel = (
     permissions.channels.includes(CONSTANTS.CHANNELS.ANY)
@@ -260,3 +260,10 @@ export const checkC3Updates = async (client) => {
     //= > 'Internal server error ...'
   }
 };
+
+export const checkForNotificationBot = async (message) => {
+  if (message.author.id === "159985870458322944") {
+    // sent from the "notification" bot
+    await addReactions(message, 'notification')
+  }
+}

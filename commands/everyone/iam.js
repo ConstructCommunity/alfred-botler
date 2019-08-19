@@ -7,28 +7,28 @@ import { RoleToggle, RoleHelp } from '../../templates';
 import CONSTANTS from '../../constants';
 import { hasPermissions } from '../../bot-utils';
 
-const roles = {
-  expert: CONSTANTS.ROLES.EXPERT,
-  dev: CONSTANTS.ROLES.DEV,
-  artist: CONSTANTS.ROLES.ARTIST,
-  gamedesigner: CONSTANTS.ROLES.GAME_DESIGNER,
-  sounddesigner: CONSTANTS.ROLES.SOUND_DESIGNER,
-  multimediadev: CONSTANTS.ROLES.MULTIMEDIADEV,
-};
+const roles = [
+  CONSTANTS.ROLES.EXPERT,
+  CONSTANTS.ROLES.DEV,
+  CONSTANTS.ROLES.ARTIST,
+  CONSTANTS.ROLES.GAME_DESIGNER,
+  CONSTANTS.ROLES.SOUND_DESIGNER,
+  CONSTANTS.ROLES.MULTIMEDIADEV,
+];
 
 export default class iam extends Command {
   constructor(client) {
     super(client, {
-      name: 'iam',
-      group: 'everyone',
-      memberName: 'iam',
+      name       : 'iam',
+      group      : 'everyone',
+      memberName : 'iam',
       description: 'Add or remove roles',
-      examples: ['iam dev', 'iam artist'],
-      args: [
+      examples   : [ 'iam dev', 'iam artist' ],
+      args       : [
         {
-          key: 'role',
+          key   : 'role',
           prompt: 'What role would you like? (Available Roles: Please use the `!rolelist` command.)',
-          type: 'string',
+          type  : 'string',
         },
       ],
     });
@@ -36,8 +36,8 @@ export default class iam extends Command {
 
   hasPermission(msg) {
     const permissions = {
-      roles: [CONSTANTS.ROLES.ANY],
-      channels: [CONSTANTS.CHANNELS.ALFRED_COMMANDS],
+      roles   : [ CONSTANTS.ROLES.ANY ],
+      channels: [ CONSTANTS.CHANNELS.ALFRED_COMMANDS ],
     };
     return hasPermissions(this.client, permissions, msg);
   }
@@ -45,24 +45,24 @@ export default class iam extends Command {
   // eslint-disable-next-line
   async run(msg, { role }) {
     const fun = [
-      ['god', 'Sorry, Armaldio is our only god ...'],
-      ['ashley', 'No, Ash is too busy adding features ;)'],
-      ['armaldio', 'No, you are not.\nOr maybe you are. I don\'t know.'],
-      ['helper', 'This role requires an application process.'],
+      [ 'god', 'Sorry, Armaldio is our only god ...' ],
+      [ 'ashley', 'No, Ash is too busy adding features ;)' ],
+      [ 'armaldio', 'No, you are not.\nOr maybe you are. I don\'t know.' ],
     ];
 
     let found = false;
     fun.forEach((entry) => {
       console.log(entry);
-      if (entry[0] === role) {
-        msg.reply(entry[1]);
+      if (entry[ 0 ] === role) {
+        msg.reply(entry[ 1 ]);
         found = true;
       }
     });
 
     if (found) return;
 
-    if (typeof roles[role] === 'undefined') {
+    const targetRole = roles.find(r => r.shortName === role);
+    if (typeof targetRole === 'undefined') {
       await msg.channel.send({
         embed: new RoleHelp({
           roles,
@@ -71,16 +71,16 @@ export default class iam extends Command {
       return;
     }
 
-    let icon = '';
+    let icon       = '';
     let toggleText = '';
 
-    if (msg.member.roles.has(roles[role])) {
-      await msg.member.removeRole(roles[role]);
-      icon = 'RoleDelicon';
+    if (msg.member.roles.has(targetRole.id)) {
+      await msg.member.removeRole(targetRole.id);
+      icon       = 'RoleDelicon';
       toggleText = 'REMOVED';
     } else {
-      await msg.member.addRole(roles[role]);
-      icon = 'RoleGeticon';
+      await msg.member.addRole(targetRole.id);
+      icon       = 'RoleGeticon';
       toggleText = 'ADDED';
     }
 
