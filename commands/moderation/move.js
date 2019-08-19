@@ -6,7 +6,7 @@ import { Command } from 'discord.js-commando';
 import CONSTANTS from '../../constants';
 import { hasPermissions } from '../../bot-utils';
 
-export default class promo extends Command {
+export default class move extends Command {
   constructor(client) {
     super(client, {
       name: 'move',

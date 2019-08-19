@@ -26,6 +26,7 @@ export default class rolehelper extends Command {
   // eslint-disable-next-line
   async run(msg) {
     try {
+      await msg.delete();
       await msg.channel.send({
         embed: new RoleList().embed(),
       });

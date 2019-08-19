@@ -3,7 +3,7 @@ import { Bug } from '../../templates';
 import CONSTANTS from '../../constants';
 import { hasPermissions } from '../../bot-utils';
 
-export default class notice extends Command {
+export default class bug extends Command {
   constructor(client) {
     super(client, {
       name: 'bug',
@@ -26,6 +26,7 @@ export default class notice extends Command {
   // eslint-disable-next-line
   async run(msg) {
     try {
+      await msg.delete();
       await msg.channel.send({
         embed: new Bug().embed(),
       });
