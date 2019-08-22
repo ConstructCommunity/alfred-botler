@@ -45,7 +45,7 @@ export default class report extends Command {
     }
 
     await msg.guild.channels.get(CONSTANTS.CHANNELS.EVENTS)
-      .send(`**${msg.author.username}** requested a manual review for <#${msg.channel.id}>! @${CONSTANTS.ROLES.STAFF.id}`, {
+      .send(`**${msg.author.username}** requested a manual review for <#${msg.channel.id}>! <@${CONSTANTS.ROLES.STAFF.id}>`, {
         embed: {
           description: CONSTANTS.MESSAGE.EMPTY,
           title: 'Context:',
