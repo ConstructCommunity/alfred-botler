@@ -88,5 +88,6 @@ export default {
     CREATIONCLUB           : '448587099088879627',
     PROMO                  : '499606974510399498',
     PENDING_PROMO          : '536214036535050251',
+    EVENTS                 : '424586943792152585',
   },
 };
