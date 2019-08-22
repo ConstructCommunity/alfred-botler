@@ -44,8 +44,8 @@ export default class report extends Command {
       });
     }
 
-    await msg.guild.channels.get(CONSTANTS.CHANNELS.MODERATORS)
-      .send(`**${msg.author.username}** requested a manual review for <#${msg.channel.id}>! (<@&${CONSTANTS.ROLES.STAFF}>)`, {
+    await msg.guild.channels.get(CONSTANTS.CHANNELS.EVENTS)
+      .send(`**${msg.author.username}** requested a manual review for <#${msg.channel.id}>! <@&${CONSTANTS.ROLES.STAFF}>`, {
         embed: {
           description: CONSTANTS.MESSAGE.EMPTY,
           title: 'Context:',
