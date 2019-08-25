@@ -10,17 +10,15 @@ export default class Bug extends Template {
   // eslint-disable-next-line
   embed() {
     return new RichEmbed()
-      .setDescription('Found something weird, perhaps a sneaky bug? Would you like to suggest something? Please check out the links below!')
+      .setDescription('If you found a bug that needs reporting, check out the links below.')
       .setColor(11962861)
       .setFooter(CONSTANTS.MESSAGE.SCIRRA_FOOTER)
       .setThumbnail(`${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}//assets/mini/Infoicon.png`)
-      .setAuthor('HELLO THERE, HERE IS A LIST OF USEFUL STUFF!', `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/DiscordNotifyicon.png`)
+      .setAuthor('BUG REPORTING LINKS', `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/DiscordNotifyicon.png`)
       .addField(CONSTANTS.MESSAGE.SEPARATOR, CONSTANTS.MESSAGE.EMPTY)
-      .addField('Report Construct 3 bugs here:', 'https://goo.gl/HKKs1b')
-      .addField('Report Construct 2 bugs here:', 'https://goo.gl/mGVcUo')
-      .addField('Suggest Construct 3 features here:', 'https://goo.gl/uuUMTV')
-      .addField(CONSTANTS.MESSAGE.EMPTY, CONSTANTS.MESSAGE.SEPARATOR)
-      .addField('Get started with Construct 3 here:', 'https://www.construct.net/')
-      .addField('Get started with Construct 2 here:', 'https://www.scirra.com/');
+      .addField('<:C3:561134796911280128> Construct 3 Editor:', 'http://bit.ly/C3EditorBugs')
+      .addField('<:C3:561134796911280128> Construct 3 Website:', 'http://bit.ly/C3WebsiteBugs')
+      .addField('<:C2:561134777445646336> Construct 2:', 'http://bit.ly/C2Bugs')
+      .addField('<:C1:561134200896487424> Construct 1:', 'http://bit.ly/C1Bugs')
   }
 }
