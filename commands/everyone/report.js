@@ -14,6 +14,14 @@ export default class report extends Command {
       description: 'Report an individual to the CCStaff for breaking a rule.',
       examples: ['report'],
       memberName: 'report',
+      args: [
+        {
+          key: 'msgId',
+          prompt: 'Which message to report',
+          type: 'string',
+          default: '',
+        },
+      ],
     });
   }
 
@@ -26,7 +34,7 @@ export default class report extends Command {
   }
 
   // eslint-disable-next-line
-  async run(msg) {
+  async run(msg, { msgId }) {
     await msg.author.send('Your report has been submitted and will be reviewed as soon as possible.\n(Please note that wrong or malicious reporting might result in a permanent block from using this command!)');
 
     let _messages = await msg.channel.fetchMessages({
@@ -48,11 +56,11 @@ export default class report extends Command {
       .send(`**${msg.author.username}** requested a manual review for <#${msg.channel.id}>! <@&${CONSTANTS.ROLES.STAFF.id}>`, {
         embed: {
           description: CONSTANTS.MESSAGE.EMPTY,
-          title: 'Context:',
+          title: `https://discordapp.com/channels/${CONSTANTS.GUILD_ID}/${msg.channel.id}/${msgId ? msgId : msg.id}\n\nContext:`,
           color: 15844367,
           fields,
         },
       });
-    await msg.delete();
+    // await msg.delete();
   }
 }
