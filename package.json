@@ -17,7 +17,7 @@
     "@babel/polyfill": "^7.2.5",
     "@babel/register": "^7.0.0",
     "cheerio": "^1.0.0-rc.2",
-    "cross-env": "^5.1.4",
+    "cross-env": "^6.0.0",
     "day-of-year": "^0.1.0",
     "discord.js": "^11.2.0",
     "discord.js-commando": "^0.10.0",
