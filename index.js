@@ -1,4 +1,6 @@
 require('dotenv').config();
 require('@babel/register');
 require('@babel/polyfill');
-require('./app.js');
+
+const client = require('./app.js');
+client.login(process.env.TOKEN);
