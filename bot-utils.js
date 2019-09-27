@@ -1,10 +1,21 @@
 import cheerio from 'cheerio';
 import got from 'got';
 import Discord from 'discord.js';
-import * as firebase from 'firebase';
+import firebase from 'firebase/app';
 import moment from 'moment';
 import CONSTANTS from './constants';
 import { Blog, C3Update, C2Update } from './templates';
+
+import 'firebase/database';
+
+const config = {
+  apiKey: process.env.apiKey,
+  authDomain: process.env.authDomain,
+  databaseURL: process.env.databaseURL,
+  storageBucket: process.env.storageBucket,
+  messagingSenderId: process.env.messagingSenderId,
+};
+firebase.initializeApp(config);
 
 const database = firebase.database();
 
