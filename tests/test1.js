@@ -4,11 +4,11 @@ require('dotenv').config();
 require('@babel/register');
 require('@babel/polyfill');
 
-const client = require('../app.js');
-
 test('require still works', (t) => {
-  t.pass();
-
-  const login = client.login(process.env.TOKEN);
-  console.log('login', login);
+    try {
+        require('../app.js');
+        t.pass("At least, requiring seems to work");
+    } catch (e) {
+        t.fail('Failed loading');
+    }
 });

@@ -170,4 +170,4 @@ if (isDev) {
   client.registry.registerCommandsIn(path.join(__dirname, 'commands', 'moderation'));
 }
 
-export default client;
+client.login(process.env.TOKEN);
