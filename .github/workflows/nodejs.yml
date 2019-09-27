@@ -23,3 +23,5 @@ jobs:
         npm test
       env:
         CI: true
+        databaseURL: ${{ secrets.databaseURL }}
+        TOKEN: ${{ secrets.TOKEN }}
