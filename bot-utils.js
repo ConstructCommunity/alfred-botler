@@ -127,8 +127,8 @@ export const hasPermissions = (client, permissions, msg) => {
 export const addReactions = async (sent, type) => {
   try {
     const voteUp = sent.guild.emojis.get('276908986744438794');
-    const alfred = sent.guild.emojis.get('278258103474978816');
-    const princess = sent.guild.emojis.get('239703354526269440');
+    const alfred = sent.guild.emojis.get('626417707373428750');
+    const princess = sent.guild.emojis.get('626417707373428750');
 
     await sent.react(voteUp);
 
