@@ -32,7 +32,7 @@ export default class Rolelist extends Template {
       fields     : [
         {
           name : 'Exclusive Roles:',
-          value: '**Nitro Supporter:** Members server boosting with Nitro.\nᅠ',
+          value: '**Nitro Booster:** Members server boosting with Nitro.\nᅠ',
         },
         {
           name : 'Roles For Members:',
