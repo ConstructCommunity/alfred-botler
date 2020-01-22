@@ -29,8 +29,8 @@ const getConnectedUsers = () => {
 
 const updateStatus = () => {
   const users = getConnectedUsers();
-  client.user.setActivity(`${users} users`, {
-    type: 'TEST',
+  client.user.setActivity(`with ${users} members`, {
+    type: 'PLAYING',
   });
 };
 
