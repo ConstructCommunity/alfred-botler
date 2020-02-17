@@ -17,7 +17,7 @@ export default class Info extends Template {
       thumbnail: {
         url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/Discordicon.png`,
       },
-      description: 'Dedicated to the game development software **Construct**!\n(This server is __not official__ and run by community members!)',
+      description: 'Dedicated to the game development software **Construct**!\n(This server is __not official__ and run by Community Members!)',
       fields: [{
         name: CONSTANTS.MESSAGE.SEPARATOR,
         value: CONSTANTS.MESSAGE.EMPTY,
@@ -27,24 +27,24 @@ export default class Info extends Template {
         value: 'http://bit.ly/CC_rules',
       },
       {
-        name: 'Alfred Botler\'s Commands:',
-        value: 'http://bit.ly/botler_source',
+        name: 'Server Invitation Link:',
+        value: 'https://discord.gg/dZDU7Re',
       },
       {
-        name: 'Global Invitation Link:',
-        value: 'https://discord.gg/dZDU7Re',
+        name: 'Alfred Botler\'s Commands:',
+        value: 'http://bit.ly/botler_source',
       },
       {
         name: CONSTANTS.MESSAGE.EMPTY,
         value: CONSTANTS.MESSAGE.SEPARATOR,
       },
       {
-        name: '<:C3:561134796911280128> Purchase Construct 3 Now:',
+        name: '<:C3:561134796911280128> Try Construct 3 Now:',
         value: 'https://www.construct.net/',
       },
       {
-        name: '<:C3:561134796911280128> Try Construct 3 Now:',
-        value: 'https://editor.construct.net/',
+        name: '<:C3:561134796911280128> Purchase Construct 3 Now:',
+        value: 'https://www.construct.net/make-games/buy-construct',
       },
       ],
       footer: {
