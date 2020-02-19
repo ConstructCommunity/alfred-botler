@@ -15,6 +15,6 @@ export default class PromoUp extends Template {
       .setThumbnail(`${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/UploadIcon.png`)
       .setAuthor('PROMOTION SUBMISSION SUCCESSFUL!', `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/DiscordNotifyicon.png`, '')
       .addField(CONSTANTS.MESSAGE.SEPARATOR, CONSTANTS.MESSAGE.EMPTY)
-      .addField('How can I submit takedown requests?', 'Request removal of promoted content by contacting the CC Staff.');
+      .addField('Did something go wrong?', 'Request removal of your promoted content by contacting CC Staff.');
   }
 }
