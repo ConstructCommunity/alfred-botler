@@ -1,13 +1,41 @@
-import test from 'ava';
+const test = require('ava');
+const path = require('path');
+const { CommandoClient } = require('discord.js-commando');
 
 require('@babel/register');
 require('@babel/polyfill');
 
-test('require still works', (t) => {
-    try {
-        require('../app.js');
-        t.pass("At least, requiring seems to work");
-    } catch (e) {
-        t.fail('Failed loading');
+test.cb('basic', (t) => {
+  const client = new CommandoClient();
+
+  client
+    .on('error', console.error)
+
+    .on('ready', async () => {
+      console.log('ready');
+    });
+
+  client.registry
+    .registerGroups([
+      ['test', 'Commands available only for testing'],
+      ['everyone', 'Commands available to everyone'],
+      ['moderation', 'Commands available only to our staff members'],
+    ]);
+
+  // client.registry.registerCommandsIn(path.join(__dirname, '..', 'commands', 'test'));
+  // client.registry.registerCommandsIn(path.join(__dirname, '..', 'commands', 'everyone'));
+  // client.registry.registerCommandsIn(path.join(__dirname, '..', 'commands', 'moderation'));
+
+  client.login(process.env.TOKEN).then((res) => {
+    console.log('res', res);
+    t.pass();
+    t.end();
+  }).catch((e) => {
+    if (e.message === 'An invalid token was provided.') {
+      t.pass();
+    } else {
+      t.fail();
     }
+    t.end();
+  });
 });
