@@ -101,5 +101,7 @@ To:
       const sent = await msg.channel.send(`${messages.array().length} message(s) were moved to <#${channel.id}>. Please continue the conversation there! <:z_scirra_c3Alfred:278258103474978816>`);
       sent.delete(300000);
     }
+
+    await msg.delete();
   }
 }

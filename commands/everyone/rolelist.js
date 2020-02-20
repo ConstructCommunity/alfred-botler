@@ -18,7 +18,7 @@ export default class rolehelper extends Command {
   hasPermission(msg) {
     const permissions = {
       roles: [CONSTANTS.ROLES.ANY],
-      channels: [CONSTANTS.CHANNELS.ANY],
+      channels: [CONSTANTS.CHANNELS.ALFRED_COMMANDS],
     };
     return hasPermissions(this.client, permissions, msg);
   }

@@ -121,6 +121,7 @@ export const hasPermissions = (client, permissions, msg) => {
   if (hasRole && isInChannel) return true;
   if (!hasRole) return 'You are not permitted to use this command!';
   if (!isInChannel) return `Wrong channel! This command is available only in ${permissions.channels.map((chan) => `<#${chan.id}>`)}`;
+  if (!isInChannel) return `Wrong channel! This command is available only in ${permissions.channels.map((chan) => `<#${chan}>`)}`;
   return false;
 };
 
@@ -282,5 +283,15 @@ export const checkForNotificationBot = async (message) => {
   if (message.author.id === '159985870458322944') {
     // sent from the "notification" bot
     await addReactions(message, 'notification');
+  }
+};
+
+export const checkToolsHasLink = async (message) => {
+  const toolsChan = CONSTANTS.CHANNELS.TOOLS;
+  if (message.channel.id === toolsChan) {
+    if (message.content.search(/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi) === -1) {
+      await message.delete();
+      await message.author.send('Hey');
+    }
   }
 };

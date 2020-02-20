@@ -28,8 +28,6 @@ export default class notify extends Command {
 
   // eslint-disable-next-line
   async run(msg) {
-    await msg.delete();
-
     const mentions = msg.mentions.members.array();
 
     if (mentions.length < 1) {
@@ -37,7 +35,7 @@ export default class notify extends Command {
       return;
     }
 
-    const ids = removeDuplicates(mentions.map(m => `<@${m.user.id}>`));
+    const ids = removeDuplicates(mentions.map((m) => `<@${m.user.id}>`));
 
     const notifyEmbed = new Notify({
       message: msg.content.replace(/!notify/gmi, ''),
@@ -50,7 +48,7 @@ export default class notify extends Command {
     await sent.awaitReactions((e) => {
       const users = e.users.array();
 
-      const mentionIds = mentions.map(m => `${m.id}`);
+      const mentionIds = mentions.map((m) => `${m.id}`);
       let count = 0;
       users.forEach((user) => {
         if (mentionIds.includes(user.id)) {
@@ -62,8 +60,7 @@ export default class notify extends Command {
         sent.delete();
         msg.author.send(`Your message in <#${msg.channel.id}> was accepted by everyone`);
       }
-
-      return;
     });
+    await msg.delete();
   }
 }

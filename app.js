@@ -2,7 +2,7 @@ import Commando, { CommandoClient } from 'discord.js-commando';
 import path from 'path';
 import {
   checkC3Updates, checkC2Updates, checkBlogPosts, checkMessageForSafety,
-  checkForNotificationBot,
+  checkForNotificationBot, checkToolsHasLink,
 } from './bot-utils';
 import CONSTANTS from './constants';
 // import Socket from './socket';
@@ -126,6 +126,7 @@ client
     checkMessageForSafety(message);
 
     await checkForNotificationBot(message);
+    await checkToolsHasLink(message);
 
     try {
       if (
