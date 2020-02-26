@@ -45,6 +45,13 @@ export default class move extends Command {
     return hasPermissions(this.client, permissions, msg);
   }
 
+  /**
+   *
+   * @param msg
+   * @param amount
+   * @param { Discord.TextChannel } channel
+   * @return {Promise<void>}
+   */
   // eslint-disable-next-line
   async run(msg, { amount, channel }) {
     if (amount <= 0) {
@@ -52,8 +59,7 @@ export default class move extends Command {
       return;
     }
 
-    const chan = await msg.channel.fetch();
-    let messages = chan.messages.fetch({ limit: amount + 1 });
+    let messages = await msg.channel.messages.fetch({ limit: amount + 1 });
     messages = messages
       .filter((m) => m.id !== messages.first().id)
       .sort((a, b) => a.createdTimestamp - b.createdTimestamp);
@@ -63,7 +69,7 @@ export default class move extends Command {
     await msg.author.send({
       embed: {
         title: 'Do you confirm this ? (yes/no)',
-        description: `**Will be copied to #${chan}**
+        description: `**Will be copied to #${channel}**
 
 From:
 **"${messages.first().cleanContent}"** 
@@ -92,7 +98,7 @@ To:
       // eslint-disable-next-line
       for (let m of messages.values()) {
         // eslint-disable-next-line
-        await duplicateMessage(m, chan.id, content => content)
+        await duplicateMessage(m, channel.id, content => content)
         console.log(m.cleanContent);
       }
 

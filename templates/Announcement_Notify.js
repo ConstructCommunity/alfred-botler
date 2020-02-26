@@ -1,4 +1,4 @@
-import { RichEmbed } from 'discord.js';
+import { MessageEmbed } from 'discord.js';
 import CONSTANTS from '../constants';
 import Template from './Template';
 
@@ -10,13 +10,13 @@ export default class Notify extends Template {
   }
 
   embed() {
-    return new RichEmbed()
+    return new MessageEmbed()
       .setDescription(this.variables.message)
       .setColor(16711680)
       .setFooter('► Press \'OK\' to confirm the action has been performed.')
       .setThumbnail(`${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/Negativeicon.png`)
       .setAuthor('AN ACTION IS REQUIRED!', `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/DiscordWarnicon.png`, '');
-    // .addField(CONSTANTS.MESSAGE.SEPARATOR, CONSTANTS.MESSAGE.EMPTY)
-    // .addField('This is a generated message by the CC Staff.', 'Please do the things mentioned below!');
+    // .addFields(CONSTANTS.MESSAGE.SEPARATOR, CONSTANTS.MESSAGE.EMPTY)
+    // .addFields('This is a generated message by the CC Staff.', 'Please do the things mentioned below!');
   }
 }

@@ -1,19 +1,19 @@
-import { RichEmbed } from 'discord.js';
+import { MessageEmbed } from 'discord.js';
 import CONSTANTS from '../constants';
 import Template from './Template';
 
 export default class Blog extends Template {
   constructor(variables) {
     super('blog', variables, {
-      title     : '[Title]',
-      author    : '[Author]',
+      title: '[Title]',
+      author: '[Author]',
       timeToRead: '[~ 2/3 min]',
-      link      : 'https://',
+      link: 'https://',
     });
   }
 
   embed() {
-    return new RichEmbed()
+    return new MessageEmbed()
       .setDescription(this.variables.title)
       .setColor(3593036)
       .setFooter(CONSTANTS.MESSAGE.SCIRRA_FOOTER)
@@ -22,12 +22,11 @@ export default class Blog extends Template {
         `NEW BLOG POST FROM ${this.variables.author.toUpperCase()} JUST WENT LIVE!`,
         `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/C3Blogicon.png`,
       )
-      .addField(CONSTANTS.MESSAGE.SEPARATOR,
-        CONSTANTS.MESSAGE.EMPTY,
-      )
-      .addField(
+      .addFields(CONSTANTS.MESSAGE.SEPARATOR,
+        CONSTANTS.MESSAGE.EMPTY)
+      .addFields(
         `Read the new blog post (${this.variables.timeToRead}):`,
         this.variables.link,
       );
-  };
+  }
 }

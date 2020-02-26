@@ -1,4 +1,4 @@
-import { RichEmbed } from 'discord.js';
+import { MessageEmbed } from 'discord.js';
 import CONSTANTS from '../constants';
 import Template from './Template';
 

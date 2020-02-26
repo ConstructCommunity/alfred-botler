@@ -1,4 +1,4 @@
-import { RichEmbed } from 'discord.js';
+import { MessageEmbed } from 'discord.js';
 import CONSTANTS from '../constants';
 import Template from './Template';
 
@@ -9,12 +9,12 @@ export default class PromoUp extends Template {
 
   // eslint-disable-next-line
   embed() {
-    return new RichEmbed()
+    return new MessageEmbed()
       .setDescription(`Your content is now available inside the <#${CONSTANTS.CHANNELS.PROMO}> channel.`)
       .setColor(11962861)
       .setThumbnail(`${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/UploadIcon.png`)
       .setAuthor('PROMOTION SUBMISSION SUCCESSFUL!', `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/DiscordNotifyicon.png`, '')
-      .addField(CONSTANTS.MESSAGE.SEPARATOR, CONSTANTS.MESSAGE.EMPTY)
-      .addField('Did something go wrong?', 'Request removal of your promoted content by contacting CC Staff.');
+      .addFields(CONSTANTS.MESSAGE.SEPARATOR, CONSTANTS.MESSAGE.EMPTY)
+      .addFields('Did something go wrong?', 'Request removal of your promoted content by contacting CC Staff.');
   }
 }

@@ -8,5 +8,8 @@ export const genericError = (err, message, args, from, Pattern, result) => {
 Content of the message:
 \`${message.content}\`
 `;
-  return message.guild.channels.cache.get(constants.CHANNELS.EVENTS).send(text);
+
+  if (process.env.NODE_ENV === 'production') {
+    return message.guild.channels.cache.get(constants.CHANNELS.EVENTS).send(text);
+  }
 };
