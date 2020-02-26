@@ -2,6 +2,7 @@ import { Command } from 'discord.js-commando';
 import CONSTANTS from '../../constants';
 import { hasPermissions } from '../../bot-utils';
 import Warn from '../../templates/Announcement_Warn';
+import { genericError } from '../../errorManagement';
 
 /*
 ► List Of Punishments
@@ -31,6 +32,11 @@ export default class warn extends Command {
     });
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  onError(err, message, args, fromPattern, result) {
+    return genericError(err, message, args, fromPattern, result);
+  }
+
   hasPermission(msg) {
     const permissions = {
       roles: [CONSTANTS.ROLES.STAFF],
@@ -43,7 +49,7 @@ export default class warn extends Command {
    * Run the command
    * @inheritDoc
    * @param msg
-   * @param user
+   * @param {Discord.ClientUser} user
    * @returns {Promise<void>}
    */
   // eslint-disable-next-line

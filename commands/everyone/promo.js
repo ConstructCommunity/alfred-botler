@@ -6,6 +6,7 @@ import { Command } from 'discord.js-commando';
 import CONSTANTS from '../../constants';
 import { hasPermissions, duplicateMessage, addReactions } from '../../bot-utils';
 import { PromoUp } from '../../templates';
+import { genericError } from '../../errorManagement';
 
 export default class promo extends Command {
   constructor(client) {
@@ -16,6 +17,11 @@ export default class promo extends Command {
       description: 'Promote your content in #promotion',
       examples: ['promo message'],
     });
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  onError(err, message, args, fromPattern, result) {
+    return genericError(err, message, args, fromPattern, result);
   }
 
   hasPermission(msg) {
@@ -36,7 +42,7 @@ export default class promo extends Command {
       return;
     }
 
-    await duplicateMessage(msg, CONSTANTS.CHANNELS.PROMO, content => content.replace(/!promo ?/, ''));
+    await duplicateMessage(msg, CONSTANTS.CHANNELS.PROMO, (content) => content.replace(/!promo ?/, ''));
 
     // send pending approval notification
     const sent = await msg.author.send({

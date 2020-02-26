@@ -18,18 +18,18 @@ const client = new CommandoClient({
 });
 
 const getConnectedUsers = () => {
-  const guild = client.guilds.get(CONSTANTS.GUILD_ID);
+  const guild = client.guilds.cache.get(CONSTANTS.GUILD_ID);
 
   const guildMembers = guild.members;
 
-  const connectedUsers = guildMembers.filter((member) => (member.presence.status !== 'offline'));
+  const connectedUsers = guildMembers.cache.filter((member) => (member.presence.status !== 'offline'));
 
   return connectedUsers.size;
 };
 
-const updateStatus = () => {
+const updateStatus = async () => {
   const users = getConnectedUsers();
-  client.user.setActivity(`with ${users} members`, {
+  await client.user.setActivity(`with ${users} members`, {
     type: 'PLAYING',
   });
 };
@@ -80,7 +80,7 @@ client
     /* const sock = new Socket(client);
     sock.connect(); */
 
-    updateStatus();
+    await updateStatus();
 
     if (!isDev) {
       setInterval(() => checkC3Updates(client), 600000);
@@ -89,17 +89,17 @@ client
 
       setInterval(() => checkBlogPosts(client), 600000);
     } else {
-      checkC3Updates(client);
-      checkC2Updates(client);
-      checkBlogPosts(client);
+      await checkC3Updates(client);
+      await checkC2Updates(client);
+      await checkBlogPosts(client);
     }
   })
-  .on('presenceUpdate', () => {
-    updateStatus(client);
+  .on('presenceUpdate', async () => {
+    await updateStatus(client);
   })
   .on('guildMemberAdd', async (member) => {
     console.log('new member');
-    const role = await member.addRole('588420010574086146'); // @Member
+    const role = await member.roles.add('588420010574086146'); // @Member
     console.log('role added', role);
   })
   .on('message', async (message) => {
@@ -123,7 +123,7 @@ client
   }
   */
 
-    checkMessageForSafety(message);
+    await checkMessageForSafety(message);
 
     await checkForNotificationBot(message);
     await checkToolsHasLink(message);
@@ -135,7 +135,7 @@ client
       && message.channel.id === CONSTANTS.CHANNELS.CREATIONCLUB
       ) {
         const owner = message.author;
-        owner.send('**Join the Construct Creation Club by visiting the following link:** https://lnk.armaldio.xyz/WebCreationClub');
+        await owner.send('**Join the Construct Creation Club by visiting the following link:** https://lnk.armaldio.xyz/WebCreationClub');
         await message.delete();
       }
     } catch (err) {

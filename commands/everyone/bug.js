@@ -2,6 +2,7 @@ import { Command } from 'discord.js-commando';
 import { Bug } from '../../templates';
 import CONSTANTS from '../../constants';
 import { hasPermissions } from '../../bot-utils';
+import { genericError } from '../../errorManagement';
 
 export default class bug extends Command {
   constructor(client) {
@@ -13,6 +14,11 @@ export default class bug extends Command {
       examples: ['bug'],
       deleteCmd: true,
     });
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  onError(err, message, args, fromPattern, result) {
+    return genericError(err, message, args, fromPattern, result);
   }
 
   hasPermission(msg) {

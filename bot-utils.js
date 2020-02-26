@@ -35,7 +35,7 @@ export const duplicateMessage = async (
   includeAttachments = true,
 ) => {
   // Makes it easier to get the channels rather than doing the msg.mentions.channels thing
-  const toChannel = msg.guild.channels.get(toChannelId);
+  const toChannel = msg.guild.channels.cache.get(toChannelId);
   if (!toChannel) {
     console.log('Could not find mentioned channel');
     return;
@@ -53,7 +53,14 @@ export const duplicateMessage = async (
 
     if (includeAttachments) {
       if (msg.embeds !== null) options.embeds = msg.embeds;
-      if (msg.attachments.array().length > 0) options.files = [new Discord.Attachment(msg.attachments.first().url, msg.attachments.first().filename)];
+      if (msg.attachments.array().length > 0) {
+        options.files = [
+          new Discord.MessageAttachment(
+            msg.attachments.first().url,
+            msg.attachments.first().filename,
+          ),
+        ];
+      }
     }
 
     const message = await wb.send(contentEditor(msg.content || ''), options);
@@ -67,7 +74,7 @@ export const duplicateMessage = async (
 
 /**
  *
- * @param {Message} msg
+ * @param {Discord.Message} msg
  * @return {Promise<void>}
  */
 export const checkMessageForSafety = async (msg) => {
@@ -93,10 +100,10 @@ export const checkMessageForSafety = async (msg) => {
 If this is a false positive, please let the CCStaff know. We'll be happy to help.`);
 
         // make a duplicate without removing initial message inside #bin
-        await msg.guild.channels.get(CONSTANTS.CHANNELS.BIN).send('Censored message below:');
-        await msg.guild.channels.get(CONSTANTS.CHANNELS.BIN).send(CONSTANTS.MESSAGE.SEPARATOR);
+        await msg.guild.channels.cache.get(CONSTANTS.CHANNELS.BIN).send('Censored message below:');
+        await msg.guild.channels.cache.get(CONSTANTS.CHANNELS.BIN).send(CONSTANTS.MESSAGE.SEPARATOR);
         await duplicateMessage(msg, CONSTANTS.CHANNELS.BIN, (content) => content);
-        await msg.guild.channels.get(CONSTANTS.CHANNELS.BIN).send(CONSTANTS.MESSAGE.SEPARATOR);
+        await msg.guild.channels.cache.get(CONSTANTS.CHANNELS.BIN).send(CONSTANTS.MESSAGE.SEPARATOR);
 
         // delete the original message
         await msg.delete();
@@ -105,17 +112,24 @@ If this is a false positive, please let the CCStaff know. We'll be happy to help
   }
 };
 
+/**
+ * @param client
+ * @param permissions
+ * @param msg
+ * @return {string|boolean}
+ */
 export const hasPermissions = (client, permissions, msg) => {
   const hasRole = msg.member.roles
+    .cache
     .array()
     .some(
       (role) => permissions.roles.map((r) => r.id).includes(role.id),
     ); // stop and return true if predicate match
   const isInChannel = (
     permissions.channels.includes(CONSTANTS.CHANNELS.ANY)
-    || permissions.channels.includes(msg.channel.id)
-    || msg.channel.id === CONSTANTS.CHANNELS.PRIVATE_TESTS
-    || msg.channel.id === CONSTANTS.CHANNELS.TEST
+        || permissions.channels.includes(msg.channel.id)
+        || msg.channel.id === CONSTANTS.CHANNELS.PRIVATE_TESTS
+        || msg.channel.id === CONSTANTS.CHANNELS.TEST
   );
 
   if (hasRole && isInChannel) return true;
@@ -127,9 +141,9 @@ export const hasPermissions = (client, permissions, msg) => {
 
 export const addReactions = async (sent, type) => {
   try {
-    const voteUp = sent.guild.emojis.get('276908986744438794');
-    const alfred = sent.guild.emojis.get('626417707373428750');
-    const princess = sent.guild.emojis.get('626417707373428750');
+    const voteUp = sent.guild.emojis.cache.get('276908986744438794');
+    const alfred = sent.guild.emojis.cache.get('626417707373428750');
+    const princess = sent.guild.emojis.cache.get('626417707373428750');
 
     await sent.react(voteUp);
 

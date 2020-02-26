@@ -2,6 +2,7 @@ import { Command } from 'discord.js-commando';
 import { RoleList } from '../../templates';
 import CONSTANTS from '../../constants';
 import { hasPermissions } from '../../bot-utils';
+import { genericError } from '../../errorManagement';
 
 export default class rolehelper extends Command {
   constructor(client) {
@@ -21,6 +22,11 @@ export default class rolehelper extends Command {
       channels: [CONSTANTS.CHANNELS.ALFRED_COMMANDS],
     };
     return hasPermissions(this.client, permissions, msg);
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  onError(err, message, args, fromPattern, result) {
+    return genericError(err, message, args, fromPattern, result);
   }
 
   // eslint-disable-next-line

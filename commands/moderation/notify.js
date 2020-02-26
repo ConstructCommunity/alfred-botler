@@ -6,6 +6,7 @@ import { Command } from 'discord.js-commando';
 import { Notify } from '../../templates';
 import CONSTANTS from '../../constants';
 import { hasPermissions, removeDuplicates } from '../../bot-utils';
+import { genericError } from '../../errorManagement';
 
 export default class notify extends Command {
   constructor(client) {
@@ -16,6 +17,11 @@ export default class notify extends Command {
       description: 'Notify user and waits for their reactions',
       examples: ['notify @user1 @user2 message', 'notify Hello @user1 @user2, can you please ...'],
     });
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  onError(err, message, args, fromPattern, result) {
+    return genericError(err, message, args, fromPattern, result);
   }
 
   hasPermission(msg) {
@@ -31,8 +37,7 @@ export default class notify extends Command {
     const mentions = msg.mentions.members.array();
 
     if (mentions.length < 1) {
-      msg.author.send('You must specify at least one person');
-      return;
+      return msg.author.send('You must specify at least one person');
     }
 
     const ids = removeDuplicates(mentions.map((m) => `<@${m.user.id}>`));

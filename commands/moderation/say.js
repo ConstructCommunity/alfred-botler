@@ -7,6 +7,7 @@ import { Command } from 'discord.js-commando';
 
 import { hasPermissions } from '../../bot-utils';
 import CONSTANTS from '../../constants';
+import { genericError } from '../../errorManagement';
 
 export default class say extends Command {
   constructor(client) {
@@ -25,6 +26,11 @@ export default class say extends Command {
         },
       ],
     });
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  onError(err, message, args, fromPattern, result) {
+    return genericError(err, message, args, fromPattern, result);
   }
 
   hasPermission(msg) {

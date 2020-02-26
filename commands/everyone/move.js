@@ -5,6 +5,7 @@
 import { Command } from 'discord.js-commando';
 import CONSTANTS from '../../constants';
 import { hasPermissions, duplicateMessage } from '../../bot-utils';
+import { genericError } from '../../errorManagement';
 
 export default class move extends Command {
   constructor(client) {
@@ -31,6 +32,11 @@ export default class move extends Command {
     });
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  onError(err, message, args, fromPattern, result) {
+    return genericError(err, message, args, fromPattern, result);
+  }
+
   hasPermission(msg) {
     const permissions = {
       roles: [CONSTANTS.ROLES.STAFF],
@@ -42,11 +48,12 @@ export default class move extends Command {
   // eslint-disable-next-line
   async run(msg, { amount, channel }) {
     if (amount <= 0) {
-      msg.author.send('Amount of message must be greater that 0!');
+      await msg.author.send('Amount of message must be greater that 0!');
       return;
     }
 
-    let messages = await msg.channel.fetchMessages({ limit: amount + 1 });
+    const chan = await msg.channel.fetch();
+    let messages = chan.messages.fetch({ limit: amount + 1 });
     messages = messages
       .filter((m) => m.id !== messages.first().id)
       .sort((a, b) => a.createdTimestamp - b.createdTimestamp);
@@ -56,7 +63,7 @@ export default class move extends Command {
     await msg.author.send({
       embed: {
         title: 'Do you confirm this ? (yes/no)',
-        description: `**Will be copied to #${channel.name}**
+        description: `**Will be copied to #${chan}**
 
 From:
 **"${messages.first().cleanContent}"** 
@@ -85,7 +92,7 @@ To:
       // eslint-disable-next-line
       for (let m of messages.values()) {
         // eslint-disable-next-line
-        await duplicateMessage(m, channel.id, content => content)
+        await duplicateMessage(m, chan.id, content => content)
         console.log(m.cleanContent);
       }
 
@@ -94,12 +101,15 @@ To:
 
       const msgDel = await msg.author.send(text);
       await Promise.all(messages.map((m) => m.delete().then(() => {
+        // eslint-disable-next-line no-plusplus
         msgDel.edit(`${text} ${++x}/${messages.array().length}`);
       })));
       await msgDel.edit(`${messages.array().length} messages successfully deleted.`);
 
       const sent = await msg.channel.send(`${messages.array().length} message(s) were moved to <#${channel.id}>. Please continue the conversation there! <:z_scirra_c3Alfred:278258103474978816>`);
-      sent.delete(300000);
+      await sent.delete({
+        timeout: 300000,
+      });
     }
 
     await msg.delete();

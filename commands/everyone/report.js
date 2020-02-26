@@ -5,6 +5,7 @@
 import { Command } from 'discord.js-commando';
 import CONSTANTS from '../../constants';
 import { hasPermissions } from '../../bot-utils';
+import { genericError } from '../../errorManagement';
 
 export default class report extends Command {
   constructor(client) {
@@ -25,6 +26,11 @@ export default class report extends Command {
     });
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  onError(err, message, args, fromPattern, result) {
+    return genericError(err, message, args, fromPattern, result);
+  }
+
   hasPermission(msg) {
     const permissions = {
       roles: [CONSTANTS.ROLES.ANY],
@@ -37,7 +43,7 @@ export default class report extends Command {
   async run(msg, { msgId }) {
     await msg.author.send('Your report has been submitted and will be reviewed as soon as possible.\n(Please note that wrong or malicious reporting might result in a permanent block from using this command!)');
 
-    let _messages = await msg.channel.fetchMessages({
+    let _messages = await msg.channel.messages.fetch({
       limit: 10,
       before: msg.id,
     });
@@ -52,11 +58,11 @@ export default class report extends Command {
       });
     }
 
-    await msg.guild.channels.get(CONSTANTS.CHANNELS.EVENTS)
+    await msg.guild.channels.cache.get(CONSTANTS.CHANNELS.EVENTS)
       .send(`**${msg.author.username}** requested a manual review for <#${msg.channel.id}>! <@&${CONSTANTS.ROLES.STAFF.id}>`, {
         embed: {
           description: CONSTANTS.MESSAGE.EMPTY,
-          title: `https://discordapp.com/channels/${CONSTANTS.GUILD_ID}/${msg.channel.id}/${msgId ? msgId : msg.id}\n\nContext:`,
+          title: `https://discordapp.com/channels/${CONSTANTS.GUILD_ID}/${msg.channel.id}/${msgId || msg.id}\n\nContext:`,
           color: 15844367,
           fields,
         },
