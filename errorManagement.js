@@ -1,7 +1,7 @@
 import constants from './constants';
 
 export const genericError = (err, message, args, from, Pattern, result) => {
-  const text = `Uncaught error!
+  const text = `**Uncaught error!**
 
 \`${err.message}\`
 
