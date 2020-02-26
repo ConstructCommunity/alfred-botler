@@ -18,7 +18,9 @@ export default class Backup extends Template {
       .setFooter(CONSTANTS.MESSAGE.SCIRRA_FOOTER)
       .setThumbnail(`${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/MoveMsgicon.png`)
       .setAuthor(`BACKUP FROM ${this.variables.channelName} (${this.variables.timestamp})`, 'https://raw.githubusercontent.com/Armaldio/alfred-botler/master/assets/mini/AlfredBotlericon.png', '')
-      .addFields('──────────────────────────────────', 'ᅠ', false)
-      .addFields('Backup:', this.variables.users.map(u => `**${u.userName}:** ${u.userMessage}**`));
+      .addFields([
+        { name: '──────────────────────────────────', value: 'ᅠ', inline: false },
+        { name: 'Backup:', value: this.variables.users.map((u) => `**${u.userName}:** ${u.userMessage}**`) },
+      ]);
   }
 }

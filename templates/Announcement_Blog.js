@@ -22,11 +22,15 @@ export default class Blog extends Template {
         `NEW BLOG POST FROM ${this.variables.author.toUpperCase()} JUST WENT LIVE!`,
         `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/C3Blogicon.png`,
       )
-      .addFields(CONSTANTS.MESSAGE.SEPARATOR,
-        CONSTANTS.MESSAGE.EMPTY)
-      .addFields(
-        `Read the new blog post (${this.variables.timeToRead}):`,
-        this.variables.link,
-      );
+      .addFields([
+        {
+          name: CONSTANTS.MESSAGE.SEPARATOR,
+          value: CONSTANTS.MESSAGE.EMPTY,
+        },
+        {
+          name: `Read the new blog post (${this.variables.timeToRead}):`,
+          value: this.variables.link,
+        },
+      ]);
   }
 }

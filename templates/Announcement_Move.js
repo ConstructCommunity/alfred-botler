@@ -22,9 +22,14 @@ export default class Move extends Template {
       .setAuthor(`MESSAGES MOVED FROM ${
         this.variables.channel_name
       }`, 'https://raw.githubusercontent.com/Armaldio/alfred-botler/master/assets/mini/DiscordNotifyicon.png', '')
-      .addFields(CONSTANTS.MESSAGE.SEPARATOR, CONSTANTS.MESSAGE.EMPTY)
-      .addFields('Moved messages:', `**${this.variables.user_name}:** ${this.variables.usermessage}
+      .addFields([
+        { name: CONSTANTS.MESSAGE.SEPARATOR, value: CONSTANTS.MESSAGE.EMPTY },
+        {
+          name: 'Moved messages:',
+          value: `**${this.variables.user_name}:** ${this.variables.usermessage}
 **${this.variables.user_name}:** ${this.variables.usermessage}
-**${this.variables.user_name}:** ${this.variables.usermessage}`);
+**${this.variables.user_name}:** ${this.variables.usermessage}`,
+        },
+      ]);
   }
 }

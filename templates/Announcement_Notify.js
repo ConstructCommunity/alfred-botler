@@ -16,7 +16,5 @@ export default class Notify extends Template {
       .setFooter('► Press \'OK\' to confirm the action has been performed.')
       .setThumbnail(`${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/Negativeicon.png`)
       .setAuthor('AN ACTION IS REQUIRED!', `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/DiscordWarnicon.png`, '');
-    // .addFields(CONSTANTS.MESSAGE.SEPARATOR, CONSTANTS.MESSAGE.EMPTY)
-    // .addFields('This is a generated message by the CC Staff.', 'Please do the things mentioned below!');
   }
 }

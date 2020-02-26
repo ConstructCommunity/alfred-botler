@@ -15,10 +15,12 @@ export default class Bug extends Template {
       .setFooter(CONSTANTS.MESSAGE.SCIRRA_FOOTER)
       .setThumbnail(`${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}//assets/mini/Infoicon.png`)
       .setAuthor('BUG REPORTING LINKS', `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/DiscordNotifyicon.png`)
-      .addFields(CONSTANTS.MESSAGE.SEPARATOR, CONSTANTS.MESSAGE.EMPTY)
-      .addFields('<:C3:561134796911280128> Construct 3 Editor:', 'http://bit.ly/C3EditorBugs')
-      .addFields('<:C3:561134796911280128> Construct 3 Website:', 'http://bit.ly/C3WebsiteBugs')
-      .addFields('<:C2:561134777445646336> Construct 2:', 'http://bit.ly/C2Bugs')
-      .addFields('<:C1:561134200896487424> Construct 1:', 'http://bit.ly/C1Bugs')
+      .addFields([
+        { name: CONSTANTS.MESSAGE.SEPARATOR, value: CONSTANTS.MESSAGE.EMPTY },
+        { name: '<:C3:561134796911280128> Construct 3 Editor:', value: 'http://bit.ly/C3EditorBugs' },
+        { name: '<:C3:561134796911280128> Construct 3 Website:', value: 'http://bit.ly/C3WebsiteBugs' },
+        { name: '<:C2:561134777445646336> Construct 2:', value: 'http://bit.ly/C2Bugs' },
+        { name: '<:C1:561134200896487424> Construct 1:', value: 'http://bit.ly/C1Bugs' },
+      ]);
   }
 }
