@@ -305,7 +305,7 @@ export const checkToolsHasLink = async (message) => {
   if (message.channel.id === toolsChan) {
     if (message.content.search(/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi) === -1) {
       await message.delete();
-      await message.author.send('Hey');
+      await message.author.send('**Your content does not meet one or more requirements!**\n\n__List of requirements:__\n► **1** link/embed or attachment');
     }
   }
 };
