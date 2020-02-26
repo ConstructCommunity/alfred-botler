@@ -48,6 +48,6 @@ export default class promo extends Command {
     const sent = await msg.author.send({
       embed: new PromoUp({}).embed(),
     });
-     await addReactions(sent, 'notification');
+    await addReactions(sent);
   }
 }

@@ -5,10 +5,12 @@ import {
   checkForNotificationBot, checkToolsHasLink,
 } from './bot-utils';
 import CONSTANTS from './constants';
+import rollbar from './rollbar';
 // import Socket from './socket';
 
 const isDev = process.env.NODE_ENV === 'development';
 // let socket = null;
+
 
 const client = new CommandoClient({
   commandPrefix: '!',
@@ -40,7 +42,9 @@ const updateStatus = async () => {
 }; */
 
 client
-  .on('error', console.error)
+  .on('error', (e) => {
+    rollbar.error(e);
+  })
   .on('warn', console.warn)
   .on('debug', console.log)
 

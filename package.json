@@ -27,6 +27,7 @@
     "is-reachable": "^4.0.0",
     "moment": "^2.23.0",
     "pm2": "^4.0.0",
+    "rollbar": "^2.14.4",
     "socket.io": "^2.2.0"
   },
   "devDependencies": {

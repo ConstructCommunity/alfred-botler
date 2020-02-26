@@ -139,7 +139,7 @@ export const hasPermissions = (client, permissions, msg) => {
   return false;
 };
 
-export const addReactions = async (sent, type) => {
+export const addReactions = async (sent, type = 'dismiss') => {
   try {
     const voteUp = sent.guild.emojis.cache.get('276908986744438794');
     const alfred = sent.guild.emojis.cache.get('626417707373428750');
