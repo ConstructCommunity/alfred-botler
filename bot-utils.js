@@ -80,6 +80,7 @@ export const duplicateMessage = async (
 export const checkMessageForSafety = async (msg) => {
   if (msg.author.id === CONSTANTS.BOT) return;
   if (msg.webhookID !== null) return;
+  if (!msg.member) return;
   // if (msg.channel.id !== CONSTANTS.CHANNELS.PRIVATE_TESTS) return;
 
   const t = moment().diff(moment(msg.member.joinedTimestamp), 'hours');
