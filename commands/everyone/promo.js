@@ -42,12 +42,13 @@ export default class promo extends Command {
       return;
     }
 
-    await duplicateMessage(msg, CONSTANTS.CHANNELS.PROMO, (content) => content.replace(/!promo ?/, ''));
+    const sent = await duplicateMessage(msg, CONSTANTS.CHANNELS.PRIVATE_TESTS, (content) => content.replace(/!promo ?/, ''));
 
     // send pending approval notification
-    const sent = await msg.author.send({
+    await msg.author.send({
       embed: new PromoUp({}).embed(),
     });
-    await addReactions(sent);
+
+    await addReactions(sent, 'promo');
   }
 }

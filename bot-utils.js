@@ -3,6 +3,7 @@ import got from 'got';
 import Discord from 'discord.js';
 import firebase from 'firebase/app';
 import moment from 'moment';
+import rollbar from './rollbar';
 import CONSTANTS from './constants';
 import { Blog, C3Update, C2Update } from './templates';
 
@@ -38,7 +39,7 @@ export const duplicateMessage = async (
   const toChannel = msg.guild.channels.cache.get(toChannelId);
   if (!toChannel) {
     console.log('Could not find mentioned channel');
-    return;
+    return null;
   }
 
   let wb;
@@ -67,8 +68,10 @@ export const duplicateMessage = async (
     await wb.delete('Message duplicated successfully');
     return message;
   } catch (e) {
-    await wb.delete('Message duplicated successfully');
-    console.log(e);
+    await wb.delete('Message not duplicated!');
+    rollbar.error(e);
+    console.error(e);
+    return null;
   }
 };
 
@@ -140,18 +143,30 @@ export const hasPermissions = (client, permissions, msg) => {
   return false;
 };
 
+/**
+ *
+ * @param {Discord.Message} sent
+ * @param type
+ * @return {Promise<void>}
+ */
 export const addReactions = async (sent, type = 'dismiss') => {
   try {
-    const voteUp = sent.guild.emojis.cache.get('276908986744438794');
-    const alfred = sent.guild.emojis.cache.get('626417707373428750');
-    const princess = sent.guild.emojis.cache.get('626417707373428750');
+    console.log('sent', sent);
+    const voteUp = sent.guild.emojis.resolve('276908986744438794');
+    const alfred = sent.guild.emojis.resolve('626417707373428750');
+    const princess = sent.guild.emojis.resolve('626417707373428750');
 
     await sent.react(voteUp);
 
-    if (type === 'c3') await sent.react(alfred);
-    else await sent.react(princess);
+    if (type === 'c3') {
+      await sent.react(alfred);
+    } else if (type === 'promo') {
+      //
+    } else {
+      await sent.react(princess);
+    }
   } catch (e) {
-    console.log('Cannot add reactions', e);
+    console.error('Cannot add reactions', e);
   }
 };
 
