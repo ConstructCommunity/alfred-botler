@@ -52,7 +52,7 @@ client
     console.warn('Reconnecting...');
   })
   .on('commandError', (cmd, err) => {
-    rollbar.log(err);
+    rollbar.error(err);
     if (err instanceof Commando.FriendlyError) return;
     console.error(`Error in command ${cmd.groupID}:${cmd.memberName}`, err);
   })
