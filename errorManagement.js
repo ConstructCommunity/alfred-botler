@@ -1,12 +1,10 @@
 import constants from './constants';
 
 export const genericError = (err, message, args, from, Pattern, result) => {
-  const text = `**Uncaught error!**
+  const text = `**__An error occured!__**
 
-\`${err.message}\`
-
-Content of the message:
-\`${message.content}\`
+**Error: \`${err.message}\`
+**Context**: \`${message.content}\`
 `;
 
   if (process.env.NODE_ENV === 'production') {
