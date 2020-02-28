@@ -29,6 +29,12 @@ export const truncate = (string, max) => (string.length > max ? `${string.substr
  */
 export const removeDuplicates = (arr) => arr.reduce((x, y) => (x.includes(y) ? x : [...x, y]), []);
 
+/**
+ * @param {Discord.Message} msg
+ * @param {String} toChannelId
+ * @param {String} contentEditor
+ * @param {Boolean} includeAttachments
+ */
 export const duplicateMessage = async (
   msg,
   toChannelId,
@@ -49,7 +55,7 @@ export const duplicateMessage = async (
   try {
     const options = {
       username: msg.author.username,
-      avatarURL: msg.author.avatarURL,
+      avatarURL: msg.author.avatarURL(),
     };
 
     if (includeAttachments) {
@@ -151,7 +157,6 @@ export const hasPermissions = (client, permissions, msg) => {
  */
 export const addReactions = async (sent, type = 'dismiss') => {
   try {
-    console.log('sent', sent);
     const voteUp = sent.guild.emojis.resolve('276908986744438794');
     const alfred = sent.guild.emojis.resolve('626417707373428750');
     const princess = sent.guild.emojis.resolve('626417707373428750');
