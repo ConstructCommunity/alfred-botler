@@ -204,7 +204,7 @@ export const checkBlogPosts = async (client) => {
       const isScirra = scirraStaff.includes(author);
 
       if (title !== newTitle && newTitle !== '') {
-        const sent = await client.channels.get(
+        const sent = await client.channels.cache.get(
           isScirra
             ? CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS
             : CONSTANTS.CHANNELS.PROMO,
@@ -247,7 +247,7 @@ export const checkC2Updates = async (client) => {
 
     if (lastRelease !== newVersion && newVersion !== '') {
       console.log('New C2 release available');
-      const sent = await client.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
+      const sent = await client.channels.cache.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
         embed: new C2Update({
           description: summary,
           version: newVersion,
@@ -292,7 +292,7 @@ export const checkC3Updates = async (client) => {
     //  release different from latest, not empty,          not already posted
     if (lastRelease !== newVersion && newVersion !== '' && !listReleases[newVersion]) {
       console.log('New C3 release available');
-      const sent = await client.channels.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
+      const sent = await client.channels.cache.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
         embed: new C3Update({
           description,
           version: newVersion,
