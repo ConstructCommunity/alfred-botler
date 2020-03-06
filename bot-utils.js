@@ -194,7 +194,7 @@ export const checkBlogPosts = async (client) => {
       .attr('href').trim()
       .replace(/^(.*?)\/blogs/, 'https://www.construct.net/blogs');
     const image = common.find('.statWrap > div:nth-child(2) > div > div#Wrapper > a > div > div > img')
-      .attr('data-src');
+      .attr('src');
 
     console.log(image);
 

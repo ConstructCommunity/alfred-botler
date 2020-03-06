@@ -103,9 +103,7 @@ client
     await updateStatus(client);
   })
   .on('guildMemberAdd', async (member) => {
-    console.log('new member');
     const role = await member.roles.add('588420010574086146'); // @Member
-    console.log('role added', role);
   })
   .on('message', async (message) => {
   /*
