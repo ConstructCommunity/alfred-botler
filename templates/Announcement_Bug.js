@@ -14,7 +14,7 @@ export default class Bug extends Template {
       .setColor(11962861)
       .setFooter(CONSTANTS.MESSAGE.SCIRRA_FOOTER)
       .setThumbnail(`${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}//assets/mini/Infoicon.png`)
-      .setAuthor('BUG REPORTING LINKS', `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/TestIcon.png`)
+      .setAuthor('BUG REPORTING LINKS', `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/DiscordNotifyicon.png`)
       .addFields([
         { name: CONSTANTS.MESSAGE.SEPARATOR, value: CONSTANTS.MESSAGE.EMPTY },
         { name: '<:C3:561134796911280128> Construct 3 Editor:', value: 'http://bit.ly/C3EditorBugs' },
