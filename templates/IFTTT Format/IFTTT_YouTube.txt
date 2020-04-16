@@ -1,4 +1,4 @@
 { 
 "username":"Alfred Botler", 
-"content":"**{{AuthorName}}** UPLOADED A VIDEO ON YOUTUBE! {{Url}}" 
+"content":"{{Url}}" 
 }

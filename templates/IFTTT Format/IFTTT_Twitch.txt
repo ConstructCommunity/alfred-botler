@@ -1,4 +1,4 @@
 { 
 "username":"Alfred Botler",
-"content": "**{{ChannelName}}** WENT LIVE ON TWITCH! {{ChannelUrl}}"
+"content": "{{ChannelUrl}}"
 }
