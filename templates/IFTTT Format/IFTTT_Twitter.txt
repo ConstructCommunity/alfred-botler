@@ -16,7 +16,7 @@
                 "name": "──────────────────────────────────",
                 "value": "ᅠ"
             },
-	        {
+            {
                 "name": "Get started with Construct 3 Desktop:",
                 "value": "https://www.construct.net/en/forum/construct-3/general-discussion-7/construct-nw-js-desktop-app-131317"
             }
