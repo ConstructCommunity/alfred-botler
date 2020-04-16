@@ -22,7 +22,7 @@
             }
             ],
             "footer": {
-                "text": "©Scirra Ltd 2019 | Donations: http://lnk.armaldio.xyz/donation"
+                "text": "©Scirra Ltd 2020 | Donations: https://armaldio.xyz/#/donations"
             },
             "description": "{{Text}}"
         }
