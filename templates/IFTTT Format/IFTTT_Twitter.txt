@@ -5,7 +5,7 @@
             "color": 11962861,
             "author":
             {
-                "name": "CONSTRUCT 3 DESKTOP - NWJS UPDATE IS AVAILABLE!",
+                "name": "CONSTRUCT 3 DESKTOP UPDATE IS AVAILABLE!",
                 "icon_url": "https://raw.githubusercontent.com/WebCreationClub/alfred-botler/master/assets/mini/DiscordNotifyicon.png"
             },
             "thumbnail": {
@@ -22,7 +22,7 @@
             }
             ],
             "footer": {
-                "text": "©Scirra Ltd 2020 | Donations: https://armaldio.xyz/donations"
+                "text": "©Scirra Ltd 2020 | Donations: https://github.com/sponsors/Armaldio"
             },
             "description": "{{Text}}"
         }
