@@ -185,18 +185,25 @@ export const checkBlogPosts = async (client) => {
     const common = $('form#form1 div:nth-child(3) > div:nth-child(1) > div > div');
     const newTitle = common.find('.titleOuterWrap > div > div.right > a')
       .text().trim();
-    const author = common.find('.statWrap > div:nth-child(2) > div > div#Wrapper > ul > li.username > a')
-      .text().trim();
+    const author = common.find('.statWrap .detailCol .usernameTextWrap a > span:nth-child(1)')
+      .text();
+    // .text().trim();
     const timeToRead = common.find('.statWrap > div:nth-child(1) > div > ul > li:nth-child(2)')
       .text().replace(/<img(.*)>/, '').replace('read time', '')
       .trim();
     const link = common.find('.titleOuterWrap > div > div.right > a')
       .attr('href').trim()
       .replace(/^(.*?)\/blogs/, 'https://www.construct.net/blogs');
-    const image = common.find('.statWrap > div:nth-child(2) > div > div#Wrapper > a > div > div > img')
+    const image = common.find('.statWrap .avatarWrap > img')
       .attr('src');
 
-    console.log(image);
+    console.log({
+      title: newTitle,
+      author,
+      timeToRead,
+      link,
+      image,
+    });
 
     database.ref('blog').once('value').then(async (snapshot) => {
       const title = snapshot.val();
@@ -324,7 +331,7 @@ export const checkForNotificationBot = async (message) => {
 export const checkToolsHasLink = async (message) => {
   const toolsChan = CONSTANTS.CHANNELS.TOOLS;
   if (message.channel.id === toolsChan) {
-    if (message.content.search(/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi) === -1) {
+    if (message.content.search(/[-a-zA-Z0-9@:%_+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_+.~#?&//=]*)?/gi) === -1) {
       await message.delete();
       await message.author.send('**Your content does not meet one or more requirements!**\n\n__List of requirements:__\n► **1** link/embed or attachment');
     }
