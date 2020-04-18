@@ -22,7 +22,7 @@ export default class RoleToggle extends Template {
         url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/${this.variables.icon}.png`,
       },
       author: {
-        name: `${this.variables.roleName} ROLE HAS BEEN ${this.variables.toggleText}!`,
+        name: `${this.variables.roleName} ROLE ${this.variables.toggleText}!`,
         icon_url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/DiscordEditicon.png`,
       },
       fields: [
