@@ -36,7 +36,7 @@
     "@babel/plugin-transform-classes": "^7.9.5",
     "@babel/preset-env": "^7.9.5",
     "@types/firebase": "^3.2.1",
-    "ava": "^3.7.0",
+    "ava": "^3.7.1",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.2",
