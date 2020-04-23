@@ -23,7 +23,7 @@
     "discord.js-commando": "https://github.com/discordjs/Commando",
     "dotenv": "^8.2.0",
     "firebase": "^7.14.1",
-    "got": "^10.7.0",
+    "got": "^11.0.2",
     "is-reachable": "^4.0.0",
     "moment": "^2.24.0",
     "pm2": "^4.3.0",
