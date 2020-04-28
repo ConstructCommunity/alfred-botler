@@ -1,6 +1,7 @@
 export { default as Blog } from './Announcement_Blog';
 
 export { default as Bug } from './Announcement_Bug';
+export { default as Ask } from './Announcement_Ask';
 
 export { default as C2Update } from './Announcement_C2';
 export { default as C3Update } from './Announcement_C3';
