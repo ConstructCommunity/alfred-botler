@@ -322,7 +322,7 @@ export const checkC3Updates = async (client) => {
 };
 
 export const checkForNotificationBot = async (message) => {
-  if (message.author.id === '159985870458322944') {
+  if (message.channel.id === CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS) {
     // sent from the "notification" bot
     await addReactions(message, 'notification');
   }

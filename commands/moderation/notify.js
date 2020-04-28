@@ -16,6 +16,7 @@ export default class notify extends Command {
       group: 'moderation',
       description: 'Notify user and waits for their reactions',
       examples: ['notify @user1 @user2 message', 'notify Hello @user1 @user2, can you please ...'],
+      deleteCmd: true,
     });
   }
 
@@ -49,6 +50,9 @@ export default class notify extends Command {
     const sent = await msg.channel.send(ids.join(', '), {
       embed: notifyEmbed.embed(),
     });
+
+    await msg.delete();
+
     await sent.react('🆗');
     await sent.awaitReactions((e) => {
       const users = e.users.array();
@@ -66,6 +70,5 @@ export default class notify extends Command {
         msg.author.send(`Your message in <#${msg.channel.id}> was accepted by everyone`);
       }
     });
-    await msg.delete();
   }
 }
