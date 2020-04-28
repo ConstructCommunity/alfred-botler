@@ -42,7 +42,7 @@ export default class promo extends Command {
       return;
     }
 
-    const sent = await duplicateMessage(msg, CONSTANTS.CHANNELS.PROMO, (content) => content.replace(/!promo ?/, ''));
+    const sent = await duplicateMessage(msg, CONSTANTS.CHANNELS.PROMO, (content) => content.replace(/!promo ?/, 'gi'));
 
     // send pending approval notification
     await msg.author.send({
