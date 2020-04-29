@@ -44,19 +44,19 @@ export default class temptest extends Command {
   // eslint-disable-next-line
   async run(msg, { text }) {
     const myTemplates = [];
-    Object.keys(templates).forEach((key) => {
-      myTemplates.push(new templates[key]());
+    Object.keys(templates.default).forEach((key) => {
+      // eslint-disable-next-line
+      myTemplates.push(new templates.default[key].default());
     });
 
     const foundTemplate = myTemplates.find((template) => template.name === text);
-    console.log('foundTemplate', foundTemplate);
 
     if (foundTemplate) {
       await msg.channel.send({
         embed: foundTemplate.embed(),
       });
     } else {
-      await msg.reply(`Cannot find this template. Templates:\n${myTemplates.map((t) => t.name).join(', ')}`);
+      await msg.reply(`Unavailable template. Try on of:\n${myTemplates.map((t) => t.name).join(', ')}`);
     }
     await msg.delete();
   }

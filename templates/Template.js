@@ -1,7 +1,7 @@
 class Template {
   constructor(name, variables, defaultValues) {
     this.name = name;
-    this.variables = Object.assign({}, defaultValues, variables);
+    this.variables = { ...defaultValues, ...variables };
   }
 
   embed() {

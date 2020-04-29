@@ -1,21 +1,17 @@
-export { default as Blog } from './Announcement_Blog';
+import fs from 'fs';
 
-export { default as Bug } from './Announcement_Bug';
-export { default as Ask } from './Announcement_Ask';
+const whitelist = ['index.js', 'Template.js'];
+const files = fs.readdirSync(__dirname);
 
-export { default as C2Update } from './Announcement_C2';
-export { default as C3Update } from './Announcement_C3';
+const modules = {};
+for (let i = 0; i < files.length; i += 1) {
+  const filename = files[i];
+  if (filename.substr(-3) === '.js' && !whitelist.includes(filename)) {
+    // eslint-disable-next-line
+    modules[filename.slice(0, -3)] = require(`./${filename}`);
+  }
+}
 
-export { default as Info } from './Announcement_Info';
+console.log('modules', modules);
 
-export { default as RoleHelp } from './Announcement_RoleHelp';
-export { default as RoleToggle } from './Announcement_RoleToggle';
-export { default as RoleList } from './Announcement_RoleList';
-
-export { default as PromoUp } from './Announcement_PromoUp';
-
-export { default as Notify } from './Announcement_Notify';
-
-export { default as Move } from './Announcement_Move';
-
-// export { default as Help } from './Announcement_Help';
+export default modules;
