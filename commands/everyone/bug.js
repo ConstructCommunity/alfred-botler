@@ -1,5 +1,5 @@
 import { Command } from 'discord.js-commando';
-import { Bug } from '../../templates';
+import Bug from '../../templates/Announcement_Bug';
 import CONSTANTS from '../../constants';
 import { hasPermissions } from '../../bot-utils';
 import { genericError } from '../../errorManagement';

@@ -5,7 +5,7 @@
 import { Command } from 'discord.js-commando';
 import CONSTANTS from '../../constants';
 import { hasPermissions, duplicateMessage, addReactions } from '../../bot-utils';
-import { PromoUp } from '../../templates';
+import PromoUp from '../../templates/Announcement_PromoUp';
 import { genericError } from '../../errorManagement';
 
 export default class promo extends Command {

@@ -5,7 +5,9 @@ import firebase from 'firebase/app';
 import moment from 'moment';
 import rollbar from './rollbar';
 import CONSTANTS from './constants';
-import { Blog, C3Update, C2Update } from './templates';
+import Blog from './templates/Announcement_Blog';
+import C3Update from './templates/Announcement_C3';
+import C2Update from './templates/Announcement_C2';
 
 import 'firebase/database';
 

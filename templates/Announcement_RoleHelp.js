@@ -12,6 +12,7 @@ export default class RoleHelp extends Template {
     });
   }
 
+  // eslint-disable-next-line class-methods-use-this
   embed() {
     return {
       description: CONSTANTS.MESSAGE.SEPARATOR,

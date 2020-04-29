@@ -1,5 +1,5 @@
 import { Command } from 'discord.js-commando';
-import { RoleList } from '../../templates';
+import RoleList from '../../templates/Announcement_RoleList';
 import CONSTANTS from '../../constants';
 import { hasPermissions } from '../../bot-utils';
 import { genericError } from '../../errorManagement';

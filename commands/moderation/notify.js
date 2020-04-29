@@ -3,7 +3,7 @@
  */
 
 import { Command } from 'discord.js-commando';
-import { Notify } from '../../templates';
+import Notify from '../../templates/Announcement_Notify';
 import CONSTANTS from '../../constants';
 import { hasPermissions, removeDuplicates } from '../../bot-utils';
 import { genericError } from '../../errorManagement';

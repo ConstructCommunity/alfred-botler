@@ -1,5 +1,5 @@
 import { Command } from 'discord.js-commando';
-import { Ask } from '../../templates';
+import Ask from '../../templates/Announcement_Ask';
 import CONSTANTS from '../../constants';
 import { hasPermissions } from '../../bot-utils';
 import { genericError } from '../../errorManagement';
@@ -13,14 +13,6 @@ export default class ask extends Command {
       description: 'Help you getting started asking questions',
       examples: ['ask'],
       deleteCmd: true,
-      args: [
-        {
-          key: 'user',
-          prompt: 'Which user do you want to help?',
-          default: '',
-          type: 'user',
-        },
-      ],
     });
   }
 
@@ -38,17 +30,12 @@ export default class ask extends Command {
   }
 
   // eslint-disable-next-line
-  async run(msg, { user }) {
+  async run(msg) {
     try {
-      if (user) {
-        await user.send({
-          embed: new Ask().embed(),
-        });
-      } else {
-        await msg.author.send({
-          embed: new Ask().embed(),
-        });
-      }
+      await msg.channel.send({
+        embed: new Ask().embed(),
+      });
+
       await msg.delete();
     } catch (e) {
       console.error(e);
