@@ -10,11 +10,18 @@ export default class Ask extends Template {
   // eslint-disable-next-line
   embed() {
     return new MessageEmbed()
-      .setDescription('If you found a bug that needs reporting, check out the links below.')
+      .setDescription('Collection of common practices and help with Construct.')
       .setColor(11962861)
       .setFooter(CONSTANTS.MESSAGE.SCIRRA_FOOTER)
       .setThumbnail(`${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}//assets/mini/Infoicon.png`)
-      .setAuthor('BUG REPORTING LINKS', `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/DiscordNotifyicon.png`)
+      .setAuthor('HELPFUL TIPS & GUIDES', `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/DiscordNotifyicon.png`)
+      .addFields([
+        { name: CONSTANTS.MESSAGE.SEPARATOR, value: CONSTANTS.MESSAGE.EMPTY },
+        { name: 'Test', value: 'TestValue' },
+        { name: 'Test', value: 'TestValue', inline: true },
+        { name: 'Test', value: 'TestValue', inline: true },
+        { name: 'Test', value: 'TestValue', inline: true },
+      ])
       .addFields([
         { name: CONSTANTS.MESSAGE.SEPARATOR, value: CONSTANTS.MESSAGE.EMPTY },
         { name: '<:C3:561134796911280128> Construct 3 Editor:', value: 'http://bit.ly/C3EditorBugs' },
