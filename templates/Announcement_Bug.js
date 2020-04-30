@@ -10,7 +10,7 @@ export default class Bug extends Template {
   // eslint-disable-next-line
   embed() {
     return new MessageEmbed()
-      .setDescription('If you found a bug that needs reporting, check out the links below.')
+      .setDescription('Collection of common bug reporting links.')
       .setColor(11962861)
       .setFooter(CONSTANTS.MESSAGE.SCIRRA_FOOTER)
       .setThumbnail(`${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}//assets/mini/Infoicon.png`)
