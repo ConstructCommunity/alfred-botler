@@ -19,8 +19,8 @@ export default class Ask extends Template {
         { name: CONSTANTS.MESSAGE.SEPARATOR, value: CONSTANTS.MESSAGE.EMPTY },
         { name: '<:C3:561134796911280128> Construct 3 Editor:', value: 'http://bit.ly/C3EditorBugs' },
         { name: '<:C3:561134796911280128> Construct 3 Website:', value: 'http://bit.ly/C3WebsiteBugs' },
-        { name: '<:C2:561134777445646336> Construct 2:', value: 'http://bit.ly/C2Bugs' },
-        { name: '<:C1:561134200896487424> Construct 1:', value: 'http://bit.ly/C1Bugs' },
+        { name: '<:C2:561134777445646336> Construct 2:', value: 'http://bit.ly/C2Bugs', inline: true },
+        { name: '<:C1:561134200896487424> Construct 1:', value: 'http://bit.ly/C1Bugs', inline: true },
       ]);
   }
 }
