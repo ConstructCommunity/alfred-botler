@@ -14,13 +14,10 @@ export default class Ask extends Template {
       .setColor(11962861)
       .setFooter(CONSTANTS.MESSAGE.SCIRRA_FOOTER)
       .setThumbnail(`${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}//assets/mini/Infoicon.png`)
-      .setAuthor('HELPFUL TIPS & GUIDES', `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/DiscordNotifyicon.png`)
+      .setAuthor('TIPS & GUIDES', `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/DiscordNotifyicon.png`)
       .addFields([
-        { name: CONSTANTS.MESSAGE.SEPARATOR, value: CONSTANTS.MESSAGE.EMPTY },
+        { name: CONSTANTS.MESSAGE.SEPARATOR, value: '**Tips for getting quick help:**' },
         { name: 'Test', value: 'TestValue' },
-        { name: 'Test', value: 'TestValue', inline: true },
-        { name: 'Test', value: 'TestValue', inline: true },
-        { name: 'Test', value: 'TestValue', inline: true },
       ])
       .addFields([
         { name: CONSTANTS.MESSAGE.SEPARATOR, value: CONSTANTS.MESSAGE.EMPTY },
