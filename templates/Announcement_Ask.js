@@ -23,6 +23,6 @@ export default class Ask extends Template {
       .addFields([
         { name: CONSTANTS.MESSAGE.SEPARATOR, value: '**Tips for getting quick help:**' },
         { name: 'Test', value: 'TestValue' },
-      ]);
+      ])
   }
 }
