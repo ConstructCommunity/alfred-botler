@@ -16,13 +16,17 @@ Ex: `!iam dev`
 > Display a list of available server roles.\
 Ex: `!rolelist`
 
-### bug
-> Posts a formatted message with some useful bug reporting links.\
-Ex: `!bug`
-
 ### promo
 > Makes it possible to publish content inside the promotion channel.\
 Ex: `!promo`
+
+### ask
+> Posts a formatted message with some info regarding quick help.\
+Ex: `!ask`
+
+### bug
+> Posts a formatted message with some useful bug reporting links.\
+Ex: `!bug`
 
 ### report
 > Request manual review for rule breaking content inside current channel.\
