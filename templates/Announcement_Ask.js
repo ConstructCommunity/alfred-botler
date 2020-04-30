@@ -16,13 +16,14 @@ export default class Ask extends Template {
       .setThumbnail(`${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}//assets/mini/Infoicon.png`)
       .setAuthor('TIPS & GUIDES', `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/DiscordNotifyicon.png`)
       .addFields([
-        { name: CONSTANTS.MESSAGE.SEPARATOR, value: 'Things you can do before asking for help:' },
-        { name: '<:C3:561134796911280128> Construct 3 Manual:', value: 'https://www.construct.net/en/make-games/manuals/construct-3', inline: true },
-        { name: '<:C3:561134796911280128> Construct 2 Manual:', value: 'https://www.scirra.com/manual/1/construct-2', inline: true },
+        { name: CONSTANTS.MESSAGE.SEPARATOR, value: '**Things you can do before asking for help:**' },
+        { name: '<:C3:561134796911280128> Construct 3 Manual:', value: 'https://www.construct.net/make-games/manuals/construct-3', inline: true },
+        { name: '<:C2:561134777445646336> Construct 2 Manual:', value: 'https://www.scirra.com/manual/1/construct-2', inline: true },
       ])
       .addFields([
         { name: CONSTANTS.MESSAGE.SEPARATOR, value: '**Tips for getting quick help:**' },
-        { name: 'Test', value: 'TestValue' },
+        { name: 'General Help:', value: '- Ask directly, no background story needed\n- Provide screenshots or short video\n- Upload a minimal example project' },
+        { name: 'Bug Reporting:', value: '- Debug your project using the debugger\n- Check the browser console for errors\n- Identify the bug and try to isolate it\n- Create a minimal project for reproduction\n- Use the <!bug> Discord bot command' },
       ]);
   }
 }
