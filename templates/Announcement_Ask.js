@@ -23,7 +23,7 @@ export default class Ask extends Template {
       .addFields([
         { name: CONSTANTS.MESSAGE.SEPARATOR, value: '**Tips for getting quick help:**' },
         { name: 'General Help:', value: '- Ask directly, no background story needed\n- Provide screenshots or short videos\n- Upload a minimal example project' },
-        { name: 'Bug Reporting:', value: '- Debug your project using the debugger\n- Check the browser console for errors\n- Identify the bug and try to isolate it\n- Create a minimal project for reproduction\n- Use the <!bug> Discord bot command' },
+        { name: 'Bug Reporting:', value: '- Debug your project using the debugger\n- Check the browser console for errors\n- Identify the bug and try to isolate it\n- Create a minimal project for reproduction\n- Use the `!bug` Discord bot command' },
       ]);
   }
 }
