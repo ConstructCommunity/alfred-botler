@@ -17,7 +17,7 @@ export default class Ask extends Template {
       .setAuthor('TIPS & GUIDES', `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/DiscordNotifyicon.png`)
       .addFields([
         { name: CONSTANTS.MESSAGE.SEPARATOR, value: '**Things you can do before asking for help:**' },
-        { name: '<:C3:561134796911280128> Construct 3 Manual:', value: 'https://www.construct.net/make-games/manuals/construct-3', inline: true },
+        { name: '<:C3:561134796911280128> Construct 3 Manual:', value: 'https://www.construct.net/make-games/manuals/construct-3 [Guide](https://www.google.com/ 'TEST')', inline: true },
         { name: '<:C2:561134777445646336> Construct 2 Manual:', value: 'https://www.scirra.com/manual/1/construct-2', inline: true },
       ])
       .addFields([
