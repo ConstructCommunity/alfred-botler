@@ -16,15 +16,16 @@ export default class Ask extends Template {
       .setThumbnail(`${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}//assets/mini/Infoicon.png`)
       .setAuthor('TIPS & GUIDES', `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/DiscordNotifyicon.png`)
       .addFields([
+        { name: CONSTANTS.MESSAGE.SEPARATOR, value: 'Things you can do before asking for help:' },
+        { name: '<:C3:561134796911280128> Construct 3 Manual:', value: 'https://www.construct.net/en/make-games/manuals/construct-3', inline: true },
+        { name: '<:C3:561134796911280128> Construct 2 Manual:', value: 'https://www.scirra.com/manual/1/construct-2', inline: true },
+        { name: CONSTANTS.MESSAGE.EMPTY, value: CONSTANTS.MESSAGE.EMPTY },
+        { name: 'test', value: 'testvalue', inline: true },
+        { name: 'test', value: 'testvalue', inline: true },
+      ]);
+      .addFields([
         { name: CONSTANTS.MESSAGE.SEPARATOR, value: '**Tips for getting quick help:**' },
         { name: 'Test', value: 'TestValue' },
-      ])
-      .addFields([
-        { name: CONSTANTS.MESSAGE.SEPARATOR, value: CONSTANTS.MESSAGE.EMPTY },
-        { name: '<:C3:561134796911280128> Construct 3 Editor:', value: 'http://bit.ly/C3EditorBugs' },
-        { name: '<:C3:561134796911280128> Construct 3 Website:', value: 'http://bit.ly/C3WebsiteBugs' },
-        { name: '<:C2:561134777445646336> Construct 2:', value: 'http://bit.ly/C2Bugs', inline: true },
-        { name: '<:C1:561134200896487424> Construct 1:', value: 'http://bit.ly/C1Bugs', inline: true },
       ]);
   }
 }
