@@ -21,7 +21,7 @@ export default class temptest extends Command {
       args: [
         {
           key: 'text',
-          prompt: 'What template do you want to check ?',
+          prompt: 'What template do you want to test? (Post `!temptest list` for a list.)',
           type: 'string',
         },
       ],
@@ -56,7 +56,7 @@ export default class temptest extends Command {
         embed: foundTemplate.embed(),
       });
     } else {
-      await msg.reply(`Unavailable template. Try on of:\n${myTemplates.map((t) => t.name).join(', ')}`);
+      await msg.reply(`Unknown Template!\n\nAvailable Templates:\n${myTemplates.map((t) => t.name).join(', ')}`);
     }
     await msg.delete();
   }
