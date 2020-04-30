@@ -19,10 +19,10 @@ export default class Ask extends Template {
         { name: CONSTANTS.MESSAGE.SEPARATOR, value: 'Things you can do before asking for help:' },
         { name: '<:C3:561134796911280128> Construct 3 Manual:', value: 'https://www.construct.net/en/make-games/manuals/construct-3', inline: true },
         { name: '<:C3:561134796911280128> Construct 2 Manual:', value: 'https://www.scirra.com/manual/1/construct-2', inline: true },
-      ]);
+      ])
       .addFields([
         { name: CONSTANTS.MESSAGE.SEPARATOR, value: '**Tips for getting quick help:**' },
         { name: 'Test', value: 'TestValue' },
-      ])
+      ]);
   }
 }
