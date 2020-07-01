@@ -98,7 +98,7 @@ export const checkMessageForSafety = async (msg) => {
   if (t < 24) {
     if (msg.content.match(/https?:\/\/(www\.)?.*\s/igm)) {
       console.log('match url');
-      if (msg.content.match(/(sex|gambling|porn|dating|service|essay|hentai)/igm)) {
+      if (msg.content.match(/(sex|gambling|porn|dating|service|essay|hentai|𝒸𝓊𝓂|cum)/igm)) {
         console.log('match search: ', msg.content);
 
         // remove message in public channel
