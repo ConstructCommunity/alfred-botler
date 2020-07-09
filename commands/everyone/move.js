@@ -113,11 +113,12 @@ To:
       await msgDel.edit(`${messages.array().length} messages successfully deleted.`);
 
       const sent = await msg.channel.send(`${messages.array().length} message(s) were moved to <#${channel.id}>. Please continue the conversation there! <:z_scirra_c3Alfred:278258103474978816>`);
+      await msg.delete();
       await sent.delete({
         timeout: 300000,
       });
+    } else {
+      await msg.delete();
     }
-
-    await msg.delete();
   }
 }
