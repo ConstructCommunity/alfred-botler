@@ -2,7 +2,8 @@
  * Created by Armaldio on 11/12/2017.
  */
 
-import { Command } from 'discord.js-commando';
+import { Command, CommandoMessage } from 'discord.js-commando';
+import { TextChannel } from 'discord.js';
 import CONSTANTS from '../../constants';
 import { hasPermissions, duplicateMessage } from '../../bot-utils';
 import { genericError } from '../../errorManagement';
@@ -47,34 +48,43 @@ export default class move extends Command {
 
   /**
    *
-   * @param msg
-   * @param amount
-   * @param { Discord.TextChannel } channel
+   * @param {CommandoMessage} msg
+   * @param {{ channel:TextChannel, amount:Number }} channel
    * @return {Promise<void>}
    */
   // eslint-disable-next-line
   async run(msg, { amount, channel }) {
     if (amount <= 0) {
-      await msg.author.send('Amount of message must be greater that 0!');
+      await msg.author.send('Amount of message must be greater than 0!');
+      return;
+    }
+    if (amount > 100) {
+      await msg.author.send('Amount of message must be less than 100!');
       return;
     }
 
-    let messages = await msg.channel.messages.fetch({ limit: amount + 1 });
-    messages = messages
-      .filter((m) => m.id !== messages.first().id)
+    const originalChannel = msg.channel;
+    const adminChannel = msg.author;
+    const adminDM = await msg.author.createDM();
+
+    await msg.delete();
+
+    let messagesToDelete = await originalChannel.messages.fetch({ limit: amount });
+    messagesToDelete = messagesToDelete
+      // .filter((m) => m.id !== messagesToDelete.first().id)
       .sort((a, b) => a.createdTimestamp - b.createdTimestamp);
     // messages.shift();
     // messages = messages.reverse();
 
-    await msg.author.send({
+    await adminChannel.send({
       embed: {
         title: 'Do you confirm this ? (yes/no)',
         description: `**Will be copied to #${channel}**
 
 From:
-**"${messages.first().cleanContent}"** 
+**"${messagesToDelete.first().cleanContent}"**
 To:
-**"${messages.last().cleanContent}"**`,
+**"${messagesToDelete.last().cleanContent}"**`,
         color: 15844367,
         footer: {
           text: CONSTANTS.MESSAGE.EMPTY,
@@ -85,40 +95,37 @@ To:
       },
     });
 
-    let message = await msg.author.dmChannel.awaitMessages((response) => response.content.match(/yes|no/), {
+    const awaitedMessages = await adminDM.awaitMessages((response) => response.content.match(/yes|no/), {
       max: 1,
       time: 60000,
       errors: ['time'],
     });
 
-    message = message.first();
+    const answer = awaitedMessages.first();
 
-    if (message.content === 'yes') {
-      console.log(`Copying ${messages.size} messages`);
+    if (answer.content === 'yes') {
+      console.log(`Copying ${messagesToDelete.size} messages`);
       // eslint-disable-next-line
-      for (let m of messages.values()) {
+      for (let m of messagesToDelete.values()) {
         // eslint-disable-next-line
-        await duplicateMessage(m, channel.id, content => content)
+        // @ts-ignore
+        // eslint-disable-next-line no-await-in-loop
+        await duplicateMessage(m, channel.id, (content) => content);
         console.log(m.cleanContent);
       }
 
       const text = 'Deleting messages...';
-      let x = 0;
+      const { size } = messagesToDelete;
 
-      const msgDel = await msg.author.send(text);
-      await Promise.all(messages.map((m) => m.delete().then(() => {
-        // eslint-disable-next-line no-plusplus
-        msgDel.edit(`${text} ${++x}/${messages.array().length}`);
-      })));
-      await msgDel.edit(`${messages.array().length} messages successfully deleted.`);
+      const msgDel = await adminChannel.send(text);
+      // eslint-disable-next-line no-plusplus
+      await originalChannel.bulkDelete(messagesToDelete);
+      await msgDel.edit(`${size} messages successfully deleted.`);
 
-      const sent = await msg.channel.send(`${messages.array().length} message(s) were moved to <#${channel.id}>. Please continue the conversation there! <:z_scirra_c3Alfred:278258103474978816>`);
-      await msg.delete();
+      const sent = await originalChannel.send(`${size} message(s) were moved to <#${channel.id}>. Please continue the conversation there! <:z_scirra_c3Alfred:278258103474978816>`);
       await sent.delete({
         timeout: 300000,
       });
-    } else {
-      await msg.delete();
     }
   }
 }

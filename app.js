@@ -2,7 +2,7 @@ import Commando, { CommandoClient } from 'discord.js-commando';
 import path from 'path';
 import {
   checkC3Updates, checkC2Updates, checkBlogPosts, checkMessageForSafety,
-  checkForNotificationBot, checkToolsHasLink,, checkForNewUsers
+  checkForNotificationBot, checkToolsHasLink, checkForNewUsers,
 } from './bot-utils';
 import CONSTANTS from './constants';
 import rollbar from './rollbar';
@@ -10,7 +10,6 @@ import rollbar from './rollbar';
 
 const isDev = process.env.NODE_ENV === 'development';
 // let socket = null;
-
 
 const client = new CommandoClient({
   commandPrefix: '!',
