@@ -48,10 +48,14 @@ export default class promo extends Command {
       (content) => content.replace(/!promo ?/gi, ''),
     );
 
+    try {
     // send pending approval notification
-    await msg.author.send({
-      embed: new PromoUp({}).embed(),
-    });
+      await msg.author.send({
+        embed: new PromoUp({}).embed(),
+      });
+    } catch (e) {
+      console.log('Message cannot be sent to user (promo)', e);
+    }
 
     await addReactions(sent, 'promo');
   }
