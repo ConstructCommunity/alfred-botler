@@ -1,6 +1,6 @@
 import cheerio from 'cheerio';
 import got from 'got';
-import Discord from 'discord.js';
+import Discord, { Message } from 'discord.js';
 import firebase from 'firebase/app';
 import moment from 'moment';
 import rollbar from './rollbar';
@@ -326,6 +326,16 @@ export const checkForNotificationBot = async (message) => {
   if (message.channel.id === CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS) {
     // sent from the "notification" bot
     await addReactions(message, 'notification');
+  }
+};
+
+/**
+ *
+ * @param {Message} message
+ */
+export const checkForNewUsers = async (message) => {
+  if (message.channel.id === CONSTANTS.CHANNELS.INTRODUCE_YOURSELF) {
+    await message.react(':wave:');
   }
 };
 
