@@ -1,4 +1,17 @@
-{ 
-"username":"Alfred Botler", 
-"content":"{{Url}}" 
-}
+=== Type ===
+New public video from subscriptions
+
+=== Subcription ===
+ScirraVideos
+
+=== Web Request ===
+Method: Post
+
+=== Body ===
+{ "username":"Alfred Botler", "content":"{{Url}}" }
+
+=== URL ===
+Discord Webhook
+
+=== Content Type ===
+Application/Json
