@@ -1,4 +1,17 @@
-{ 
-"username":"Alfred Botler",
-"content": "{{ChannelUrl}}"
-}
+=== Type ===
+Stream going live for a channel you follow
+
+=== Channel ===
+ConstructTeam
+
+=== Web Request ===
+Method: Post
+
+=== Body ===
+{ "username":"Alfred Botler", "content": "{{ChannelUrl}}" }
+
+=== URL ===
+Discord Webhook
+
+=== Content Type ===
+Application/Json
