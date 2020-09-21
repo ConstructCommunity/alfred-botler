@@ -1,30 +1,17 @@
-{
-    "username" : "Alfred Botler",
-    "embeds": [
-        {
-            "color": 11962861,
-            "author":
-            {
-                "name": "CONSTRUCT 3 DESKTOP UPDATE IS AVAILABLE!",
-                "icon_url": "https://raw.githubusercontent.com/WebCreationClub/alfred-botler/master/assets/mini/DiscordNotifyicon.png"
-            },
-            "thumbnail": {
-                "url": "https://raw.githubusercontent.com/WebCreationClub/alfred-botler/master/assets/mini/NWJSicon.png"
-            },
-            "fields": [
-            {
-                "name": "──────────────────────────────────",
-                "value": "ᅠ"
-            },
-            {
-                "name": "Get started with Construct 3 Desktop:",
-                "value": "https://www.construct.net/en/forum/construct-3/general-discussion-7/construct-nw-js-desktop-app-131317"
-            }
-            ],
-            "footer": {
-                "text": "©Scirra Ltd 2020 | Donations: https://github.com/sponsors/Armaldio"
-            },
-            "description": "{{Text}}"
-        }
-    ]
-}
+=== Type ===
+New tweet from search
+
+=== Search Filter ===
+(from:nw_js) -filter:retweets
+
+=== Web Request ===
+Method: Post
+
+=== Body ===
+{ "username" : "Alfred Botler", "embeds": [ { "color": 11962861, "author": { "name": "CONSTRUCT 3 DESKTOP UPDATE IS AVAILABLE!", "icon_url": "https://raw.githubusercontent.com/WebCreationClub/alfred-botler/master/assets/mini/DiscordNotifyicon.png" }, "thumbnail": { "url": "https://raw.githubusercontent.com/WebCreationClub/alfred-botler/master/assets/mini/NWJSicon.png" }, "fields": [ { "name": "──────────────────────────────────", "value": "ᅠ" }, { "name": "Get started with Construct 3 Desktop:", "value": "https://www.construct.net/en/forum/construct-3/general-discussion-7/construct-nw-js-desktop-app-131317" } ], "footer": { "text": "©Scirra Ltd 2020 | Donations: https://github.com/sponsors/Armaldio" }, "description": "{{Text}}" } ] }
+
+=== URL ===
+Discord Webhook
+
+=== Content Type ===
+Application/Json
