@@ -32,10 +32,10 @@ export default {
       description: 'Members that help with testing things.',
     },
 
-    ARTIST: {
-      id: '166557768193540096',
-      displayName: 'Game Artist',
-      shortName: 'artist',
+    EXPERT: {
+      id: '166557865115516928',
+      displayName: 'Expert',
+      shortName: 'expert',
       requireApplication: false,
     },
     DEV: {
@@ -44,22 +44,22 @@ export default {
       shortName: 'dev',
       requireApplication: false,
     },
-    EXPERT: {
-      id: '166557865115516928',
-      displayName: 'Expert',
-      shortName: 'expert',
-      requireApplication: false,
-    },
-    SOUND_DESIGNER: {
-      id: '258691772430024704',
-      displayName: 'Sound Designer',
-      shortName: 'sounddesigner',
+    ARTIST: {
+      id: '166557768193540096',
+      displayName: 'Game Artist',
+      shortName: 'artist',
       requireApplication: false,
     },
     GAME_DESIGNER: {
       id: '378168474649755648',
       displayName: 'Game Designer',
       shortName: 'gamedesigner',
+      requireApplication: false,
+    },
+    SOUND_DESIGNER: {
+      id: '258691772430024704',
+      displayName: 'Sound Designer',
+      shortName: 'sounddesigner',
       requireApplication: false,
     },
     MULTIMEDIADEV: {
