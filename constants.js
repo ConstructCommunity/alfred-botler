@@ -29,7 +29,7 @@ export default {
       id: '298536205606453248',
       displayName: 'Helper',
       requireApplication: true,
-      description: 'Members that help with testing things.',
+      description: 'Members that help with things.',
     },
 
     EXPERT: {
