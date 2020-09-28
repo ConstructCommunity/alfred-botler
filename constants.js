@@ -32,12 +32,6 @@ export default {
       description: 'Members that help with things.',
     },
 
-    EXPERT: {
-      id: '166557865115516928',
-      displayName: 'Expert',
-      shortName: 'expert',
-      requireApplication: false,
-    },
     DEV: {
       id: '256383286211772416',
       displayName: 'Code Dev',
