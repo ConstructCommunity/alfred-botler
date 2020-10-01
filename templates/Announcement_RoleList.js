@@ -33,14 +33,14 @@ export default class Rolelist extends Template {
       fields: [
         {
           name: 'Exclusive Roles:',
-          value: `**Nitro Booster:** Members server boosting with Nitro.\n${applicationRoles}\nᅠ`,
+          value: `**Nitro Booster:** Discord Nitro server boosters.\n${applicationRoles}\nᅠ`,
         },
         {
           name: 'Roles For Members:',
           value: `${everyoneRoles}\nᅠ`,
         },
         {
-          name: '*: This role can be mentioned by members',
+          name: '**This Role can be mentioned by Members*',
           value: 'ᅠ',
         },
       ],
