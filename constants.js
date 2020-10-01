@@ -23,7 +23,7 @@ export default {
       id: '157048794985267200',
       displayName: 'Staff',
       requireApplication: true,
-      description: 'Members from exclusive platforms.',
+      description: 'Verified Staff members.',
     },
 
     HELPER: {
