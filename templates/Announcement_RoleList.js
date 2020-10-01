@@ -9,10 +9,14 @@ export default class Rolelist extends Template {
     super('rolelist', {}, {});
   }
 
+  // eslint-disable-next-line class-methods-use-this
   embed() {
     const everyoneRoles = Object.entries(CONSTANTS.ROLES)
       .filter(([key, value]) => !value.requireApplication && !value.hideInList)
       .map(([key, role]) => `**${role.displayName}:** \`!iam ${role.shortName}\``)
+      .join('\n');
+    const pingableRoles = [CONSTANTS.ROLES.HELPER]
+      .map((role) => `**${role.displayName}:** \`!iam ${role.shortName}\` - ${role.description}`)
       .join('\n');
     const applicationRoles = Object.entries(CONSTANTS.ROLES)
       .filter(([key, value]) => value.requireApplication && !value.hideInList)
@@ -37,6 +41,10 @@ export default class Rolelist extends Template {
         {
           name: 'Roles For Members:',
           value: `${everyoneRoles}\nᅠ`,
+        },
+        {
+          name: 'Roles For Members (pingable):',
+          value: `${pingableRoles}\nᅠ`,
         },
         {
           name: 'Roles With Application Process:',

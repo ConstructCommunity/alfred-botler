@@ -25,11 +25,13 @@ export default {
       requireApplication: true,
       description: 'Members from exclusive platforms.',
     },
+
     HELPER: {
       id: '298536205606453248',
       displayName: 'Helper',
-      requireApplication: true,
-      description: 'Members that help with things.',
+      shortName: 'helper',
+      requireApplication: false,
+      description: 'Members that help with things - Does not imply any skill levels.',
     },
 
     DEV: {

@@ -10,6 +10,7 @@ import { hasPermissions } from '../../bot-utils';
 import { genericError } from '../../errorManagement';
 
 const roles = [
+  CONSTANTS.ROLES.HELPER,
   CONSTANTS.ROLES.DEV,
   CONSTANTS.ROLES.ARTIST,
   CONSTANTS.ROLES.GAME_DESIGNER,
