@@ -7,7 +7,7 @@ import { genericError } from '../../errorManagement';
 export default class rolehelper extends Command {
   constructor(client) {
     super(client, {
-      name: 'rolelist',
+      name: '!olelist',
       memberName: 'rolelist',
       group: 'everyone',
       description: 'Show the rolelist in the channel',

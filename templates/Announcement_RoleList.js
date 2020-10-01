@@ -13,10 +13,7 @@ export default class Rolelist extends Template {
   embed() {
     const everyoneRoles = Object.entries(CONSTANTS.ROLES)
       .filter(([key, value]) => !value.requireApplication && !value.hideInList)
-      .map(([key, role]) => `**${role.displayName}:** \`!iam ${role.shortName}\``)
-      .join('\n');
-    const pingableRoles = [CONSTANTS.ROLES.HELPER]
-      .map((role) => `**${role.displayName}:** \`!iam ${role.shortName}\` - ${role.description}`)
+      .map(([key, role]) => `**${role.displayName}${role.pingable ? '\*' : ''}:** \`!iam ${role.shortName}\``)
       .join('\n');
     const applicationRoles = Object.entries(CONSTANTS.ROLES)
       .filter(([key, value]) => value.requireApplication && !value.hideInList)
@@ -36,19 +33,15 @@ export default class Rolelist extends Template {
       fields: [
         {
           name: 'Exclusive Roles:',
-          value: '**Nitro Booster:** Members server boosting with Nitro.\nᅠ',
+          value: `**Nitro Booster:** Members server boosting with Nitro.\n${applicationRoles}\nᅠ`,
         },
         {
           name: 'Roles For Members:',
           value: `${everyoneRoles}\nᅠ`,
         },
         {
-          name: 'Roles For Members (pingable):',
-          value: `${pingableRoles}\nᅠ`,
-        },
-        {
-          name: 'Roles With Application Process:',
-          value: `${applicationRoles}\nᅠ`,
+          name: '*: This role can be mentioned by members',
+          value: 'ᅠ',
         },
       ],
       footer: {

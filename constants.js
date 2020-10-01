@@ -31,6 +31,7 @@ export default {
       displayName: 'Helper',
       shortName: 'helper',
       requireApplication: false,
+      pingable: true,
       description: 'Members that help with things - Does not imply any skill levels.',
     },
 
