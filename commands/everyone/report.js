@@ -67,6 +67,7 @@ export default class report extends Command {
           fields,
         },
       });
-    // await msg.delete();
+
+    await msg.delete();
   }
 }
