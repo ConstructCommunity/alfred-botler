@@ -59,12 +59,6 @@ export default {
       shortName: 'sounddesigner',
       requireApplication: false,
     },
-    MULTIMEDIADEV: {
-      id: '265564120126849024',
-      displayName: 'Multimedia Dev',
-      shortName: 'multimediadev',
-      requireApplication: false,
-    },
   },
   CHANNELS: {
     DEVCHANNEL: '177841210361249794',
