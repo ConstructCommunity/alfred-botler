@@ -9,14 +9,9 @@ import CONSTANTS from '../../constants';
 import { hasPermissions } from '../../bot-utils';
 import { genericError } from '../../errorManagement';
 
-const roles = [
-  CONSTANTS.ROLES.HELPER,
-  CONSTANTS.ROLES.DEV,
-  CONSTANTS.ROLES.ARTIST,
-  CONSTANTS.ROLES.GAME_DESIGNER,
-  CONSTANTS.ROLES.SOUND_DESIGNER,
-  CONSTANTS.ROLES.MULTIMEDIADEV,
-];
+const roles = Object
+  .values(CONSTANTS.ROLES)
+  .filter((role) => !role.hideInList && !role.requireApplication);
 
 export default class iam extends Command {
   constructor(client) {

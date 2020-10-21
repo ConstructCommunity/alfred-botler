@@ -45,7 +45,7 @@ client
     rollbar.error(e);
   })
   .on('warn', console.warn)
-  .on('debug', console.log)
+  // .on('debug', console.log)
 
   .on('reconnecting', () => {
     console.warn('Reconnecting...');
