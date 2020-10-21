@@ -2,7 +2,7 @@ import Commando, { CommandoClient } from 'discord.js-commando';
 import path from 'path';
 import {
   checkC3Updates, checkC2Updates, checkBlogPosts, checkMessageForSafety,
-  checkForNotificationBot, checkToolsHasLink, checkForNewUsers,
+  checkForNotificationBot, checkToolsHasLink, checkForNewUsers, addReactions,
 } from './bot-utils';
 import CONSTANTS from './constants';
 import rollbar from './rollbar';
@@ -105,7 +105,7 @@ client
     const role = await member.roles.add('588420010574086146'); // @Member
   })
   .on('message', async (message) => {
-  /*
+    /*
   try {
     if (message.webhookID === null && message.channel.id === CONSTANTS.CHANNELS.JOBOFFERS) {
       const msgText = message.content;
@@ -130,6 +130,12 @@ client
     await checkForNotificationBot(message);
     await checkForNewUsers(message);
     await checkToolsHasLink(message);
+
+    if (
+      message.webhookID && message.channel.id === CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS
+    ) {
+      await addReactions(message, 'server_news');
+    }
 
     try {
       if (

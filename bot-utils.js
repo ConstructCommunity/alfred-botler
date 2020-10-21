@@ -168,6 +168,8 @@ export const addReactions = async (sent, type = 'dismiss') => {
       await sent.react(alfred);
     } else if (type === 'promo') {
       //
+    } else if (type === 'server_news') {
+      //
     } else {
       await sent.react(princess);
     }
