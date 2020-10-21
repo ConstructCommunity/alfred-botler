@@ -25,6 +25,12 @@ export default {
       requireApplication: true,
       description: 'Verified Staff members.',
     },
+    NITRO_BOOSTER: {
+      id: '628826027988090884',
+      displayName: 'Nitro Booster',
+      requireApplication: true,
+      description: 'Discord Nitro server boosters.',
+    },
 
     HELPER: {
       id: '298536205606453248',
