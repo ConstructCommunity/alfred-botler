@@ -1,4 +1,3 @@
-import { MessageEmbed } from 'discord.js';
 import CONSTANTS from '../constants';
 import Template from './Template';
 
@@ -13,11 +12,11 @@ export default class Rolelist extends Template {
   embed() {
     const everyoneRoles = Object.entries(CONSTANTS.ROLES)
       .filter(([key, value]) => !value.requireApplication && !value.hideInList)
-      .map(([key, role]) => `**${role.displayName}${role.pingable ? '\*' : ''}:** \`!iam ${role.shortName}\``)
+      .map(([key, role]) => `**<@&${role.id}>${role.pingable ? '\*' : ''}:** \`!iam ${role.shortName}\``)
       .join('\n');
     const applicationRoles = Object.entries(CONSTANTS.ROLES)
       .filter(([key, value]) => value.requireApplication && !value.hideInList)
-      .map(([key, role]) => `**${role.displayName}:** ${role.description}`)
+      .map(([key, role]) => `**<@&${role.id}>:** ${role.description}`)
       .join('\n');
 
     return {
@@ -33,7 +32,7 @@ export default class Rolelist extends Template {
       fields: [
         {
           name: 'Exclusive Roles:',
-          value: `**Nitro Booster:** Discord Nitro server boosters.\n${applicationRoles}\nᅠ`,
+          value: `${applicationRoles}\nᅠ`,
         },
         {
           name: 'Roles For Members:',
