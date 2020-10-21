@@ -2,10 +2,9 @@
  * Created by Armaldio on 11/12/2017.
  */
 
-import { Command, CommandoMessage } from 'discord.js-commando';
-import { TextChannel } from 'discord.js';
+import { Command } from 'discord.js-commando';
 import CONSTANTS from '../../constants';
-import { hasPermissions, duplicateMessage } from '../../bot-utils';
+import { hasPermissions } from '../../bot-utils';
 import { genericError } from '../../errorManagement';
 
 export default class Generate extends Command {
@@ -39,12 +38,7 @@ export default class Generate extends Command {
     return hasPermissions(this.client, permissions, msg);
   }
 
-  /**
-   *
-   * @param {CommandoMessage} msg
-   * @param {{ channel:TextChannel, amount:Number }} channel
-   * @return {Promise<void>}
-   */
+  // @ts-ignore
   // eslint-disable-next-line
   async run(msg, { amount }) {
     const texts = Array.from(Array(amount).keys());

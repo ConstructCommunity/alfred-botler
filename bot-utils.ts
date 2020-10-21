@@ -11,6 +11,8 @@ import C2Update from './templates/Announcement_C2';
 
 import 'firebase/database';
 
+console.log('process.env', process.env.apiKey)
+
 const config = {
   apiKey: process.env.apiKey,
   authDomain: process.env.authDomain,
@@ -58,6 +60,8 @@ export const duplicateMessage = async (
     const options = {
       username: msg.author.username,
       avatarURL: msg.author.avatarURL(),
+      embeds: undefined,
+      files: undefined,
     };
 
     if (includeAttachments) {

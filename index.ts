@@ -1,3 +1,6 @@
+import dotenv from "dotenv"
+dotenv.config()
+
 import Commando, { CommandoClient } from 'discord.js-commando';
 import path from 'path';
 import {
@@ -10,30 +13,33 @@ import rollbar from './rollbar';
 
 const isDev = process.env.NODE_ENV === 'development';
 // let socket = null;
+console.log('isDev', isDev)
 
 const client = new CommandoClient({
   commandPrefix: '!',
   owner: CONSTANTS.OWNER,
-  disableEveryone: false,
-  unknownCommandResponse: false,
 });
 
 const getConnectedUsers = () => {
   const guild = client.guilds.cache.get(CONSTANTS.GUILD_ID);
 
+  if (!guild) {
+    return 0;
+  }
+
   const guildMembers = guild.members;
 
   const connectedUsers = guildMembers.cache.filter((member) => (member.presence.status !== 'offline'));
 
-  return connectedUsers.size;
+  return connectedUsers.array().length;
 };
 
-const updateStatus = async () => {
+async function updateStatus() {
   const users = getConnectedUsers();
-  await client.user.setActivity(`with ${users} members`, {
+  await client.user?.setActivity(`with ${users} members`, {
     type: 'PLAYING',
   });
-};
+}
 
 /* const isOnline = (id) => {
   const user = client.guilds.get(CONSTANTS.GUILD_ID).members.get(id);
@@ -55,7 +61,7 @@ client
     if (err instanceof Commando.FriendlyError) return;
     console.error(`Error in command ${cmd.groupID}:${cmd.memberName}`, err);
   })
-  .on('commandBlocked', (msg, reason) => {
+  .on('commandBlock', (msg, reason) => {
     console.log(`
       Command ${msg.command ? `${msg.command.groupID}:${msg.command.memberName}` : ''}
       blocked; ${reason}`);
@@ -99,16 +105,16 @@ client
     }
   })
   .on('presenceUpdate', async () => {
-    await updateStatus(client);
+    await updateStatus();
   })
   .on('guildMemberAdd', async (member) => {
     const role = await member.roles.add('588420010574086146'); // @Member
   })
   .on('guildMemberUpdate', async (oldMember, newMember) => {
     if (oldMember.premiumSince !== newMember.premiumSince) {
-      client.channels.cache
-        .get(CONSTANTS.CHANNELS.COMMUNITY_ANNOUNCEMENTS)
-        .send(`Thanks <@${newMember.id}> for boosting the server!`);
+      const channel = newMember.guild.channels.cache.get(CONSTANTS.CHANNELS.COMMUNITY_ANNOUNCEMENTS)
+      // @ts-ignore
+      await channel?.send(`Thanks <@${newMember.id}> for boosting the server!`);
     }
   })
   .on('message', async (message) => {
@@ -139,7 +145,7 @@ client
     await checkToolsHasLink(message);
 
     if (
-      message.webhookID && message.channel.id === CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS
+      message.webhookID && message.channel.id === CONSTANTS.CHANNELS.PROMO
     ) {
       await addReactions(message, 'server_news');
     }
