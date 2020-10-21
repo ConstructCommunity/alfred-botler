@@ -335,7 +335,7 @@ export const checkForNotificationBot = async (message) => {
  */
 export const checkForNewUsers = async (message) => {
   if (message.channel.id === CONSTANTS.CHANNELS.INTRODUCE_YOURSELF) {
-    await message.react(':wave:');
+    await message.react(message.guild.emojis.cache.get('768527775182225519'));
   }
 };
 
