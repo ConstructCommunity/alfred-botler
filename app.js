@@ -104,6 +104,13 @@ client
   .on('guildMemberAdd', async (member) => {
     const role = await member.roles.add('588420010574086146'); // @Member
   })
+  .on('guildMemberUpdate', async (oldMember, newMember) => {
+    if (oldMember.premiumSince !== newMember.premiumSince) {
+      client.channels.cache
+        .get(CONSTANTS.CHANNELS.COMMUNITY_ANNOUNCEMENTS)
+        .send(`Thanks <@${newMember.id}> for boosting the server!`);
+    }
+  })
   .on('message', async (message) => {
     /*
   try {
