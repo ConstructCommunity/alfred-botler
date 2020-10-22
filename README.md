@@ -10,7 +10,7 @@ ___
 # Member Commands
 ### iam
 > Add or remove selected server roles.\
-Ex: `!iam dev`
+Ex: `!iam designer`
 
 ### rolelist
 > Display a list of available server roles.\
