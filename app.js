@@ -12,7 +12,7 @@ const isDev = process.env.NODE_ENV === 'development';
 // let socket = null;
 
 const client = new CommandoClient({
-  commandPrefix: '!',
+  commandPrefix: isDev ? '#' : '!',
   owner: CONSTANTS.OWNER,
   disableEveryone: false,
   unknownCommandResponse: false,
