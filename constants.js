@@ -20,15 +20,17 @@ export default {
     },
 
     STAFF: {
-      id: '157048794985267200',
-      displayName: 'Staff',
+      id: '768837151642353724',
+      displayName: 'Platform Staff',
       requireApplication: true,
+      pingable: true,
       description: 'Verified Staff members.',
     },
     NITRO_BOOSTER: {
       id: '628826027988090884',
       displayName: 'Nitro Booster',
       requireApplication: true,
+      pingable: true,
       description: 'Discord Nitro server boosters.',
     },
 
