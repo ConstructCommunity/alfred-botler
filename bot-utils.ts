@@ -2,7 +2,7 @@ import cheerio from 'cheerio';
 import got from 'got';
 import Discord, { Message } from 'discord.js';
 import firebase from 'firebase/app';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import rollbar from './rollbar';
 import CONSTANTS from './constants';
 import Blog from './templates/Announcement_Blog';
@@ -10,8 +10,6 @@ import C3Update from './templates/Announcement_C3';
 import C2Update from './templates/Announcement_C2';
 
 import 'firebase/database';
-
-console.log('process.env', process.env.apiKey)
 
 const config = {
   apiKey: process.env.apiKey,
@@ -98,7 +96,7 @@ export const checkMessageForSafety = async (msg) => {
   if (!msg.member) return;
   // if (msg.channel.id !== CONSTANTS.CHANNELS.PRIVATE_TESTS) return;
 
-  const t = moment().diff(moment(msg.member.joinedTimestamp), 'hours');
+  const t = dayjs().diff(dayjs(msg.member.joinedTimestamp), 'hour');
   if (t < 24) {
     if (msg.content.match(/https?:\/\/(www\.)?.*\s/igm)) {
       console.log('match url');

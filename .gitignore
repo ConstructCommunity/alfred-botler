@@ -4,3 +4,4 @@ node_modules/**/*
 certs/**
 yarn\.lock
 .vscode/**
+dist
