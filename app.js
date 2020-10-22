@@ -9,10 +9,11 @@ import rollbar from './rollbar';
 // import Socket from './socket';
 
 const isDev = process.env.NODE_ENV === 'development';
+console.log('isDev', isDev);
 // let socket = null;
 
 const client = new CommandoClient({
-  commandPrefix: isDev ? '#' : '!',
+  commandPrefix: isDev ? '.' : '!',
   owner: CONSTANTS.OWNER,
   disableEveryone: false,
   unknownCommandResponse: false,
@@ -180,11 +181,11 @@ client.registry
     ['moderation', 'Commands available only to our staff members'],
   ]);
 
-if (isDev) {
-  client.registry.registerCommandsIn(path.join(__dirname, 'commands', 'test'));
-} else {
-  client.registry.registerCommandsIn(path.join(__dirname, 'commands', 'everyone'));
-  client.registry.registerCommandsIn(path.join(__dirname, 'commands', 'moderation'));
-}
+// if (isDev) {
+// client.registry.registerCommandsIn(path.join(__dirname, 'commands', 'test'));
+// } else {
+client.registry.registerCommandsIn(path.join(__dirname, 'commands', 'everyone'));
+client.registry.registerCommandsIn(path.join(__dirname, 'commands', 'moderation'));
+// }
 
 client.login(process.env.TOKEN);
