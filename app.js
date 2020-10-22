@@ -108,7 +108,7 @@ client
     if (oldMember.premiumSince !== newMember.premiumSince) {
       client.channels.cache
         .get(CONSTANTS.CHANNELS.COMMUNITY_ANNOUNCEMENTS)
-        .send(`Thanks <@${newMember.id}> for boosting the server!`);
+        .send(`<:purple_heart:768584412514222172> Thanks <@${newMember.id}> for Nitro Boosting the Server!`);
     }
   })
   .on('message', async (message) => {
