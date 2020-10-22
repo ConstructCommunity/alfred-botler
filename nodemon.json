@@ -1,4 +1,4 @@
 {
-  "ignore": ["assets", "disabled-commands", "node_modules", "tests", "vault.rar", ".idea"],
+  "ignore": ["assets", "disabled-commands", "node_modules", "tests", "vault.rar", ".idea", ".vscode"],
   "verbose": true
 }

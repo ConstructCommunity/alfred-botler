@@ -15,8 +15,6 @@ console.log('isDev', isDev);
 const client = new CommandoClient({
   commandPrefix: isDev ? '.' : '!',
   owner: CONSTANTS.OWNER,
-  disableEveryone: false,
-  unknownCommandResponse: false,
 });
 
 const getConnectedUsers = () => {

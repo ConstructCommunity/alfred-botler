@@ -16,7 +16,7 @@ export default class Rolelist extends Template {
       .join('\n');
     const applicationRoles = Object.entries(CONSTANTS.ROLES)
       .filter(([key, value]) => value.requireApplication && !value.hideInList)
-      .map(([key, role]) => `**<@&${role.id}>:** ${role.description}`)
+      .map(([key, role]) => `**<@&${role.id}>${role.pingable ? '\*' : ''}:** ${role.description}`)
       .join('\n');
 
     return {
