@@ -147,6 +147,7 @@ export const hasPermissions = (client, permissions, msg) => {
   if (hasRole && isInChannel) return true;
   if (!hasRole) return 'You are not permitted to use this command!';
   if (!isInChannel) return `Wrong channel! This command is available only in ${permissions.channels.map((chan) => `<#${chan}>`)}`;
+  console.log('Another error happened');
   return false;
 };
 

@@ -19,6 +19,13 @@ export default {
       hideInList: true,
     },
 
+    STAFF: {
+      id: '157048794985267200',
+      displayName: 'CC Staff',
+      requireApplication: true,
+      hideInList: true,
+      description: 'Verified Staff members.',
+    },
     PLATFORM_STAFF: {
       id: '768837151642353724',
       displayName: 'Platform Staff',

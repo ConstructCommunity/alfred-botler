@@ -12,7 +12,7 @@ const isDev = process.env.NODE_ENV === 'development';
 console.log('isDev', isDev);
 // let socket = null;
 
-const client = new CommandoClient({
+let client = new CommandoClient({
   commandPrefix: isDev ? '.' : '!',
   owner: CONSTANTS.OWNER,
 });
@@ -43,15 +43,18 @@ client
   .on('error', (e) => {
     rollbar.error(e);
   })
-  .on('warn', console.warn)
-  // .on('debug', console.log)
+  .on('warn', console.warn);
 
-  .on('reconnecting', () => {
-    console.warn('Reconnecting...');
-  })
+if (isDev) {
+  client = client.on('debug', console.log);
+}
+
+client.on('reconnecting', () => {
+  console.warn('Reconnecting...');
+})
   .on('commandError', (cmd, err) => {
     rollbar.error(err);
-    if (err instanceof Commando.FriendlyError) return;
+    // if (err instanceof Commando.FriendlyError) return;
     console.error(`Error in command ${cmd.groupID}:${cmd.memberName}`, err);
   })
   .on('commandBlocked', (msg, reason) => {
