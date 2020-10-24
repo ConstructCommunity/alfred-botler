@@ -21,7 +21,7 @@ export default class RoleHelp extends Template {
         url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/Infoicon.png`,
       },
       author: {
-        name: 'CONSTRUCT COMMUNITY ROLE HELPER',
+        name: 'ROLE HELPER',
         icon_url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/DiscordNotifyicon.png`,
       },
       fields: [
