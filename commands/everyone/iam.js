@@ -54,7 +54,6 @@ export default class iam extends Command {
 
     let found = false;
     fun.forEach((entry) => {
-      console.log(entry);
       if (entry[0] === role) {
         msg.reply(entry[1]);
         found = true;
@@ -86,11 +85,16 @@ export default class iam extends Command {
       toggleText = 'ADDED';
     }
 
+    const roleName = Object.values(CONSTANTS.ROLES)
+      .find((r) => r.id === targetRole.id)
+      .displayName
+      .toUpperCase();
+
     await msg.channel.send({
       embed: new RoleToggle({
         icon,
         toggleText,
-        roleName: role.toUpperCase(),
+        roleName,
         roles,
       }).embed(),
     });

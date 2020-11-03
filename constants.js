@@ -21,14 +21,23 @@ export default {
 
     STAFF: {
       id: '157048794985267200',
-      displayName: 'Staff',
+      displayName: 'CC Staff',
       requireApplication: true,
+      hideInList: true,
+      description: 'Verified Staff members.',
+    },
+    PLATFORM_STAFF: {
+      id: '768837151642353724',
+      displayName: 'Platform Staff',
+      requireApplication: true,
+      pingable: true,
       description: 'Verified Staff members.',
     },
     NITRO_BOOSTER: {
       id: '628826027988090884',
       displayName: 'Nitro Booster',
       requireApplication: true,
+      pingable: true,
       description: 'Discord Nitro server boosters.',
     },
 
@@ -38,31 +47,47 @@ export default {
       shortName: 'helper',
       requireApplication: false,
       pingable: true,
-      description: 'Members that help with things - Does not imply any skill levels.',
     },
-
-    DEV: {
+    DESIGNER: {
+      id: '378168474649755648',
+      displayName: 'Designer',
+      shortName: 'designer',
+      requireApplication: false,
+    },
+    PROGRAMMER: {
       id: '256383286211772416',
-      displayName: 'Code Dev',
-      shortName: 'dev',
+      displayName: 'Programmer',
+      shortName: 'programmer',
       requireApplication: false,
     },
     ARTIST: {
       id: '166557768193540096',
-      displayName: 'Game Artist',
+      displayName: 'Artist',
       shortName: 'artist',
       requireApplication: false,
     },
-    GAME_DESIGNER: {
-      id: '378168474649755648',
-      displayName: 'Game Designer',
-      shortName: 'gamedesigner',
+    ANIMATOR: {
+      id: '767739954499027014',
+      displayName: 'Animator',
+      shortName: 'animator',
       requireApplication: false,
     },
-    SOUND_DESIGNER: {
+    WRITER: {
+      id: '767740075663687721',
+      displayName: 'Writer',
+      shortName: 'writer',
+      requireApplication: false,
+    },
+    AUDIO_ENGINEER: {
       id: '258691772430024704',
-      displayName: 'Sound Designer',
-      shortName: 'sounddesigner',
+      displayName: 'Audio Engineer',
+      shortName: 'audio',
+      requireApplication: false,
+    },
+    QA_TESTER: {
+      id: '767740196019896341',
+      displayName: 'QA Tester',
+      shortName: 'tester',
       requireApplication: false,
     },
   },

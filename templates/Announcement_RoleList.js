@@ -16,7 +16,7 @@ export default class Rolelist extends Template {
       .join('\n');
     const applicationRoles = Object.entries(CONSTANTS.ROLES)
       .filter(([key, value]) => value.requireApplication && !value.hideInList)
-      .map(([key, role]) => `**<@&${role.id}>:** ${role.description}`)
+      .map(([key, role]) => `**<@&${role.id}>${role.pingable ? '\*' : ''}:** ${role.description}`)
       .join('\n');
 
     return {
@@ -26,7 +26,7 @@ export default class Rolelist extends Template {
         url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/Infoicon.png`,
       },
       author: {
-        name: 'CONSTRUCT COMMUNITY ROLE LIST',
+        name: 'ROLE LIST',
         icon_url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/DiscordNotifyicon.png`,
       },
       fields: [
