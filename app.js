@@ -17,6 +17,14 @@ let client = new CommandoClient({
   owner: CONSTANTS.OWNER,
 });
 
+process.on('uncaughtException', (err) => {
+  console.log(`Caught exception: ${err}`);
+  client.channels.cache
+    .get(CONSTANTS.CHANNELS.MODERATORS)
+    .send('Uncaugh exception', err.toString());
+  process.exit(1);
+});
+
 const getConnectedUsers = () => {
   const guild = client.guilds.cache.get(CONSTANTS.GUILD_ID);
 
