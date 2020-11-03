@@ -1,5 +1,5 @@
-import CONSTANTS from '../constants';
-import Template from './Template';
+import CONSTANTS from '../../constants';
+import Template from './../Template';
 
 export default class JobOfferMain extends Template {
   constructor(variables) {

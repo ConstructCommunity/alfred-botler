@@ -1,4 +1,4 @@
-import Template from './Template';
+import Template from '../Template';
 
 export default class Promo extends Template {
   constructor(variables) {

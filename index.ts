@@ -1,6 +1,3 @@
-import dotenv from "dotenv"
-dotenv.config()
-
 import Commando, { CommandoClient } from 'discord.js-commando';
 import path from 'path';
 import {
@@ -12,34 +9,39 @@ import rollbar from './rollbar';
 // import Socket from './socket';
 
 const isDev = process.env.NODE_ENV === 'development';
+console.log('isDev', isDev);
 // let socket = null;
-console.log('isDev', isDev)
 
-const client = new CommandoClient({
-  commandPrefix: '!',
+let client = new CommandoClient({
+  commandPrefix: isDev ? '.' : '!',
   owner: CONSTANTS.OWNER,
+});
+
+process.on('uncaughtException', (err) => {
+  console.log(`Caught exception: ${err}`);
+  client.channels.cache
+    .get(CONSTANTS.CHANNELS.MODERATORS)
+    // @ts-ignore
+    .send('Uncaugh exception', err.toString());
+  process.exit(1);
 });
 
 const getConnectedUsers = () => {
   const guild = client.guilds.cache.get(CONSTANTS.GUILD_ID);
 
-  if (!guild) {
-    return 0;
-  }
-
   const guildMembers = guild.members;
 
   const connectedUsers = guildMembers.cache.filter((member) => (member.presence.status !== 'offline'));
 
-  return connectedUsers.array().length;
+  return connectedUsers.size;
 };
 
-async function updateStatus() {
+const updateStatus = async () => {
   const users = getConnectedUsers();
-  await client.user?.setActivity(`with ${users} members`, {
+  await client.user.setActivity(`with ${users} members`, {
     type: 'PLAYING',
   });
-}
+};
 
 /* const isOnline = (id) => {
   const user = client.guilds.get(CONSTANTS.GUILD_ID).members.get(id);
@@ -50,15 +52,18 @@ client
   .on('error', (e) => {
     rollbar.error(e);
   })
-  .on('warn', console.warn)
-  // .on('debug', console.log)
+  .on('warn', console.warn);
 
-  .on('reconnecting', () => {
-    console.warn('Reconnecting...');
-  })
+if (isDev) {
+  client = client.on('debug', console.log);
+}
+
+client.on('reconnecting', () => {
+  console.warn('Reconnecting...');
+})
   .on('commandError', (cmd, err) => {
     rollbar.error(err);
-    if (err instanceof Commando.FriendlyError) return;
+    // if (err instanceof Commando.FriendlyError) return;
     console.error(`Error in command ${cmd.groupID}:${cmd.memberName}`, err);
   })
   .on('commandBlock', (msg, reason) => {
@@ -112,9 +117,10 @@ client
   })
   .on('guildMemberUpdate', async (oldMember, newMember) => {
     if (oldMember.premiumSince !== newMember.premiumSince) {
-      const channel = newMember.guild.channels.cache.get(CONSTANTS.CHANNELS.COMMUNITY_ANNOUNCEMENTS)
-      // @ts-ignore
-      await channel?.send(`Thanks <@${newMember.id}> for boosting the server!`);
+      client.channels.cache
+        .get(CONSTANTS.CHANNELS.COMMUNITY_ANNOUNCEMENTS)
+        // @ts-ignore
+        .send(`<:purple_heart:768584412514222172> Thanks <@${newMember.id}> for Nitro Boosting the Server!`);
     }
   })
   .on('message', async (message) => {
@@ -145,7 +151,7 @@ client
     await checkToolsHasLink(message);
 
     if (
-      message.webhookID && message.channel.id === CONSTANTS.CHANNELS.PROMO
+      message.webhookID && message.channel.id === CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS
     ) {
       await addReactions(message, 'server_news');
     }
@@ -186,11 +192,11 @@ client.registry
     ['moderation', 'Commands available only to our staff members'],
   ]);
 
-if (isDev) {
-  client.registry.registerCommandsIn(path.join(__dirname, 'commands', 'test'));
-} else {
-  client.registry.registerCommandsIn(path.join(__dirname, 'commands', 'everyone'));
-  client.registry.registerCommandsIn(path.join(__dirname, 'commands', 'moderation'));
-}
+// if (isDev) {
+// client.registry.registerCommandsIn(path.join(__dirname, 'commands', 'test'));
+// } else {
+client.registry.registerCommandsIn(path.join(__dirname, 'commands', 'everyone'));
+client.registry.registerCommandsIn(path.join(__dirname, 'commands', 'moderation'));
+// }
 
 client.login(process.env.TOKEN);

@@ -1,6 +1,5 @@
-/**
- * Created by Armaldio on 11/12/2017.
- */
+/* eslint-disable */
+// @ts-nocheck
 
 import { Command } from 'discord.js-commando';
 import { Bug } from '../../templates';

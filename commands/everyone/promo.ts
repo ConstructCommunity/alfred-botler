@@ -1,12 +1,9 @@
-/**
- * Created by Armaldio on 11/12/2017.
- */
-
-import { Command } from 'discord.js-commando';
+import { Command, CommandoMessage } from 'discord.js-commando';
 import CONSTANTS from '../../constants';
 import { hasPermissions, duplicateMessage, addReactions } from '../../bot-utils';
 import PromoUp from '../../templates/Announcement_PromoUp';
 import { genericError } from '../../errorManagement';
+import { Message } from 'discord.js';
 
 export default class promo extends Command {
   constructor(client) {
@@ -33,7 +30,7 @@ export default class promo extends Command {
   }
 
   // eslint-disable-next-line
-  async run(msg) {
+  async run(msg: CommandoMessage): Promise<Message> {
     if (msg.attachments.array().length === 0
         // eslint-disable-next-line
         && msg.content.search(/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi) === -1

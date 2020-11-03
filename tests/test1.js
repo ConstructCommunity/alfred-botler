@@ -2,9 +2,6 @@ const test = require('ava');
 const path = require('path');
 const { CommandoClient } = require('discord.js-commando');
 
-require('@babel/register');
-require('@babel/polyfill');
-
 test.cb('basic', (t) => {
   const client = new CommandoClient();
 
