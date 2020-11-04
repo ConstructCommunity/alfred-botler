@@ -1,6 +1,6 @@
 import cheerio from 'cheerio';
 import got from 'got';
-import Discord from 'discord.js';
+import Discord, { Message } from 'discord.js';
 import dayjs from 'dayjs';
 import rollbar from './rollbar';
 import CONSTANTS from './constants';

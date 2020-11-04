@@ -5,5 +5,6 @@ export default interface Role {
     requireApplication: boolean;
     hideInList?: boolean;
     description?: string;
-    pingable?: boolean;
+		pingable?: boolean;
+		prefix?: string;
 }

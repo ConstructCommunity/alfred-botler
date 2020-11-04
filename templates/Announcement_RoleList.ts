@@ -12,11 +12,11 @@ export default class Rolelist extends Template {
   embed() {
     const everyoneRoles = Object.entries(CONSTANTS.ROLES)
       .filter(([key, value]) => !value.requireApplication && !value.hideInList)
-      .map(([key, role]) => `**<@&${role.id}>${role.pingable ? '\*' : ''}:** \`!iam ${role.shortName}\``)
+      .map(([key, role]) => `${role.prefix ?? ''}**<@&${role.id}>${role.pingable ? '\*' : ''}:** \`!iam ${role.shortName}\``)
       .join('\n');
     const applicationRoles = Object.entries(CONSTANTS.ROLES)
       .filter(([key, value]) => value.requireApplication && !value.hideInList)
-      .map(([key, role]) => `**<@&${role.id}>${role.pingable ? '\*' : ''}:** ${role.description}`)
+      .map(([key, role]) => `${role.prefix ?? ''}**<@&${role.id}>${role.pingable ? '\*' : ''}:** ${role.description}`)
       .join('\n');
 
     return {

@@ -22,6 +22,8 @@ const intents = new Intents([
 	"GUILD_PRESENCES"
 ]);
 
+console.log('commandPrefix:', isDev ? '.' : '!')
+
 let client = new CommandoClient({
   commandPrefix: isDev ? '.' : '!',
 	owner: CONSTANTS.OWNER,
@@ -71,7 +73,7 @@ client
   .on('warn', console.warn);
 
 if (isDev) {
-  client = client.on('debug', console.log);
+  // client = client.on('debug', console.log);
 }
 
 client.on('reconnecting', () => {
@@ -196,11 +198,11 @@ client.registry
   .registerDefaultTypes()
   .registerDefaultCommands({
     help: false,
-    prefix: false,
+    prefix: isDev,
     eval: false,
     ping: true,
     unknownCommand: false,
-    commandState: false,
+    commandState: isDev,
   })
   .registerGroups([
     ['test', 'Commands available only for testing'],
@@ -208,11 +210,19 @@ client.registry
     ['moderation', 'Commands available only to our staff members'],
   ]);
 
-// if (isDev) {
-// client.registry.registerCommandsIn(path.join(__dirname, 'commands', 'test'));
-// } else {
-client.registry.registerCommandsIn(path.join(__dirname, 'commands', 'everyone'));
-client.registry.registerCommandsIn(path.join(__dirname, 'commands', 'moderation'));
-// }
+if (isDev) {
+	client.registry.registerCommandsIn({
+		dirname: path.join(__dirname, 'commands', 'test'),
+		filter: /^([^.].*)\.(js|ts)$/,
+	});
+}
+client.registry.registerCommandsIn({
+	dirname: path.join(__dirname, 'commands', 'everyone'),
+	filter: /^([^.].*)\.(js|ts)$/,
+});
+client.registry.registerCommandsIn({
+	dirname: path.join(__dirname, 'commands', 'moderation'),
+	filter: /^([^.].*)\.(js|ts)$/,
+});
 
 client.login(process.env.TOKEN);
