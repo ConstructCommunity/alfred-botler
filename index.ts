@@ -210,19 +210,20 @@ client.registry
     ['moderation', 'Commands available only to our staff members'],
   ]);
 
+const filter = isDev ? /^([^.].*)\.(ts)$/ : /^([^.].*)\.(js)$/
 if (isDev) {
 	client.registry.registerCommandsIn({
 		dirname: path.join(__dirname, 'commands', 'test'),
-		filter: /^([^.].*)\.(js|ts)$/,
+		filter,
 	});
 }
 client.registry.registerCommandsIn({
 	dirname: path.join(__dirname, 'commands', 'everyone'),
-	filter: /^([^.].*)\.(js|ts)$/,
+	filter,
 });
 client.registry.registerCommandsIn({
 	dirname: path.join(__dirname, 'commands', 'moderation'),
-	filter: /^([^.].*)\.(js|ts)$/,
+	filter,
 });
 
 client.login(process.env.TOKEN);
