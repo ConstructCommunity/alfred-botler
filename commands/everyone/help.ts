@@ -25,7 +25,7 @@ export default class help extends Command {
 
   // eslint-disable-next-line class-methods-use-this
   onError(err, message, args, fromPattern, result) {
-    return genericError(err, message, args, fromPattern, result);
+    return genericError(err, message);
   }
 
   // eslint-disable-next-line

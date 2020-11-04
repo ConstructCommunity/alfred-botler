@@ -1,3 +1,6 @@
+import * as dotenv from "dotenv";
+dotenv.config();
+
 import Commando, { CommandoClient } from 'discord.js-commando';
 import path from 'path';
 import {

@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import socketio from 'socket.io';
 import https from 'https';
 import http from 'http';
