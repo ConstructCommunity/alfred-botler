@@ -1,5 +1,5 @@
 module.exports = [{
-  script: 'dist/index.js',
+  script: 'index.js',
   name: 'Alfred Botler',
   env: {
     NODE_ENV: 'production',
