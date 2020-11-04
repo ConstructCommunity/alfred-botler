@@ -9,15 +9,24 @@ import {
 } from './bot-utils';
 import CONSTANTS from './constants';
 import rollbar from './rollbar';
+import { Intents } from 'discord.js';
 // import Socket from './socket';
 
 const isDev = process.env.NODE_ENV === 'development';
 console.log('isDev', isDev);
 // let socket = null;
 
+const intents = new Intents([
+	Intents.NON_PRIVILEGED,
+	"GUILD_MEMBERS",
+	"GUILD_PRESENCES"
+]);
+
 let client = new CommandoClient({
   commandPrefix: isDev ? '.' : '!',
-  owner: CONSTANTS.OWNER,
+	owner: CONSTANTS.OWNER,
+	ws: { intents },
+	fetchAllMembers: true,
 });
 
 process.on('uncaughtException', (err) => {
@@ -29,18 +38,22 @@ process.on('uncaughtException', (err) => {
   process.exit(1);
 });
 
-const getConnectedUsers = () => {
-  const guild = client.guilds.cache.get(CONSTANTS.GUILD_ID);
+const getConnectedUsers = async () => {
+	try {
+		const guild = await client.guilds.fetch(CONSTANTS.GUILD_ID);
+		const guildMembers = guild.members;
+		const members = await guildMembers.fetch()
+		const connectedUsers = members.filter((member) => (member.presence.status !== 'offline'));
 
-  const guildMembers = guild.members;
-
-  const connectedUsers = guildMembers.cache.filter((member) => (member.presence.status !== 'offline'));
-
-  return connectedUsers.size;
+		return connectedUsers.size;
+	} catch (e) {
+		console.error('error', e)
+		return 0
+	}
 };
 
 const updateStatus = async () => {
-  const users = getConnectedUsers();
+	const users = await getConnectedUsers();
   await client.user.setActivity(`with ${users} members`, {
     type: 'PLAYING',
   });

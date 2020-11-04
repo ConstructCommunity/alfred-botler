@@ -7,7 +7,7 @@
   "scripts": {
     "start": "./node_modules/.bin/pm2 start ecosystem.config.js",
     "watch": "tsc -w",
-    "dev": "cross-env NODE_ENV=development tsnd index.ts",
+    "dev": "cross-env NODE_ENV=development tsnd --respawn index.ts",
     "build": "tsc",
     "lint": "eslint .",
     "test": "cross-env NODE_ENV=test ava tests/test1.js",
