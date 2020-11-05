@@ -28,7 +28,7 @@ const ROLES: Record<string, Role> = {
     requireApplication: true,
     pingable: true,
 		description: 'Discord Nitro server boosters.',
-		prefix: "<:purple_heart:768584412514222172>"
+		prefix: "<:purple_heart:768584412514222172> "
   },
 
   HELPER: {
