@@ -138,7 +138,7 @@ client.on('reconnecting', () => {
       client.channels.cache
         .get(CONSTANTS.CHANNELS.COMMUNITY_ANNOUNCEMENTS)
         // @ts-ignore
-        .send(`<:purple_heart:768584412514222172> Thanks <@${newMember.id}> for Nitro Boosting the Server!`);
+        .send(`<:purple_heart:768584412514222172> **Thanks** <@${newMember.id}> for **Nitro Boosting** the Server!`);
     }
   })
   .on('message', async (message) => {
