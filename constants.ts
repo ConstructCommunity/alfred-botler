@@ -21,7 +21,7 @@ const ROLES: Record<string, Role> = {
     requireApplication: true,
     pingable: true,
     description: 'Verified Staff members.',
-		prefix: "<:fleur_de_lis:773931625653731348> "
+		prefix: ":fleur_de_lis: "
   },
   NITRO_BOOSTER: {
     id: '628826027988090884',
@@ -38,56 +38,56 @@ const ROLES: Record<string, Role> = {
     shortName: 'helper',
     requireApplication: false,
     pingable: true,
-		prefix: "<:speech_balloon:773930940727689256> "
+		prefix: ":speech_balloon: "
   },
   DESIGNER: {
     id: '378168474649755648',
     displayName: 'Designer',
     shortName: 'designer',
     requireApplication: false,
-		prefix: "<:magic_wand:773931625653731348> "
+		prefix: ":magic_wand: "
   },
   PROGRAMMER: {
     id: '256383286211772416',
     displayName: 'Programmer',
     shortName: 'programmer',
     requireApplication: false,
-		prefix: "<:keyboard:773931625653731348> "
+		prefix: ":keyboard: "
   },
   ARTIST: {
     id: '166557768193540096',
     displayName: 'Artist',
     shortName: 'artist',
     requireApplication: false,
-		prefix: "<:art:773931625653731348> "
+		prefix: ":art: "
   },
   ANIMATOR: {
     id: '767739954499027014',
     displayName: 'Animator',
     shortName: 'animator',
     requireApplication: false,
-		prefix: "<:film_frames:773931625653731348> "
+		prefix: ":film_frames: "
   },
   WRITER: {
     id: '767740075663687721',
     displayName: 'Writer',
     shortName: 'writer',
     requireApplication: false,
-		prefix: "<:pencil:773931625653731348> "
+		prefix: ":pencil: "
   },
   AUDIO_ENGINEER: {
     id: '258691772430024704',
     displayName: 'Audio Engineer',
     shortName: 'audio',
     requireApplication: false,
-		prefix: "<:loud_sound:773931625653731348> "
+		prefix: ":loud_sound: "
   },
   QA_TESTER: {
     id: '767740196019896341',
     displayName: 'QA Tester',
     shortName: 'tester',
     requireApplication: false,
-		prefix: "<:mag_right:768584412514222172> "
+		prefix: ":mag_right: "
   },
 }
 
