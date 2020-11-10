@@ -134,12 +134,14 @@ client.on('reconnecting', () => {
     const role = await member.roles.add('588420010574086146'); // @Member
   })
   .on('guildMemberUpdate', async (oldMember, newMember) => {
+	/* ### TEMP DISABLED (SEE ISSUE #187) ### 
     if (oldMember.premiumSince !== newMember.premiumSince) {
       client.channels.cache
         .get(CONSTANTS.CHANNELS.COMMUNITY_ANNOUNCEMENTS)
         // @ts-ignore
         .send(`<:purple_heart:768584412514222172> **Thanks** <@${newMember.id}> for **Nitro Boosting** the Server!`);
     }
+	*/
   })
   .on('message', async (message) => {
     /*
