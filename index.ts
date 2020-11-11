@@ -9,7 +9,7 @@ import {
 } from './bot-utils';
 import CONSTANTS from './constants';
 import rollbar from './rollbar';
-import { Intents } from 'discord.js';
+import { Intents, TextChannel } from 'discord.js';
 // import Socket from './socket';
 
 const isDev = process.env.NODE_ENV === 'development';
@@ -45,7 +45,7 @@ const getConnectedUsers = async () => {
 		const guild = await client.guilds.fetch(CONSTANTS.GUILD_ID);
 		const guildMembers = guild.members;
 		const members = await guildMembers.fetch()
-		const connectedUsers = members.filter((member) => (member.presence.status !== 'offline'));
+    const connectedUsers = members.filter((member) => (member.presence.status !== 'offline'));
 
 		return connectedUsers.size;
 	} catch (e) {
@@ -134,14 +134,18 @@ client.on('reconnecting', () => {
     const role = await member.roles.add('588420010574086146'); // @Member
   })
   .on('guildMemberUpdate', async (oldMember, newMember) => {
-	/* ### TEMP DISABLED (SEE ISSUE #187) ### 
-    if (oldMember.premiumSince !== newMember.premiumSince) {
-      client.channels.cache
-        .get(CONSTANTS.CHANNELS.COMMUNITY_ANNOUNCEMENTS)
-        // @ts-ignore
-        .send(`<:purple_heart:768584412514222172> **Thanks** <@${newMember.id}> for **Nitro Boosting** the Server!`);
+    if (
+			(
+				(newMember.premiumSince && oldMember.premiumSince) &&
+				(oldMember.premiumSince !== newMember.premiumSince) // updating nitro
+			) ||
+				(!oldMember.premiumSince && newMember.premiumSince) // just getting nitro
+			) {
+      console.log('oldMember.premiumSince', oldMember.premiumSince, oldMember.displayName)
+      console.log('newMember.premiumSince', newMember.premiumSince, newMember.displayName)
+      const channel = await client.channels.fetch(CONSTANTS.CHANNELS.COMMUNITY_ANNOUNCEMENTS) as TextChannel
+			await channel.send(`<:purple_heart:768584412514222172> **Thanks** <@${newMember.id}> for **Nitro Boosting** the Server!`);
     }
-	*/
   })
   .on('message', async (message) => {
     /*

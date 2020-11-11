@@ -131,7 +131,9 @@ export const hasPermissions = (client, permissions, msg) => {
         || permissions.channels.includes(msg.channel.id)
         || msg.channel.id === CONSTANTS.CHANNELS.PRIVATE_TESTS
         || msg.channel.id === CONSTANTS.CHANNELS.TEST
-  );
+	);
+
+	console.log('isInChannel', isInChannel)
 
   if (hasRole && isInChannel) return true;
   if (!hasRole) return 'You are not permitted to use this command!';
