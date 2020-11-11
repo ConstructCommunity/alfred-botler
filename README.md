@@ -52,3 +52,7 @@ Ex: `!say Hello`
 ### temptest
 > Experimental debugging for templates.\
 Ex: `!temptest #template_name#`
+
+### kill
+> Force stops Alfred Botler. (Revive using Restart Push Commit!)\
+Ex: `!kill`
