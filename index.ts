@@ -136,13 +136,13 @@ client.on('reconnecting', () => {
   .on('guildMemberUpdate', async (oldMember, newMember) => {
     if (
 			(
-				(newMember.premiumSince && oldMember.premiumSince) &&
-				(oldMember.premiumSince !== newMember.premiumSince) // updating nitro
+				(newMember.premiumSinceTimestamp && oldMember.premiumSinceTimestamp) &&
+				(oldMember.premiumSinceTimestamp !== newMember.premiumSinceTimestamp) // updating nitro
 			) ||
-				(!oldMember.premiumSince && newMember.premiumSince) // just getting nitro
+				(!oldMember.premiumSinceTimestamp && newMember.premiumSinceTimestamp) // just getting nitro
 			) {
-      console.log('oldMember.premiumSince', oldMember.premiumSince, oldMember.displayName)
-      console.log('newMember.premiumSince', newMember.premiumSince, newMember.displayName)
+      console.log('oldMember.premiumSinceTimestamp', oldMember.premiumSinceTimestamp, oldMember.displayName)
+      console.log('newMember.premiumSinceTimestamp', newMember.premiumSinceTimestamp, newMember.displayName)
       const channel = await client.channels.fetch(CONSTANTS.CHANNELS.COMMUNITY_ANNOUNCEMENTS) as TextChannel
 			await channel.send(`<:purple_heart:768584412514222172> **Thanks** <@${newMember.id}> for **Nitro Boosting** the Server!`);
     }
