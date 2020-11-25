@@ -2,7 +2,7 @@
 New tweet from search
 
 === Search Filter ===
-(from:nw_js) -filter:retweets -filter:replies
+#nwjs (from:nw_js) -filter:retweets -filter:replies
 
 === Web Request ===
 Method: Post
