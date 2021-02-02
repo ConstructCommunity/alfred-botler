@@ -1,11 +1,12 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 
-import Commando, { CommandoClient } from 'discord.js-commando';
+import Commando, { Command, CommandoClient } from 'discord.js-commando';
 import path from 'path';
 import {
   checkC3Updates, checkC2Updates, checkBlogPosts, checkMessageForSafety,
-  checkForNotificationBot, checkToolsHasLink, checkForNewUsers, addReactions,
+	checkForNotificationBot, checkToolsHasLink, checkForNewUsers, addReactions,
+	checkJobOffers,
 } from './bot-utils';
 import CONSTANTS from './constants';
 import rollbar from './rollbar';
@@ -76,10 +77,9 @@ if (isDev) {
   // client = client.on('debug', console.log);
 }
 
-client.on('reconnecting', () => {
-  console.warn('Reconnecting...');
-})
-  .on('commandError', (cmd, err) => {
+client
+	// @ts-ignore
+  .on('commandError', (cmd: Command, err: Error) => {
     rollbar.error(err);
     // if (err instanceof Commando.FriendlyError) return;
     console.error(`Error in command ${cmd.groupID}:${cmd.memberName}`, err);
@@ -173,6 +173,7 @@ client.on('reconnecting', () => {
     await checkForNotificationBot(message);
     await checkForNewUsers(message);
     await checkToolsHasLink(message);
+    await checkJobOffers(message);
 
     if (
       message.webhookID && message.channel.id === CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS

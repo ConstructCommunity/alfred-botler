@@ -1,6 +1,6 @@
 import cheerio from 'cheerio';
 import got from 'got';
-import Discord, { Message } from 'discord.js';
+import Discord, { Channel, DMChannel, Guild, GuildChannel, Message, NewsChannel, TextChannel } from 'discord.js';
 import dayjs from 'dayjs';
 import rollbar from './rollbar';
 import CONSTANTS from './constants';
@@ -25,18 +25,11 @@ export const removeDuplicates = (arr) => arr.reduce((x, y) => (x.includes(y) ? x
  * @param {Boolean} includeAttachments
  */
 export const duplicateMessage = async (
-  msg,
-  toChannelId,
-  contentEditor,
+  msg: Message,
+  toChannel: TextChannel,
+  contentEditor: (string) => string,
   includeAttachments = true,
 ) => {
-  // Makes it easier to get the channels rather than doing the msg.mentions.channels thing
-  const toChannel = msg.guild.channels.cache.get(toChannelId);
-  if (!toChannel) {
-    console.log('Could not find mentioned channel');
-    return null;
-  }
-
   let wb;
   const wbs = await toChannel.fetchWebhooks();
   if (wbs.size < 20) wb = await toChannel.createWebhook('Message duplication');
@@ -55,7 +48,7 @@ export const duplicateMessage = async (
         options.files = [
           new Discord.MessageAttachment(
             msg.attachments.first().url,
-            msg.attachments.first().filename,
+            msg.attachments.first().name,
           ),
         ];
       }
@@ -77,7 +70,7 @@ export const duplicateMessage = async (
  * @param {Discord.Message} msg
  * @return {Promise<void>}
  */
-export const checkMessageForSafety = async (msg) => {
+export const checkMessageForSafety = async (msg: Message) => {
   if (msg.author.id === CONSTANTS.BOT) return;
   if (msg.webhookID !== null) return;
   if (!msg.member) return;
@@ -91,7 +84,7 @@ export const checkMessageForSafety = async (msg) => {
         console.log('match search: ', msg.content);
 
         // remove message in public channel
-        await duplicateMessage(msg, msg.channel.id, () => '[Message removed by Alfred]', false);
+        await duplicateMessage(msg, msg.channel as TextChannel, () => '[Message removed by Alfred]', false);
 
         // send a message to dm of author
         await msg.author.send(`Your message was removed because:
@@ -100,11 +93,13 @@ export const checkMessageForSafety = async (msg) => {
 
 If this is a false positive, please let the CCStaff know. We'll be happy to help.`);
 
+				const bin = msg.guild.channels.cache.get(CONSTANTS.CHANNELS.BIN) as TextChannel
+
         // make a duplicate without removing initial message inside #bin
-        await msg.guild.channels.cache.get(CONSTANTS.CHANNELS.BIN).send('Censored message below:');
-        await msg.guild.channels.cache.get(CONSTANTS.CHANNELS.BIN).send(CONSTANTS.MESSAGE.SEPARATOR);
-        await duplicateMessage(msg, CONSTANTS.CHANNELS.BIN, (content) => content);
-        await msg.guild.channels.cache.get(CONSTANTS.CHANNELS.BIN).send(CONSTANTS.MESSAGE.SEPARATOR);
+        bin.send('Censored message below:');
+        bin.send(CONSTANTS.MESSAGE.SEPARATOR);
+        await duplicateMessage(msg, bin, (content) => content);
+        bin.send(CONSTANTS.MESSAGE.SEPARATOR);
 
         // delete the original message
         await msg.delete();
@@ -338,7 +333,41 @@ export const checkToolsHasLink = async (message) => {
   if (message.channel.id === toolsChan) {
     if (message.content.search(/[-a-zA-Z0-9@:%_+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_+.~#?&//=]*)?/gi) === -1) {
       await message.delete();
-      await message.author.send('**Your content does not meet one or more requirements!**\n\n__List of requirements:__\n► **1** link/embed or attachment');
+      await message.author.send('**Your content does not meet one or more requirements!**\n\n__List of requirements:__\n► **1** Link/embed or attachment');
     }
   }
 };
+
+export const checkJobOffers = async (message: Message) => {
+	return true;
+	// https://www.construct.net/en/forum/game-development/job-offers-and-team-requests-28
+
+	const jobOffersChanId = CONSTANTS.CHANNELS.PRIVATE_TESTS;
+	if (message.channel.id === jobOffersChanId && message.author.id !== CONSTANTS.BOT) {
+		try {
+			if (
+				message.content.search(/www\.construct\.net/gm) === -1 ||
+				message.content.search(/forum\/game-development\/job-offers-and-team-requests/gm) === -1
+			) {
+				await message.delete();
+
+				const requirementsNotMet = await message.reply(
+					'**Your content does not meet one or more requirements!**\n\n__List of requirements:__\n► **1** Link to a forum post'
+				);
+
+				const dmChannel = await message.author.createDM()
+				await dmChannel.send(message.content)
+
+				setTimeout(async () => {
+					await requirementsNotMet.delete()
+				}, 20000) // 20 seconds
+			} else {
+				const jobOffersChan = await message.guild.channels.cache.get(jobOffersChanId) as TextChannel
+				await duplicateMessage(message, jobOffersChan, message => message)
+				await message.delete();
+			}
+		} catch (e: any) {
+			console.error('There was an error checking job offer', e)
+		}
+  }
+}

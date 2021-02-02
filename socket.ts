@@ -1,6 +1,5 @@
 // @ts-nocheck
 
-import socketio from 'socket.io';
 import https from 'https';
 import http from 'http';
 import fs from 'fs';
@@ -23,7 +22,6 @@ const handler = (req, res) => {
 
 const app = isDev ? http.createServer(handler) : https.createServer(options, handler);
 
-const io = socketio(app);
 app.listen(2053);
 
 export default class {
