@@ -28,7 +28,8 @@ export const duplicateMessage = async (
   msg: Message,
   toChannel: TextChannel,
   contentEditor: (string) => string,
-  includeAttachments = true,
+	includeAttachments = true,
+	customUser = msg.author
 ) => {
   let wb;
   const wbs = await toChannel.fetchWebhooks();
@@ -36,8 +37,8 @@ export const duplicateMessage = async (
 
   try {
     const options = {
-      username: msg.author.username,
-      avatarURL: msg.author.avatarURL(),
+      username: customUser.username,
+      avatarURL: customUser.avatarURL(),
       embeds: undefined,
       files: undefined,
     };

@@ -129,6 +129,10 @@ client
   })
   .on('presenceUpdate', async () => {
     await updateStatus();
+	})
+	// @ts-ignore
+	.on('commandRegister', async (a) => {
+    console.log('a', a.name)
   })
   .on('guildMemberAdd', async (member) => {
     const role = await member.roles.add('588420010574086146'); // @Member

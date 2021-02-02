@@ -15,6 +15,4 @@ for (let i = 0; i < files.length; i += 1) {
   }
 }
 
-console.log('modules', modules);
-
 export default modules;

@@ -3,7 +3,7 @@ import CONSTANTS from '../../constants';
 import { hasPermissions, duplicateMessage, addReactions } from '../../bot-utils';
 import PromoUp from '../../templates/Announcement_PromoUp';
 import { genericError } from '../../errorManagement';
-import { Message } from 'discord.js';
+import { Message, TextChannel } from 'discord.js';
 
 export default class promo extends Command {
   constructor(client) {
@@ -39,9 +39,11 @@ export default class promo extends Command {
       return;
     }
 
+		const promoChan = await msg.client.channels.cache.get(CONSTANTS.CHANNELS.PROMO) as TextChannel
+
     const sent = await duplicateMessage(
       msg,
-      CONSTANTS.CHANNELS.PROMO,
+      promoChan,
       (content) => content.replace(/!promo ?/gi, ''),
     );
 
