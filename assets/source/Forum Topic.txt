@@ -16,7 +16,7 @@ We offer a number of text channels such as: #general, #ask, #tips and many more.
 [h3]► Personalize with custom Roles[/h3]
 Pick roles and personalize the way you like. Custom roles can be added or removed at any time.
 
-[h3]► Instantly share any types files[/h3]
+[h3]► Instantly share media and files[/h3]
 All members can upload files and images. Making sharing easy and fast.
 
 [h3]► An alternative, not a replacement[/h3]
