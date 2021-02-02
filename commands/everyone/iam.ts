@@ -45,7 +45,10 @@ export default class iam extends Command {
     return hasPermissions(this.client, permissions, msg);
   }
 
-  async run(msg: CommandoMessage, { role }: CommandParameters): Promise<Message> {
+	async run(msg: CommandoMessage, { role }: CommandParameters): Promise<Message> {
+
+		const wantedRole = role.toLowerCase()
+
     const fun: string[][] = [
       ['god', 'Sorry, Armaldio is our only god ...'],
       ['ashley', 'No, Ash is too busy adding features ;)'],
@@ -54,7 +57,7 @@ export default class iam extends Command {
 
     let found = false;
     fun.forEach(([name, answer]) => {
-      if (name === role) {
+      if (name === wantedRole) {
         msg.reply(answer);
         found = true;
       }
@@ -62,7 +65,7 @@ export default class iam extends Command {
 
     if (found) return;
 
-    const targetRole = roles.find((r) => r.shortName === role);
+    const targetRole = roles.find((r) => r.shortName === wantedRole);
     if (typeof targetRole === 'undefined') {
       await msg.channel.send({
         embed: new RoleHelp({
