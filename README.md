@@ -49,10 +49,14 @@ Ex: `!notify Hello`
 > Let Alfred post a message inside the current channel.\
 Ex: `!say Hello`
 
-### temptest
-> Experimental debugging for templates.\
-Ex: `!temptest #template_name#`
-
 ### kill
 > Force stops Alfred Botler. (Revive using Restart Push Commit!)\
 Ex: `!kill`
+
+### temptest
+> Debugging for converted templates.\
+Ex: `!temptest #template_name#`
+
+### temptestraw
+> Debugging for raw templates.\
+Ex: `!temptestraw #attachement.json#`
