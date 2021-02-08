@@ -6,14 +6,14 @@ import CONSTANTS from '../../constants';
 import { genericError } from '../../errorManagement';
 import { Message } from 'discord.js';
 
-export default class post extends Command {
+export default class temptestraw extends Command {
   constructor(client) {
     super(client, {
-      name: 'post',
+      name: 'temptestraw',
       group: 'moderation',
-      memberName: 'post',
+      memberName: 'temptestraw',
       description: 'Post a JSON file',
-      examples: ['post + json as attached file'],
+      examples: ['temptestraw + json as attached file'],
     });
   }
 
