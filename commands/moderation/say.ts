@@ -40,7 +40,9 @@ export default class say extends Command {
 
   // eslint-disable-next-line
   async run(msg: CommandoMessage, { text }): Promise<Message> {
-		await duplicateMessage(msg, (msg.channel as TextChannel), message => message, true, this.client.users.cache.get(this.client.user.id))
+		await duplicateMessage(msg, (msg.channel as TextChannel), message => {
+      return message.replace('!say', '');
+    }, true, this.client.users.cache.get(this.client.user.id))
 		return msg.delete()
   }
 }
