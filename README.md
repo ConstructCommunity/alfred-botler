@@ -50,7 +50,7 @@ Ex: `!notify Hello`
 Ex: `!say Hello`
 
 ### kill
-> Force stops Alfred Botler. (Revive using Restart Push Commit!)\
+> Force stops Alfred Botler. (Revive using [edit commit](https://github.com/WebCreationClub/alfred-botler/blob/master/tests/Restart%20Push.txt)!)\
 Ex: `!kill`
 
 ### temptest
