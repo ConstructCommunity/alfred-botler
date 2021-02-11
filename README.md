@@ -49,10 +49,14 @@ Ex: `!notify Hello`
 > Let Alfred post a message inside the current channel.\
 Ex: `!say Hello`
 
+### kill
+> Force stops Alfred Botler. (Revive using [edit commit](https://github.com/WebCreationClub/alfred-botler/blob/master/tests/Restart%20Push.txt)!)\
+Ex: `!kill`
+
 ### temptest
-> Experimental debugging for templates.\
+> Debugging for converted templates.\
 Ex: `!temptest #template_name#`
 
-### kill
-> Force stops Alfred Botler. (Revive using Restart Push Commit!)\
-Ex: `!kill`
+### temptestraw
+> Debugging for raw templates.\
+Ex: `!temptestraw #attachement.json#`
