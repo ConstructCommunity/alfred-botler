@@ -11,23 +11,14 @@ import { database } from './firebase'
 
 // const isDev = process.env.NODE_ENV === 'development';
 
-export const truncate = (string, max) => (string.length > max ? `${string.substring(0, max)}...` : string);
+export const truncate = (str: string, max: number) => (str.length > max ? `${str.substring(0, max)}...` : str);
 
-/**
- * @param  {Array} arr
- */
 export const removeDuplicates = (arr) => arr.reduce((x, y) => (x.includes(y) ? x : [...x, y]), []);
 
-/**
- * @param {Discord.Message} msg
- * @param {String} toChannelId
- * @param {String} contentEditor
- * @param {Boolean} includeAttachments
- */
 export const duplicateMessage = async (
   msg: Message,
   toChannel: TextChannel,
-  contentEditor: (string) => string,
+  contentEditor: (str: string) => string,
 	includeAttachments = true,
 	customUser = msg.author
 ) => {
@@ -187,14 +178,6 @@ export const checkBlogPosts = async (client) => {
       .replace(/^(.*?)\/blogs/, 'https://www.construct.net/blogs');
     const image = common.find('.statWrap .avatarWrap > img')
       .attr('src');
-
-    console.log({
-      title: newTitle,
-      author,
-      timeToRead,
-      link,
-      image,
-    });
 
     database.ref('blog').once('value').then(async (snapshot) => {
       const title = snapshot.val();

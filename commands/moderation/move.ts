@@ -40,13 +40,6 @@ export default class move extends Command {
     return hasPermissions(this.client, permissions, msg);
   }
 
-  /**
-   *
-   * @param {CommandoMessage} msg
-   * @param {{ channel:TextChannel, amount:Number }} channel
-   * @return {Promise<void>}
-   */
-  // eslint-disable-next-line
   async run(msg: CommandoMessage, { amount, channel }): Promise<Message> {
     if (amount <= 0) {
       await msg.author.send('Amount of message must be greater than 0!');
@@ -104,7 +97,7 @@ To:
         // eslint-disable-next-line
         // @ts-ignore
         // eslint-disable-next-line no-await-in-loop
-        await duplicateMessage(m, channel.id, (content) => content);
+        await duplicateMessage(m, channel, (content) => content);
         console.log(m.cleanContent);
       }
 
