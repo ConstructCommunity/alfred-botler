@@ -13,7 +13,7 @@ import { database } from './firebase'
 
 export const truncate = (str: string, max: number) => (str.length > max ? `${str.substring(0, max)}...` : str);
 
-export const removeDuplicates = (arr) => arr.reduce((x, y) => (x.includes(y) ? x : [...x, y]), []);
+export const removeDuplicates = (arr: string[]): string[] => arr.reduce((x, y) => (x.includes(y) ? x : [...x, y]), []);
 
 export const duplicateMessage = async (
   msg: Message,

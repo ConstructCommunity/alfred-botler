@@ -3,6 +3,7 @@ import Notify from '../../templates/Announcement_Notify';
 import CONSTANTS from '../../constants';
 import { hasPermissions, removeDuplicates } from '../../bot-utils';
 import { genericError } from '../../errorManagement';
+import { Message, MessageReaction, ReactionCollector, ReactionEmoji, User } from 'discord.js';
 
 export default class notify extends Command {
   constructor(client) {
@@ -29,7 +30,7 @@ export default class notify extends Command {
   }
 
   // eslint-disable-next-line
-  async run(msg) {
+  async run(msg: Message) {
     const mentions = msg.mentions.members.array();
 
     if (mentions.length < 1) {
@@ -49,8 +50,8 @@ export default class notify extends Command {
     await msg.delete();
 
     await sent.react('🆗');
-    await sent.awaitReactions((e) => {
-      const users = e.users.array();
+    await sent.awaitReactions(async (reaction: MessageReaction, user: User) => {
+      const users = reaction.users.cache.array();
 
       const mentionIds = mentions.map((m) => `${m.id}`);
       let count = 0;
@@ -61,9 +62,11 @@ export default class notify extends Command {
       });
 
       if (count === mentionIds.length) {
-        sent.delete();
+        await sent.delete();
         msg.author.send(`Your message in <#${msg.channel.id}> was accepted by everyone`);
       }
+
+			return true
     });
   }
 }
