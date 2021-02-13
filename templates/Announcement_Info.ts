@@ -39,11 +39,11 @@ export default class Info extends Template {
         value: CONSTANTS.MESSAGE.SEPARATOR,
       },
       {
-        name: ':C3: Try Construct 3 Now:',
+        name: '<:C3:561134796911280128> Try Construct 3 Now:',
         value: '[Open Link ➚](https://www.construct.net/)',
       },
       {
-        name: ':C3: Purchase Construct 3 Now:',
+        name: '<:C3:561134796911280128> Purchase Construct 3 Now:',
         value: '[Open Link ➚](https://www.construct.net/make-games/buy-construct)',
       },
       ],
