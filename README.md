@@ -4,8 +4,8 @@
 
 ___
 # Description
-**Alfred Botler** is a Discord bot, specifically made for the [Construct Community Discord](https://discord.gg/dZDU7Re) server. 
-<br />It's able to perform a lot of tasks, from keeping track of things to advanced server management.
+**Alfred Botler** is a bot, made for the [Construct Community](https://discord.gg/dZDU7Re) Discord. 
+<br />It's able to keep track of things and do advanced server management.
 
 # Member Commands
 ### iam
