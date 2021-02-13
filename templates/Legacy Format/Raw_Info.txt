@@ -1,4 +1,0 @@
-Workflow:
-1. Use raw template for editing and preview (!say #upload)
-2. Use colorcoding based on use case
-3. Convert raw template into final one (!temptest #name#)

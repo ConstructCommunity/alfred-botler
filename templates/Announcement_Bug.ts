@@ -17,10 +17,10 @@ export default class Bug extends Template {
       .setAuthor('BUG REPORTING LINKS', `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/DiscordNotifyicon.png`)
       .addFields([
         { name: CONSTANTS.MESSAGE.SEPARATOR, value: CONSTANTS.MESSAGE.EMPTY },
-        { name: '<:C3:561134796911280128> Construct 3 Editor:', value: 'http://bit.ly/C3EditorBugs' },
-        { name: '<:C3:561134796911280128> Construct 3 Website:', value: 'http://bit.ly/C3WebsiteBugs' },
-        { name: '<:C2:561134777445646336> Construct 2:', value: 'http://bit.ly/C2Bugs' },
-        { name: '<:C1:561134200896487424> Construct 1:', value: 'http://bit.ly/C1Bugs' },
+        { name: ':C3: Construct 3 Editor:', value: '[Open Link ➚](https://github.com/Scirra/Construct-3-bugs/issues)' },
+        { name: ':C3: Construct 3 Website:', value: '[Open Link ➚](https://github.com/Scirra/Construct.net-website-bugs/issues)' },
+        { name: ':C2: Construct 2:', value: '[Open Link ➚](https://www.construct.net/forum/construct-2/bugs-21)' },
+        { name: ':C1: Construct 1:', value: '[Open Link ➚](https://sourceforge.net/p/construct/bugs/)' },
       ]);
   }
 }

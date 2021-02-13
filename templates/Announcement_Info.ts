@@ -23,28 +23,28 @@ export default class Info extends Template {
         value: CONSTANTS.MESSAGE.EMPTY,
       },
       {
-        name: 'Rules & Acknowledgements:',
-        value: 'http://bit.ly/CC_rules',
+        name: ':scroll: Rules & Acknowledgements:',
+        value: '[Open Link ➚](https://docs.google.com/document/d/1zc8W61ntVOw4OTbmFIOASjmL_EYh8RpyNhoFesUknks/edit)',
       },
       {
-        name: 'Server Invitation Link:',
+        name: ':alfred: Alfred Botler\'s Commands:',
+        value: '[Open Link ➚](https://github.com/WebCreationClub/alfred-botler/blob/master/README.md)',
+      },
+      {
+        name: ':red_envelope: Server Invitation Link:',
         value: 'https://discord.gg/dZDU7Re',
-      },
-      {
-        name: 'Alfred Botler\'s Commands:',
-        value: 'http://bit.ly/botler_source',
       },
       {
         name: CONSTANTS.MESSAGE.EMPTY,
         value: CONSTANTS.MESSAGE.SEPARATOR,
       },
       {
-        name: '<:C3:561134796911280128> Try Construct 3 Now:',
-        value: 'https://www.construct.net/',
+        name: ':C3: Try Construct 3 Now:',
+        value: '[Open Link ➚](https://www.construct.net/)',
       },
       {
-        name: '<:C3:561134796911280128> Purchase Construct 3 Now:',
-        value: 'https://www.construct.net/make-games/buy-construct',
+        name: ':C3: Purchase Construct 3 Now:',
+        value: '[Open Link ➚](https://www.construct.net/make-games/buy-construct)',
       },
       ],
       footer: {
