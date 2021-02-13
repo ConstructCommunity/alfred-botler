@@ -27,7 +27,7 @@ export default class Info extends Template {
         value: '[Open Link ➚](https://docs.google.com/document/d/1zc8W61ntVOw4OTbmFIOASjmL_EYh8RpyNhoFesUknks/edit)',
       },
       {
-        name: ':alfred: Alfred Botler\'s Commands:',
+        name: '<:alfred:278258103474978816> Alfred Botler\'s Commands:',
         value: '[Open Link ➚](https://github.com/WebCreationClub/alfred-botler/blob/master/README.md)',
       },
       {
