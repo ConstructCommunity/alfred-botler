@@ -295,10 +295,17 @@ export const checkC3Updates = async (client) => {
   }
 };
 
-export const checkForNotificationBot = async (message) => {
+export const checkForNotificationBot = async (message: Message) => {
   if (message.channel.id === CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS) {
     // sent from the "notification" bot
     await addReactions(message, 'notification');
+  }
+};
+
+export const crossPost = async (message: Message) => {
+  if (message.channel.id === CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS) {
+    // sent from the news channel
+    await message.crosspost()
   }
 };
 
@@ -306,13 +313,13 @@ export const checkForNotificationBot = async (message) => {
  *
  * @param {Message} message
  */
-export const checkForNewUsers = async (message) => {
+export const checkForNewUsers = async (message: Message) => {
   if (message.channel.id === CONSTANTS.CHANNELS.INTRODUCE_YOURSELF) {
     await message.react(message.guild.emojis.cache.get('768527775182225519'));
   }
 };
 
-export const checkToolsHasLink = async (message) => {
+export const checkToolsHasLink = async (message: Message) => {
   const toolsChan = CONSTANTS.CHANNELS.TOOLS;
   if (message.channel.id === toolsChan) {
     if (message.content.search(/[-a-zA-Z0-9@:%_+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_+.~#?&//=]*)?/gi) === -1) {

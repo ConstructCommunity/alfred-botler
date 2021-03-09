@@ -7,6 +7,7 @@ import {
   checkC3Updates, checkC2Updates, checkBlogPosts, checkMessageForSafety,
 	checkForNotificationBot, checkToolsHasLink, checkForNewUsers, addReactions,
 	checkJobOffers,
+	crossPost,
 } from './bot-utils';
 import CONSTANTS from './constants';
 import rollbar from './rollbar';
@@ -178,6 +179,7 @@ client
     await checkForNewUsers(message);
     await checkToolsHasLink(message);
     await checkJobOffers(message);
+		await crossPost(message)
 
     if (
       message.webhookID && message.channel.id === CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS
