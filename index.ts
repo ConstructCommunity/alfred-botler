@@ -194,7 +194,7 @@ client
       && message.channel.id === CONSTANTS.CHANNELS.CREATIONCLUB
       ) {
         const owner = message.author;
-        await owner.send('**Join the Construct Creation Club by visiting the following link:** https://lnk.armaldio.xyz/WebCreationClub');
+        await owner.send('**Join the Construct Creation Club by visiting the following link:** https://lnk.armaldio.xyz/ConstructCommunity');
         await message.delete();
       }
     } catch (err) {

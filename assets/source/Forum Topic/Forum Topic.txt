@@ -2,7 +2,7 @@
 [Discord] Construct Community - Open Discussions & Tips
 
 --- CONTENT ---
-[img="https://raw.githubusercontent.com/WebCreationClub/alfred-botler/master/assets/large/Topic%20Header.png"][h2]What is the Construct Community about?[/h2]
+[img="https://raw.githubusercontent.com/ConstructCommunity/alfred-botler/master/assets/large/Topic%20Header.png"][h2]What is the Construct Community about?[/h2]
 The Construct Community is a free Discord server for game developers and those interested in getting started. Mainly but not exclusively about [i]Construct Classic[/i], [i]Construct 2[/i] and [i]Construct 3[/i].
 ([url=https://discordapp.com/]Discord[/url] itself is like an IRC Client and Teamspeak combined, with a modern interface.)
 

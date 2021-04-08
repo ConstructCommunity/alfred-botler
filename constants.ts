@@ -102,7 +102,7 @@ export default {
     SCIRRA_C3RELEASES_PREFIX: 'https://www.construct.net',
   },
   GITHUB: {
-    RAW_REPO_URL_PREFIX: 'https://raw.githubusercontent.com/WebCreationClub/alfred-botler/master',
+    RAW_REPO_URL_PREFIX: 'https://raw.githubusercontent.com/ConstructCommunity/alfred-botler/master',
   },
   ROLES,
   CHANNELS: {

@@ -1,5 +1,5 @@
 <p align="center"> 
-<img src="https://raw.githubusercontent.com/WebCreationClub/alfred-botler/master/assets/large/GitHub%20Header.png">
+<img src="https://raw.githubusercontent.com/ConstructCommunity/alfred-botler/master/assets/large/GitHub%20Header.png">
 </p>
 
 ___
@@ -50,7 +50,7 @@ Ex: `!notify Hello`
 Ex: `!say Hello`
 
 ### kill
-> Force stops Alfred Botler. (Revive using [edit commit](https://github.com/WebCreationClub/alfred-botler/blob/master/tests/Restart%20Push.txt)!)\
+> Force stops Alfred Botler. (Revive using [edit commit](https://github.com/ConstructCommunity/alfred-botler/blob/master/tests/Restart%20Push.txt)!)\
 Ex: `!kill`
 
 ### temptest
