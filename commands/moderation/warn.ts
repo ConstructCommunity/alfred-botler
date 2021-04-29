@@ -3,7 +3,7 @@ import CONSTANTS from '../../constants';
 import { hasPermissions } from '../../bot-utils';
 import Warn from '../../templates/Announcement_Warn';
 import { genericError } from '../../errorManagement';
-import { Message } from 'discord.js';
+import { Message, TextChannel } from 'discord.js';
 
 /*
 ► List Of Punishments
@@ -46,9 +46,16 @@ export default class warn extends Command {
     return hasPermissions(this.client, permissions, msg);
   }
 
-  async run(msg: CommandoMessage, { user }): Promise<Message> {
-    return user.send({
-			embed: new Warn({}).embed(),
-		});
+	async run(msg: CommandoMessage, { user }) {
+		try {
+			await msg.delete()
+			await user.send({
+				embed: new Warn({}).embed(),
+			});
+			const channel = msg.client.channels.cache.get(CONSTANTS.CHANNELS.MODERATORS) as TextChannel
+			return channel.send('A warning to ' + user + ' has been succesfully sent')
+		} catch (e) {
+			msg.reply('Something went wrong', e)
+		}
   }
 }
