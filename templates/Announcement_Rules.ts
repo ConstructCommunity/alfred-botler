@@ -23,7 +23,7 @@ export default class Bug extends Template {
       },
       { 
         name: ':closed_book: Punishment Ladder:',
-        value: '\n**1. Warning**\n- No imposed chat limitations \n- Affects standing on Punishment Ladder\n\n**2. Timeout**\n- No chatting for 24h \n- Affects standing on Punishment Ladder\n\n**3. Mute**\n- No chatting for 7 days \n- Affects standing on Punishment Ladder\n\n**4. Permamute**\n- Permanent chatting block (read-only) \n- Affects standing on Punishment Ladder\n\n**5. Forced Ban**\n- Discord Server IP ban \n- Only used for extreme cases'
+        value: '**1. Warning**\n- No chatting limitations \n- Affects standing on Punishment Ladder\n\n**2. Timeout**\n- No chatting for 24h \n- Affects standing on Punishment Ladder\n\n**3. Mute**\n- No chatting for 7 days \n- Affects standing on Punishment Ladder\n\n**4. Permamute**\n- Permanent chatting block (read-only) \n- Affects standing on Punishment Ladder\n\n**5. Forced Ban**\n- Discord Server IP ban \n- Only used in extreme cases'
       },
       ]);
   }
