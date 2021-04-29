@@ -41,7 +41,7 @@ export default class warn extends Command {
   hasPermission(msg) {
     const permissions = {
       roles: [CONSTANTS.ROLES.STAFF],
-      channels: [CONSTANTS.CHANNELS.MODERATORS],
+			channels: [CONSTANTS.CHANNELS.MODERATORS, CONSTANTS.CHANNELS.SUPPORT],
     };
     return hasPermissions(this.client, permissions, msg);
   }
