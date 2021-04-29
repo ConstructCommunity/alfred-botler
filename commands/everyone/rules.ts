@@ -11,7 +11,7 @@ export default class rules extends Command {
       name: 'rules',
       memberName: 'rules',
       group: 'everyone',
-			description: 'Lists the meaning of punishments to members and can be posted if to give a general understanding',
+			description: 'Meaning of punishments, can be posted to give a general understanding',
       examples: ['rules'],
     });
   }
