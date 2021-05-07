@@ -90,29 +90,36 @@ To:
 
     const answer = awaitedMessages.first();
 
-    if (answer.content === 'yes') {
+		if (answer.content === 'yes') {
       console.log(`Copying ${messagesToDelete.size} messages`);
-      // eslint-disable-next-line
       for (let m of messagesToDelete.values()) {
-        // eslint-disable-next-line
-        // @ts-ignore
-        // eslint-disable-next-line no-await-in-loop
-        await duplicateMessage(m, channel, (content) => content);
-        console.log(m.cleanContent);
+				try {
+					await duplicateMessage(m, channel, (content) => content);
+					console.log(m.cleanContent);
+				} catch (e) {
+					console.error('Unable to duplicate message', e)
+				}
       }
 
       const text = 'Deleting messages...';
       const { size } = messagesToDelete;
 
-      const msgDel = await adminChannel.send(text);
-      // eslint-disable-next-line no-plusplus
-      await originalChannel.bulkDelete(messagesToDelete);
+			const msgDel = await adminChannel.send(text);
+			try {
+				await originalChannel.bulkDelete(messagesToDelete);
+			} catch (e) {
+				console.error('Unable to duplicate message', e)
+			}
       await msgDel.edit(`${size} messages successfully deleted.`);
 
-      const sent = await originalChannel.send(`${size} message(s) were moved to <#${channel.id}>. Please continue the conversation there! <:z_scirra_c3Alfred:278258103474978816>`);
-      await sent.delete({
-        timeout: 300000,
-      });
+			const sent = await originalChannel.send(`${size} message(s) were moved to <#${channel.id}>. Please continue the conversation there! <:z_scirra_c3Alfred:278258103474978816>`);
+			try {
+				await sent.delete({
+					timeout: 300000,
+				});
+			} catch (e) {
+				console.error('Unable to duplicate message', e)
+			}
     }
   }
 }
