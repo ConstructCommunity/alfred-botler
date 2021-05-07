@@ -209,42 +209,6 @@ export const checkBlogPosts = async (client) => {
   }
 };
 
-export const checkC2Updates = async (client) => {
-  try {
-    console.log('Checking C2 updates');
-
-    const { body } = await got('https://www.scirra.com/construct2/releases');
-    const $ = cheerio.load(body);
-
-    const url = $('.leftcol:first-child a').attr('href');
-
-    const matches = url.match(/https:\/\/www\.scirra\.com\/construct2\/releases\/(.+)/);
-    const newVersion = matches[1];
-
-    const summary = $('.releases-wrapper tr:nth-child(1) > td.leftcol > p').text().trim();
-
-    const snapshot = await database.ref('c2release').once('value');
-    const lastRelease = snapshot.val();
-
-    if (lastRelease !== newVersion && newVersion !== '') {
-      console.log('New C2 release available');
-      const sent = await client.channels.cache.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS).send('@here', {
-        embed: new C2Update({
-          description: summary,
-          version: newVersion,
-          link: url,
-        }).embed(),
-      });
-      await addReactions(sent, 'c2');
-
-      await database.ref('c2release').set(newVersion);
-    }
-  } catch (error) {
-    console.log(error);
-    //= > 'Internal server error ...'
-  }
-};
-
 export const checkC3Updates = async (client) => {
   try {
     console.log('Checking C3 updates');
@@ -331,34 +295,4 @@ export const checkToolsHasLink = async (message: Message) => {
 
 export const checkJobOffers = async (message: Message) => {
 	return true;
-	// https://www.construct.net/en/forum/game-development/job-offers-and-team-requests-28
-
-	const jobOffersChanId = CONSTANTS.CHANNELS.PRIVATE_TESTS;
-	if (message.channel.id === jobOffersChanId && message.author.id !== CONSTANTS.BOT) {
-		try {
-			if (
-				message.content.search(/www\.construct\.net/gm) === -1 ||
-				message.content.search(/forum\/game-development\/job-offers-and-team-requests/gm) === -1
-			) {
-				await message.delete();
-
-				const requirementsNotMet = await message.reply(
-					'**Your content does not meet one or more requirements!**\n\n__List of requirements:__\n► **1** Link to a forum post'
-				);
-
-				const dmChannel = await message.author.createDM()
-				await dmChannel.send(message.content)
-
-				setTimeout(async () => {
-					await requirementsNotMet.delete()
-				}, 20000) // 20 seconds
-			} else {
-				const jobOffersChan = await message.guild.channels.cache.get(jobOffersChanId) as TextChannel
-				await duplicateMessage(message, jobOffersChan, message => message)
-				await message.delete();
-			}
-		} catch (e: any) {
-			console.error('There was an error checking job offer', e)
-		}
-  }
 }

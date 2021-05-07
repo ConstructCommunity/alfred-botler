@@ -4,7 +4,7 @@ dotenv.config();
 import Commando, { Command, CommandoClient } from 'discord.js-commando';
 import path from 'path';
 import {
-  checkC3Updates, checkC2Updates, checkBlogPosts, checkMessageForSafety,
+  checkC3Updates, checkBlogPosts, checkMessageForSafety,
 	checkForNotificationBot, checkToolsHasLink, checkForNewUsers, addReactions,
 	checkJobOffers,
 	crossPost,
@@ -12,6 +12,7 @@ import {
 import CONSTANTS from './constants';
 import rollbar from './rollbar';
 import { Intents, TextChannel } from 'discord.js';
+import { scheduler } from './schedule'
 // import Socket from './socket';
 
 const isDev = process.env.NODE_ENV === 'development';
@@ -114,17 +115,17 @@ client
     /* const sock = new Socket(client);
     sock.connect(); */
 
-    await updateStatus();
+		await updateStatus();
+
+		scheduler.setClient(client)
+		await scheduler.fetchSchedules()
 
     if (!isDev) {
       setInterval(() => checkC3Updates(client), 600000);
 
-      setInterval(() => checkC2Updates(client), 600000);
-
       setInterval(() => checkBlogPosts(client), 600000);
     } else {
       await checkC3Updates(client);
-      await checkC2Updates(client);
       await checkBlogPosts(client);
     }
   })
@@ -223,20 +224,16 @@ client.registry
     ['moderation', 'Commands available only to our staff members'],
   ]);
 
-const filter = isDev ? /^([^.].*)\.(ts)$/ : /^([^.].*)\.(js)$/
 if (isDev) {
 	client.registry.registerCommandsIn({
 		dirname: path.join(__dirname, 'commands', 'test'),
-		filter,
 	});
 }
 client.registry.registerCommandsIn({
 	dirname: path.join(__dirname, 'commands', 'everyone'),
-	filter,
 });
 client.registry.registerCommandsIn({
 	dirname: path.join(__dirname, 'commands', 'moderation'),
-	filter,
 });
 
 client.login(process.env.TOKEN);
