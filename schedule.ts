@@ -36,7 +36,7 @@ class Scheduler extends EventEmmiter {
 		this.schedules.forEach((schedule) => {
 			schedule.timer = setTimeout(async () => {
 				if (this.client) {
-					const channel = this.client.channels.cache.get(CONSTANTS.CHANNELS.PRIVATE_TESTS) as TextChannel
+					const channel = this.client.channels.cache.get(CONSTANTS.CHANNELS.MODERATORS) as TextChannel
 					await channel.send(schedule.message)
 
 					await database.ref(`schedules/${schedule.ref}`).remove()
