@@ -41,6 +41,10 @@ Ex: `!move 1 #bin`
 > Warn a user for breaking a rule. (Requires additional logging!)\
 Ex: `!warn #user_name#`
 
+### remind
+> Post a timed reminder. (Available: "in X minutes"; "in X hours"; "in X days"!) \
+Ex: `!remind "Hello" "in 1 days"`
+
 ### notify
 > Post an interactive request inside current channel.\
 Ex: `!notify Hello`
