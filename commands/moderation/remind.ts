@@ -17,13 +17,13 @@ export default class remind extends Command {
       args: [
         {
           key: 'text',
-          prompt: 'What do you want to say ?',
+          prompt: 'What do you want to say?',
           type: 'string',
           default: '',
 				},
 				{
 					key: 'schedule',
-					prompt: 'When do you want to schedule it',
+					prompt: 'When do you want to schedule it?',
 					type: 'string',
 					default: '',
 				},
@@ -49,7 +49,7 @@ export default class remind extends Command {
 		try {
 			const result = await scheduler.add(schedule, text)
 			console.log('result', result)
-			msg.reply(`Schedule succesfully added on **${dayjs(result).format('DD/MM/YYYY HH:mm:ss')}**`)
+			msg.reply(`Reminder succesfully added on **${dayjs(result).format('DD/MM/YYYY HH:mm:ss')}**`)
 		} catch (e) {
 			msg.reply(`Invalid schedule: ${e.message}`)
 		}
