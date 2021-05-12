@@ -12,6 +12,7 @@ interface Schedule {
 	schedule: Date;
 	timer: Timeout | undefined;
 	ref: string;
+	channel: string;
 }
 
 class Scheduler extends EventEmmiter {
@@ -36,8 +37,9 @@ class Scheduler extends EventEmmiter {
 		this.schedules.forEach((schedule) => {
 			schedule.timer = setTimeout(async () => {
 				if (this.client) {
-					const channel = this.client.channels.cache.get(CONSTANTS.CHANNELS.MODERATORS) as TextChannel
-					await channel.send(schedule.message)
+					console.log('schedule.channel', schedule.channel)
+					const channel = this.client.channels.cache.get(schedule.channel) as TextChannel
+					// await channel.send(schedule.message)
 
 					await database.ref(`schedules/${schedule.ref}`).remove()
 				}
@@ -73,7 +75,8 @@ class Scheduler extends EventEmmiter {
 					message: sched.message,
 					schedule: dayjs(sched.schedule).toDate(),
 					timer: undefined,
-					ref: key
+					ref: key,
+					channel: sched.channel
 				})
 			})
 
@@ -81,7 +84,7 @@ class Scheduler extends EventEmmiter {
 		})
 	}
 
-	async add(schedule: string, message: string): Promise<Date> {
+	async add(schedule: string, message: string, channel: string): Promise<{ date: Date, id: string}> {
 		const date = chrono.parseDate(schedule)
 
 		if (!date) {
@@ -95,12 +98,20 @@ class Scheduler extends EventEmmiter {
 		const ref = database.ref('schedules')
 
 		var newChildRef = await ref.push();
-		await newChildRef.set({
-			schedule: date.getTime(),
-			message
-		});
 
-		return date
+		const setData = {
+			schedule: date.getTime(),
+			message,
+			channel
+		}
+		console.log('setData', setData)
+		await newChildRef.set(setData);
+
+		return { date, id: newChildRef.key }
+	}
+
+	remove(id: string) {
+		return database.ref('schedules/' + id).remove()
 	}
 }
 

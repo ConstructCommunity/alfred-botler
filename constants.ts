@@ -129,4 +129,4 @@ export default {
 		INTRODUCE_YOURSELF: '228466047009685504',
 		SUPPORT: '697093507885563944'
   },
-};
+} as const;

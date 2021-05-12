@@ -1,39 +1,47 @@
-import { Command, CommandoClient, CommandoMessage } from 'discord.js-commando';
+import { Command, CommandoClient, CommandoMessage, CommandInfo } from 'discord.js-commando';
 import { hasPermissions } from '../../bot-utils';
 import { scheduler } from '../../schedule'
 import CONSTANTS from '../../constants';
 import { genericError } from '../../errorManagement';
-import { Message } from 'discord.js';
+import { Channel, Message, TextChannel } from 'discord.js';
 import dayjs from 'dayjs';
+
+export const infos: CommandInfo = {
+	name: 'remind',
+	group: 'moderation',
+	memberName: 'remind',
+	description: 'Schedule a message',
+	examples: ['remind "aaa" "on next sunday"'],
+	args: [
+		{
+			key: 'text',
+			label: 'The text you want to say',
+			prompt: 'What do you want to say ?',
+			type: 'string',
+			default: '',
+		},
+		{
+			key: 'schedule',
+			prompt: 'When do you want to schedule it',
+			type: 'string',
+			default: '',
+		},
+
+		{
+			key: 'channel',
+			prompt: 'The channel you want to move messages to',
+			type: 'channel',
+			default: ''
+		},
+	],
+}
 
 export default class remind extends Command {
   constructor(client: CommandoClient) {
-    super(client, {
-      name: 'remind',
-      group: 'moderation',
-      memberName: 'remind',
-      description: 'Schedule a message',
-      examples: ['reminde "aaa" "on next sunday"'],
-      args: [
-        {
-          key: 'text',
-          prompt: 'What do you want to say?',
-          type: 'string',
-          default: '',
-				},
-				{
-					key: 'schedule',
-					prompt: 'When do you want to schedule it?',
-					type: 'string',
-					default: '',
-				},
-      ],
-    });
+    super(client, infos);
   }
 
-  // eslint-disable-next-line class-methods-use-this
-	// @ts-ignore
-  onError(err, message, args, fromPattern, result) {
+  onError(err, message) {
     return genericError(err, message);
   }
 
@@ -45,12 +53,21 @@ export default class remind extends Command {
     return hasPermissions(this.client, permissions, msg);
 	}
 
-	async run(msg: CommandoMessage, { text, schedule }: { text: string, schedule: string }): Promise<Message> {
+	async run(msg: CommandoMessage, { text, schedule, channel }: { text: string, schedule: string, channel: Channel | string }): Promise<Message> {
 		try {
-			const result = await scheduler.add(schedule, text)
+			let resolvedChannel: TextChannel;
+			if (channel === '') {
+				resolvedChannel = msg.channel as TextChannel
+			} else {
+				resolvedChannel = channel as TextChannel
+			}
+			console.log('channel.id', resolvedChannel.id)
+			const result = await scheduler.add(schedule, text, resolvedChannel.id)
 			console.log('result', result)
-			msg.reply(`Reminder succesfully added on **${dayjs(result).format('DD/MM/YYYY HH:mm:ss')}**`)
+			msg.reply(`Reminder succesfully added on **${dayjs(result.date).format('DD/MM/YYYY HH:mm:ss')}**
+You can cancel this reminder with \`!remind-remove ${result.id}\``)
 		} catch (e) {
+			console.error(e)
 			msg.reply(`Invalid schedule: ${e.message}`)
 		}
 
