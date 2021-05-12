@@ -1,3 +1,5 @@
+import 'source-map-support/register'
+
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -11,13 +13,11 @@ import {
 } from './bot-utils';
 import CONSTANTS from './constants';
 import rollbar from './rollbar';
-import { Intents, TextChannel } from 'discord.js';
+import { Intents, TextChannel, CommandInteractionOption, ApplicationCommandData, ApplicationCommandOptionData } from 'discord.js';
 import { scheduler } from './schedule'
-// import Socket from './socket';
 
 const isDev = process.env.NODE_ENV === 'development';
 console.log('isDev', isDev);
-// let socket = null;
 
 const intents = new Intents([
 	Intents.NON_PRIVILEGED,
@@ -30,16 +30,15 @@ console.log('commandPrefix:', isDev ? '.' : '!')
 let client = new CommandoClient({
   commandPrefix: isDev ? '.' : '!',
 	owner: CONSTANTS.OWNER,
-	ws: { intents },
-	fetchAllMembers: true,
+	intents: intents,
 });
 
 process.on('uncaughtException', (err) => {
   console.log(`Caught exception: ${err}`);
-  client.channels.cache
-    .get(CONSTANTS.CHANNELS.MODERATORS)
-    // @ts-ignore
-    .send('Uncaugh exception', err.toString());
+	const channel = client.channels.cache.get(CONSTANTS.CHANNELS.MODERATORS)
+	if (channel.isText()) {
+		channel.send('Uncaugh exception' + err.toString());
+	}
   process.exit(1);
 });
 
@@ -78,6 +77,7 @@ client
 if (isDev) {
   // client = client.on('debug', console.log);
 }
+const commands: ApplicationCommandData[] = []
 
 client
 	// @ts-ignore
@@ -107,14 +107,31 @@ client
       Group ${group.id}
       ${enabled ? 'enabled' : 'disabled'}
       ${guild ? `in guild ${guild.name} (${guild.id})` : 'globally'}.`);
-  })
+	})
+
+	.on('applicationCommandCreate', () => {
+
+	})
+	.on('applicationCommandDelete', () => {
+
+	})
+	.on('applicationCommandUpdate', () => {
+
+	})
 
   .on('ready', async () => {
     console.log('Logged in!');
 
-    /* const sock = new Socket(client);
-    sock.connect(); */
 
+		try {
+			const result = await client.guilds.cache.get(CONSTANTS.GUILD_ID).commands.set(commands);
+			// console.log('result', result)
+		} catch (e) {
+			console.error(e)
+		}
+    // for await (const command of commands) {
+		// 	console.log('registering', command)
+    // }
 		await updateStatus();
 
 		scheduler.setClient(client)
@@ -132,9 +149,39 @@ client
   .on('presenceUpdate', async () => {
     await updateStatus();
 	})
-	// @ts-ignore
-	.on('commandRegister', async (a) => {
-    console.log('a', a.name)
+	.on('commandRegister', async (_command) => {
+		if (['moderation', 'everyone'].includes(_command.groupID)) {
+			// console.log('Command', _command.name)
+
+			const options: ApplicationCommandOptionData[] = []
+      _command.argsCollector.args.forEach(arg => {
+        // console.log('arg.type.id', arg.type.id.toUpperCase())
+				const option: ApplicationCommandOptionData = {
+					name: arg.key,
+					description: arg.label,
+					type: arg.type.id.toUpperCase(),
+					required: arg.default === null
+				}
+				console.log('arg.choices', arg.choices)
+				if (arg.choices) {
+					arg.choices.forEach(({ name, value }) => {
+						option.choices.push({
+							name, value
+						})
+					})
+				}
+
+				// console.log('option', option)
+				options.push(option)
+			})
+			const command: ApplicationCommandData = {
+				name: _command.name,
+				description: _command.description,
+				options
+			}
+			// console.log('command', command)
+			commands.push(command)
+		}
   })
   .on('guildMemberAdd', async (member) => {
     const role = await member.roles.add('588420010574086146'); // @Member
@@ -201,7 +248,8 @@ client
     } catch (err) {
       console.log(err);
     }
-  })
+	})
+	// @ts-ignore
   .on('disconnect', (closeEvent) => {
     console.info('BOT DISCONNECTING');
     console.info('Close Event : ', closeEvent);

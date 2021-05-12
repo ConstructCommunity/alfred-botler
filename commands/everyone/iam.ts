@@ -5,6 +5,7 @@ import CONSTANTS from '../../constants';
 import { hasPermissions } from '../../bot-utils';
 import { genericError } from '../../errorManagement';
 import { Message, Role } from 'discord.js'
+import { SlashCommand } from '../../SlashCommand';
 
 const roles = Object
   .values(CONSTANTS.ROLES)
@@ -14,7 +15,7 @@ interface CommandParameters {
 	role: string
 }
 
-export default class iam extends Command {
+export default class iam extends SlashCommand {
   constructor(client: CommandoClient) {
     super(client, {
       name: 'iam',
@@ -26,7 +27,8 @@ export default class iam extends Command {
         {
           key: 'role',
           prompt: 'What role would you like? (Available Roles: Please use the `!rolelist` command.)',
-          type: 'string',
+					type: 'string',
+					choices: roles.map((r) => ({ value: r.shortName, value: r.displayName }))
         },
       ],
     });

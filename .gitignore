@@ -5,3 +5,4 @@ certs/**
 yarn\.lock
 .vscode/**
 dist
+*.log

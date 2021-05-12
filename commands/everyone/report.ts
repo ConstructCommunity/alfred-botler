@@ -14,7 +14,7 @@ export default class report extends Command {
       memberName: 'report',
       args: [
         {
-          key: 'msgId',
+          key: 'msg_id',
           prompt: 'Which message to report',
           type: 'string',
           default: '',
@@ -37,7 +37,7 @@ export default class report extends Command {
   }
 
   // eslint-disable-next-line
-  async run(msg: CommandoMessage, { msgId }): Promise<Message> {
+  async run(msg: CommandoMessage, { msg_id }): Promise<Message> {
     await msg.author.send('Your report has been submitted and will be reviewed as soon as possible.\n(Please note that wrong or malicious reporting might result in a permanent block from using this command!)');
 
     let _messages = await msg.channel.messages.fetch({
@@ -62,7 +62,7 @@ export default class report extends Command {
       .send(`**${msg.author.username}** requested a manual review for <#${msg.channel.id}>! <@&${CONSTANTS.ROLES.STAFF.id}>`, {
         embed: {
           description: CONSTANTS.MESSAGE.EMPTY,
-          title: `https://discordapp.com/channels/${CONSTANTS.GUILD_ID}/${msg.channel.id}/${msgId || msg.id}\n\nContext:`,
+          title: `https://discordapp.com/channels/${CONSTANTS.GUILD_ID}/${msg.channel.id}/${msg_id || msg.id}\n\nContext:`,
           color: 15844367,
           fields,
         },

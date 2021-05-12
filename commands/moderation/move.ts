@@ -82,7 +82,7 @@ To:
       },
     });
 
-    const awaitedMessages = await adminDM.awaitMessages((response) => response.content.match(/yes|no/), {
+		const awaitedMessages = await adminDM.awaitMessages((response) => /yes|no/.test(response.content), {
       max: 1,
       time: 60000,
       errors: ['time'],
@@ -114,9 +114,9 @@ To:
 
 			const sent = await originalChannel.send(`${size} message(s) were moved to <#${channel.id}>. Please continue the conversation there! <:z_scirra_c3Alfred:278258103474978816>`);
 			try {
-				await sent.delete({
-					timeout: 300000,
-				});
+				setTimeout(async () => {
+					await sent.delete();
+				})
 			} catch (e) {
 				console.error('Unable to duplicate message', e)
 			}
