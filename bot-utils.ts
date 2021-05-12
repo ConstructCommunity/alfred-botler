@@ -1,12 +1,11 @@
 import cheerio from 'cheerio';
 import got from 'got';
-import Discord, { Channel, DMChannel, Guild, GuildChannel, Message, NewsChannel, TextChannel } from 'discord.js';
+import Discord, { Message, TextChannel } from 'discord.js';
 import dayjs from 'dayjs';
 import rollbar from './rollbar';
 import CONSTANTS from './constants';
 import Blog from './templates/Announcement_Blog';
 import C3Update from './templates/Announcement_C3';
-import C2Update from './templates/Announcement_C2';
 import { database } from './firebase'
 
 // const isDev = process.env.NODE_ENV === 'development';
