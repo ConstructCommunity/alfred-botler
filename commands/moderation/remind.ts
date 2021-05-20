@@ -26,13 +26,6 @@ export const infos: CommandInfo = {
 			type: 'string',
 			default: '',
 		},
-
-		{
-			key: 'channel',
-			prompt: 'The channel you want to move messages to',
-			type: 'channel',
-			default: ''
-		},
 	],
 }
 
@@ -53,14 +46,9 @@ export default class remind extends Command {
     return hasPermissions(this.client, permissions, msg);
 	}
 
-	async run(msg: CommandoMessage, { text, schedule, channel }: { text: string, schedule: string, channel: Channel | string }): Promise<Message> {
+	async run(msg: CommandoMessage, { text, schedule }: { text: string, schedule: string }): Promise<Message> {
 		try {
-			let resolvedChannel: TextChannel;
-			if (channel === '') {
-				resolvedChannel = msg.channel as TextChannel
-			} else {
-				resolvedChannel = channel as TextChannel
-			}
+			const resolvedChannel = msg.channel;
 			console.log('channel.id', resolvedChannel.id)
 			const result = await scheduler.add(schedule, text, resolvedChannel.id)
 			console.log('result', result)
