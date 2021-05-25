@@ -54,7 +54,7 @@ Ex: `!notify Hello`
 Ex: `!say Hello`
 
 ### kill
-> Force stops Alfred Botler. (Revive using [edit commit](https://github.com/ConstructCommunity/alfred-botler/blob/master/tests/Restart%20Push.txt)!)\
+> Force stops Alfred Botler. (Revive using the web interface!)\
 Ex: `!kill`
 
 ### temptest
