@@ -1,10 +1,10 @@
-<p align="center">
+<p align="center"> 
 <img src="https://raw.githubusercontent.com/ConstructCommunity/alfred-botler/master/assets/large/GitHub%20Header.png">
 </p>
 
 ___
 # Description
-**Alfred Botler** is a bot, made for the [Construct Community](https://discord.gg/dZDU7Re) Discord.
+**Alfred Botler** is a bot, made for the [Construct Community](https://discord.gg/dZDU7Re) Discord. 
 <br />It's able to keep track of things and do advanced server management.
 
 # Member Commands
@@ -44,10 +44,6 @@ Ex: `!warn #user_name#`
 ### remind
 > Post a timed reminder. (Available: "in X minutes"; "in X hours"; "in X days"!) \
 Ex: `!remind "Hello" "in 1 days"`
-
-### remind-remove
-> Delete a reminder
-Ex: `!remind-remove <id>`
 
 ### notify
 > Post an interactive request inside current channel.\
