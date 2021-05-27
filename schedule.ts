@@ -39,9 +39,13 @@ class Scheduler extends EventEmmiter {
 				if (this.client) {
 					console.log('schedule.channel', schedule.channel)
 					const channel = this.client.channels.cache.get(schedule.channel) as TextChannel
-					// await channel.send(schedule.message)
+					try {
+						await channel.send(schedule.message)
 
-					await database.ref(`schedules/${schedule.ref}`).remove()
+						await database.ref(`schedules/${schedule.ref}`).remove()
+					} catch (e) {
+						console.error(e)
+					}
 				}
 			}, dayjs(schedule.schedule).diff(dayjs(), 'milliseconds'))
 		})
