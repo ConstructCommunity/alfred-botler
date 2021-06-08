@@ -6,14 +6,14 @@ import { genericError } from '../../errorManagement';
 import { Channel, Message } from 'discord.js';
 import dayjs from 'dayjs';
 
-export default class remind extends Command {
+export default class remindRemove extends Command {
   constructor(client: CommandoClient) {
 		super(client, {
 			name: 'remind-remove',
 			group: 'moderation',
 			memberName: 'remind-remove',
 			description: 'Remove a reminder',
-			examples: ['remind-remove {id}'],
+			examples: ['remind-remove <id>'],
 			args: [
 				{
 					key: 'id',

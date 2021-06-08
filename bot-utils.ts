@@ -160,7 +160,7 @@ export const checkBlogPosts = async (client) => {
   const scirraStaff = ['Laura_D', 'Ashley', 'Tom'];
 
   try {
-    const { body } = await got('https://www.construct.net/blogs/posts');
+    const { body } = await got('https://www.construct.net/en/blogs/posts');
 
     const $ = cheerio.load(body);
     const common = $('form#form1 div:nth-child(3) > div:nth-child(1) > div > div');
@@ -278,7 +278,7 @@ export const crossPost = async (message: Message) => {
  */
 export const checkForNewUsers = async (message: Message) => {
   if (message.channel.id === CONSTANTS.CHANNELS.INTRODUCE_YOURSELF) {
-    await message.react(message.guild.emojis.cache.get('768527775182225519'));
+    await message.react(':wave:');
   }
 };
 

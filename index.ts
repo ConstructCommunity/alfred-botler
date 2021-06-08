@@ -1,7 +1,8 @@
+import 'source-map-support/register'
 import * as dotenv from "dotenv";
 dotenv.config();
 
-import Commando, { Command, CommandoClient } from 'discord.js-commando';
+import { Command, CommandoClient } from 'discord.js-commando';
 import path from 'path';
 import {
   checkC3Updates, checkBlogPosts, checkMessageForSafety,
@@ -13,11 +14,9 @@ import CONSTANTS from './constants';
 import rollbar from './rollbar';
 import { Intents, TextChannel } from 'discord.js';
 import { scheduler } from './schedule'
-// import Socket from './socket';
 
 const isDev = process.env.NODE_ENV === 'development';
 console.log('isDev', isDev);
-// let socket = null;
 
 const intents = new Intents([
 	Intents.NON_PRIVILEGED,
@@ -64,20 +63,12 @@ const updateStatus = async () => {
   });
 };
 
-/* const isOnline = (id) => {
-  const user = client.guilds.get(CONSTANTS.GUILD_ID).members.get(id);
-  return (user.presence.status !== 'offline');
-}; */
 
 client
   .on('error', (e) => {
     rollbar.error(e);
   })
   .on('warn', console.warn);
-
-if (isDev) {
-  // client = client.on('debug', console.log);
-}
 
 client
 	// @ts-ignore
@@ -112,9 +103,6 @@ client
   .on('ready', async () => {
     console.log('Logged in!');
 
-    /* const sock = new Socket(client);
-    sock.connect(); */
-
 		await updateStatus();
 
 		scheduler.setClient(client)
@@ -137,7 +125,7 @@ client
     console.log('a', a.name)
   })
   .on('guildMemberAdd', async (member) => {
-    const role = await member.roles.add('588420010574086146'); // @Member
+    await member.roles.add('588420010574086146'); // @Member
   })
   .on('guildMemberUpdate', async (oldMember, newMember) => {
     if (
@@ -147,8 +135,6 @@ client
 			) ||
 				(!oldMember.premiumSinceTimestamp && newMember.premiumSinceTimestamp) // just getting nitro
 			) {
-      console.log('oldMember.premiumSinceTimestamp', oldMember.premiumSinceTimestamp, oldMember.displayName)
-      console.log('newMember.premiumSinceTimestamp', newMember.premiumSinceTimestamp, newMember.displayName)
       const channel = await client.channels.fetch(CONSTANTS.CHANNELS.COMMUNITY_ANNOUNCEMENTS) as TextChannel
 			await channel.send(`<:purple_heart:768584412514222172> **Thanks** <@${newMember.id}> for **Nitro Boosting** the Server!`);
     }
