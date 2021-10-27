@@ -56,6 +56,31 @@ export const duplicateMessage = async (
   }
 };
 
+export const censor = async (msg: Message) => {
+	console.log('match search: ', msg.content);
+
+		// remove message in public channel
+	await duplicateMessage(msg, msg.channel as TextChannel, () => '[Message removed by Alfred]', false);
+
+	// send a message to dm of author
+	await msg.author.send(`Your message was removed because:
+- You have to be a member for at least 24h before posting links
+- You posted NSFW content or content with blacklisted words
+
+If this is a false positive, please let the CCStaff know. We'll be happy to help.`);
+
+	const bin = msg.guild.channels.cache.get(CONSTANTS.CHANNELS.BIN) as TextChannel
+
+	// make a duplicate without removing initial message inside #bin
+	bin.send('Censored message below:');
+	bin.send(CONSTANTS.MESSAGE.SEPARATOR);
+	await duplicateMessage(msg, bin, (content) => content);
+	bin.send(CONSTANTS.MESSAGE.SEPARATOR);
+
+	// delete the original message
+	await msg.delete();
+}
+
 /**
  *
  * @param {Discord.Message} msg
@@ -68,35 +93,13 @@ export const checkMessageForSafety = async (msg: Message) => {
   // if (msg.channel.id !== CONSTANTS.CHANNELS.PRIVATE_TESTS) return;
 
   const t = dayjs().diff(dayjs(msg.member.joinedTimestamp), 'hour');
-  if (t < 24) {
-    if (msg.content.match(/https?:\/\/(www\.)?.*\s/igm)) {
-      console.log('match url');
-      if (msg.content.match(/(sex|gambling|porn|dating|service|essay|hentai|𝒸𝓊𝓂|cum|steancomunnity|dliscord|dlscord|disordgifts|discordn)\b/igm)) {
-        console.log('match search: ', msg.content);
-
-        // remove message in public channel
-        await duplicateMessage(msg, msg.channel as TextChannel, () => '[Message removed by Alfred]', false);
-
-        // send a message to dm of author
-        await msg.author.send(`Your message was removed because:
-- You have to be a member for at least 24h before posting links
-- You posted NSFW content or content with blacklisted words
-
-If this is a false positive, please let the CCStaff know. We'll be happy to help.`);
-
-				const bin = msg.guild.channels.cache.get(CONSTANTS.CHANNELS.BIN) as TextChannel
-
-        // make a duplicate without removing initial message inside #bin
-        bin.send('Censored message below:');
-        bin.send(CONSTANTS.MESSAGE.SEPARATOR);
-        await duplicateMessage(msg, bin, (content) => content);
-        bin.send(CONSTANTS.MESSAGE.SEPARATOR);
-
-        // delete the original message
-        await msg.delete();
-      }
-    }
-  }
+	// URL && <6h inside the server
+  if (t < 6 && msg.content.match(/https?:\/\/(www\.)?.*\s/igm)) {
+		await censor(msg)
+	// potential phishing content
+  } else if (msg.content.match(/(sex|gambling|porn|dating|service|essay|hentai|𝒸𝓊𝓂|cum|steancomunnity|dliscord|dlscord|disordgifts|discordn)\b/igm)) {
+		await censor(msg)
+	}
 };
 
 /**
