@@ -94,10 +94,10 @@ export const checkMessageForSafety = async (msg: Message) => {
 
   const t = dayjs().diff(dayjs(msg.member.joinedTimestamp), 'hour');
 	// URL && <6h inside the server
-  if (t < 6 && msg.content.match(/https?:\/\/(www\.)?.*\s/igm)) {
-		await censor(msg)
-	// potential phishing content
-  } else if (msg.content.match(/(sex|gambling|porn|dating|service|essay|hentai|𝒸𝓊𝓂|cum|steancomunnity|dliscord|dlscord|disordgifts|discordn)\b/igm)) {
+  if (
+			t < 48 && msg.content.match(/https?:\/\/(www\.)?.*\s/igm) &&
+			msg.content.match(/(sex|gambling|porn|dating|service|essay|hentai|𝒸𝓊𝓂|cum|steancomunnity|dliscord|dlscord|disordgifts|discordn)\b/igm)
+	) {
 		await censor(msg)
 	}
 };
