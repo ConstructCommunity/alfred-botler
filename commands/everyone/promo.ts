@@ -31,11 +31,16 @@ export default class promo extends Command {
 
   // eslint-disable-next-line
   async run(msg: CommandoMessage): Promise<Message> {
-    if (msg.attachments.array().length === 0
-        // eslint-disable-next-line
-        && msg.content.search(/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi) === -1
-        && msg.content.length < 20) {
-      await msg.author.send('**Your content does not meet one or more requirements!**\n\n__List of requirements:__\n► **1** link/embed or attachment\n► **20** character description minimum');
+    if (
+        (
+          msg.attachments.array().length === 0
+          // eslint-disable-next-line
+          && msg.content.search(/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi) === -1
+        )
+        || msg.content.length < 20
+        || msg.content.search(/(@everyone|@here)/gi) >= 0
+        ) {
+      await msg.author.send('**Your content does not meet one or more requirements!**\n\n__List of requirements:__\n► **1** link/embed or attachment\n► **20** character description minimum\n► No mention');
       return;
     }
 
