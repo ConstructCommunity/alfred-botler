@@ -96,7 +96,7 @@ export const checkMessageForSafety = async (msg: Message) => {
 	// URL && <6h inside the server
   if (
 			t < 48 && msg.content.match(/https?:\/\/(www\.)?.*\s/igm) &&
-			msg.content.match(/(sex|gambling|porn|dating|service|essay|hentai|𝒸𝓊𝓂|cum|steancomunnity|dliscord|dlscord|disordgifts|discordn)\b/igm)
+			msg.content.match(/(sex|gambling|porn|dating|service|essay|hentai|𝒸𝓊𝓂|cum|steancomunnity|dliscord|dlscord|disordgifts|discordn|nitro)\b/igm)
 	) {
 		await censor(msg)
 	}
