@@ -180,31 +180,35 @@ export const checkBlogPosts = async (client) => {
       .replace(/^(.*?)\/blogs/, 'https://www.construct.net/blogs');
     const image = common.find('.statWrap .avatarWrap > img')
       .attr('src');
+    
+    const newPostId = link.split("?")[0].split("/").pop().split("-").pop();
 
     database.ref('blog').once('value').then(async (snapshot) => {
-      const title = snapshot.val();
+      const postId = snapshot.val();
 
       const isScirra = scirraStaff.includes(author);
 
-      if (title !== newTitle && newTitle !== '') {
-        const sent = await client.channels.cache.get(
-          isScirra
-            ? CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS
-            : CONSTANTS.CHANNELS.PROMO,
-        ).send(isScirra ? '@here' : '', {
-          embed: new Blog({
-            title: newTitle,
-            author,
-            timeToRead,
-            link,
-            image,
-          }).embed(),
-        });
+      if (postId !== newPostId && newTitle !== "") {
+				const sent = await client.channels.cache
+					.get(
+						isScirra
+							? CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS
+							: CONSTANTS.CHANNELS.PROMO
+					)
+					.send(isScirra ? "@here" : "", {
+						embed: new Blog({
+							title: newTitle,
+							author,
+							timeToRead,
+							link,
+							image,
+						}).embed(),
+					});
 
-        await addReactions(sent, 'blog');
+				await addReactions(sent, "blog");
 
-        database.ref('blog').set(newTitle);
-      }
+				database.ref("blog").set(newPostId);
+			}
     });
   } catch (e) {
     console.error(e);
