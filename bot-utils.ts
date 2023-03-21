@@ -188,7 +188,8 @@ export const checkBlogPosts = async (client) => {
 
       const isScirra = scirraStaff.includes(author);
 
-      if (postId !== newPostId && newTitle !== "") {
+      // prevent posts that are not from scirra to prevent spam
+      if (postId !== newPostId && newTitle !== "" && isScirra) {
 				const sent = await client.channels.cache
 					.get(
 						isScirra
