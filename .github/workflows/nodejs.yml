@@ -4,7 +4,6 @@ on: [push, pull_request]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -12,16 +11,60 @@ jobs:
         node-version: [14.x, 12.x]
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: npm install, and test
-      run: |
-        npm install
-        npm test
-      env:
-        CI: true
-        databaseURL: ${{ secrets.databaseURL }}
-        TOKEN: ${{ secrets.TOKEN }}
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: npm install, and test
+        run: |
+          npm install
+          npm test
+        env:
+          CI: true
+          databaseURL: ${{ secrets.databaseURL }}
+          TOKEN: ${{ secrets.TOKEN }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+      - name: Install dependencies and build
+        env:
+          TOKEN: ${{ secrets.TOKEN }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          ID: ${{ secrets.ID }}
+
+          apiKey: ${{ secrets.apiKey }}
+          authDomain: ${{ secrets.authDomain }}
+          databaseURL: ${{ secrets.databaseURL }}
+          storageBucket: ${{ secrets.storageBucket }}
+          messagingSenderId: ${{ secrets.messagingSenderId }}
+
+          ROLLBAR_TOKEN: ${{ secrets.ROLLBAR_TOKEN }}
+        run: |
+          npm install
+          npm run build
+      - name: Copy build files to VPS
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.VPS_SSH_HOST }}
+          username: ${{ secrets.VPS_SSH_USER }}
+          password: ${{ secrets.VPS_SSH_PASSWORD }}
+          port: 22
+          source: "."
+          target: "/root/alfred-botler"
+    # - name: Restart application on VPS
+    #   uses: appleboy/ssh-action@master
+    #   with:
+    #     host: ${{ secrets.VPS_SSH_HOST }}
+    #     username: ${{ secrets.VPS_SSH_USER }}
+    #     password: ${{ secrets.VPS_SSH_PASSWORD }}
+    #     port: 22
+    #     script: |
+    #       cd /root/alfred-botler
+    #       npm install
+    #       pm2 restart all
