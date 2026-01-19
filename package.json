@@ -26,7 +26,7 @@
 		"discord.js-commando": "https://github.com/discordjs/Commando",
 		"dotenv": "^10.0.0",
 		"eventemitter3": "^4.0.7",
-		"firebase": "^8",
+		"firebase": "^10",
 		"got": "^11.8.2",
 		"pm2": "^5.0.0",
 		"rollbar": "^2.22.0",
