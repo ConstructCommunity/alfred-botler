@@ -59,6 +59,8 @@ jobs:
       #     target: "/root/alfred-botler"
       - name: Restart application on VPS
         uses: appleboy/ssh-action@master
+        env:
+          NODE_OPTIONS: --max-old-space-size=384
         with:
           host: ${{ secrets.VPS_SSH_HOST }}
           username: ${{ secrets.VPS_SSH_USER }}
