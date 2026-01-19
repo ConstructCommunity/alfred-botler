@@ -59,8 +59,6 @@ jobs:
       #     target: "/root/alfred-botler"
       - name: Restart application on VPS
         uses: appleboy/ssh-action@master
-        env:
-          NODE_OPTIONS: --max-old-space-size=384
         with:
           host: ${{ secrets.VPS_SSH_HOST }}
           username: ${{ secrets.VPS_SSH_USER }}
@@ -70,5 +68,5 @@ jobs:
             cd /root/alfred-botler
             git pull
             npm install
-            npm run build
+            NODE_OPTIONS=--max-old-space-size=384 npm run build
             pm2 restart all
