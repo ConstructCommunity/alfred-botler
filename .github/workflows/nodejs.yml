@@ -29,42 +29,44 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v1
-      - name: Install dependencies and build
-        env:
-          TOKEN: ${{ secrets.TOKEN }}
-          CLIENT_ID: ${{ secrets.CLIENT_ID }}
-          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-          ID: ${{ secrets.ID }}
+      # - name: Checkout code
+      #   uses: actions/checkout@v1
+      # - name: Install dependencies and build
+      #   env:
+      #     TOKEN: ${{ secrets.TOKEN }}
+      #     CLIENT_ID: ${{ secrets.CLIENT_ID }}
+      #     CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+      #     ID: ${{ secrets.ID }}
 
-          apiKey: ${{ secrets.apiKey }}
-          authDomain: ${{ secrets.authDomain }}
-          databaseURL: ${{ secrets.databaseURL }}
-          storageBucket: ${{ secrets.storageBucket }}
-          messagingSenderId: ${{ secrets.messagingSenderId }}
+      #     apiKey: ${{ secrets.apiKey }}
+      #     authDomain: ${{ secrets.authDomain }}
+      #     databaseURL: ${{ secrets.databaseURL }}
+      #     storageBucket: ${{ secrets.storageBucket }}
+      #     messagingSenderId: ${{ secrets.messagingSenderId }}
 
-          ROLLBAR_TOKEN: ${{ secrets.ROLLBAR_TOKEN }}
-        run: |
-          npm install
-          npm run build
-      - name: Copy build files to VPS
-        uses: appleboy/scp-action@master
+      #     ROLLBAR_TOKEN: ${{ secrets.ROLLBAR_TOKEN }}
+      #   run: |
+      #     npm install
+      #     npm run build
+      # - name: Copy build files to VPS
+      #   uses: appleboy/scp-action@master
+      #   with:
+      #     host: ${{ secrets.VPS_SSH_HOST }}
+      #     username: ${{ secrets.VPS_SSH_USER }}
+      #     password: ${{ secrets.VPS_SSH_PASSWORD }}
+      #     port: 22
+      #     source: "."
+      #     target: "/root/alfred-botler"
+      - name: Restart application on VPS
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.VPS_SSH_HOST }}
           username: ${{ secrets.VPS_SSH_USER }}
           password: ${{ secrets.VPS_SSH_PASSWORD }}
           port: 22
-          source: "."
-          target: "/root/alfred-botler"
-    # - name: Restart application on VPS
-    #   uses: appleboy/ssh-action@master
-    #   with:
-    #     host: ${{ secrets.VPS_SSH_HOST }}
-    #     username: ${{ secrets.VPS_SSH_USER }}
-    #     password: ${{ secrets.VPS_SSH_PASSWORD }}
-    #     port: 22
-    #     script: |
-    #       cd /root/alfred-botler
-    #       npm install
-    #       pm2 restart all
+          script: |
+            cd /root/alfred-botler
+            git pull
+            npm install
+            npm run build
+            pm2 restart all
