@@ -1,12 +1,12 @@
-import * as cheerio from "cheerio";
-import Discord, { Message, TextChannel } from "discord.js";
-import dayjs from "dayjs";
-import rollbar from "./rollbar";
-import CONSTANTS from "./constants";
-import Blog from "./templates/Announcement_Blog";
-import C3Update from "./templates/Announcement_C3";
-import { database } from "./firebase";
-import { ref, get, set, child } from "firebase/database";
+import * as cheerio from 'cheerio';
+import Discord, { Message, TextChannel } from 'discord.js';
+import dayjs from 'dayjs';
+import rollbar from './rollbar';
+import CONSTANTS from './constants';
+import Blog from './templates/Announcement_Blog';
+import C3Update from './templates/Announcement_C3';
+import { database } from './firebase';
+import { ref, get, set, child } from 'firebase/database';
 
 // const isDev = process.env.NODE_ENV === 'development';
 
@@ -21,11 +21,11 @@ export const duplicateMessage = async (
 	toChannel: TextChannel,
 	contentEditor: (str: string) => string,
 	includeAttachments = true,
-	customUser = msg.author,
+	customUser = msg.author
 ) => {
 	let wb;
 	const wbs = await toChannel.fetchWebhooks();
-	if (wbs.size < 20) wb = await toChannel.createWebhook("Message duplication");
+	if (wbs.size < 20) wb = await toChannel.createWebhook('Message duplication');
 
 	try {
 		const options = {
@@ -41,17 +41,17 @@ export const duplicateMessage = async (
 				options.files = [
 					new Discord.MessageAttachment(
 						msg.attachments.first().url,
-						msg.attachments.first().name,
+						msg.attachments.first().name
 					),
 				];
 			}
 		}
 
-		const message = await wb.send(contentEditor(msg.content || ""), options);
-		await wb.delete("Message duplicated successfully");
+		const message = await wb.send(contentEditor(msg.content || ''), options);
+		await wb.delete('Message duplicated successfully');
 		return message;
 	} catch (e) {
-		await wb.delete("Message not duplicated!");
+		await wb.delete('Message not duplicated!');
 		rollbar.error(e);
 		console.error(e);
 		return null;
@@ -59,14 +59,14 @@ export const duplicateMessage = async (
 };
 
 export const censor = async (msg: Message) => {
-	console.log("match search: ", msg.content);
+	console.log('match search: ', msg.content);
 
 	// remove message in public channel
 	await duplicateMessage(
 		msg,
 		msg.channel as TextChannel,
-		() => "[Message removed by Alfred]",
-		false,
+		() => '[Message removed by Alfred]',
+		false
 	);
 
 	// send a message to dm of author
@@ -77,11 +77,11 @@ export const censor = async (msg: Message) => {
 If this is a false positive, please let the CCStaff know. We'll be happy to help.`);
 
 	const bin = msg.guild.channels.cache.get(
-		CONSTANTS.CHANNELS.BIN,
+		CONSTANTS.CHANNELS.BIN
 	) as TextChannel;
 
 	// make a duplicate without removing initial message inside #bin
-	bin.send("Censored message below:");
+	bin.send('Censored message below:');
 	bin.send(CONSTANTS.MESSAGE.SEPARATOR);
 	await duplicateMessage(msg, bin, (content) => content);
 	bin.send(CONSTANTS.MESSAGE.SEPARATOR);
@@ -101,13 +101,13 @@ export const checkMessageForSafety = async (msg: Message) => {
 	if (!msg.member) return;
 	// if (msg.channel.id !== CONSTANTS.CHANNELS.PRIVATE_TESTS) return;
 
-	const t = dayjs().diff(dayjs(msg.member.joinedTimestamp), "hour");
+	const t = dayjs().diff(dayjs(msg.member.joinedTimestamp), 'hour');
 	// URL && <6h inside the server
 	if (
 		t < 48 &&
 		msg.content.match(/https?:\/\/(www\.)?.*\s/gim) &&
 		msg.content.match(
-			/(sex|gambling|porn|dating|service|essay|hentai|𝒸𝓊𝓂|cum|steancomunnity|dliscord|dlscord|disordgifts|discordn|nitro)\b/gim,
+			/(sex|gambling|porn|dating|service|essay|hentai|𝒸𝓊𝓂|cum|steancomunnity|dliscord|dlscord|disordgifts|discordn|nitro)\b/gim
 		)
 	) {
 		await censor(msg);
@@ -130,13 +130,13 @@ export const hasPermissions = (client, permissions, msg) => {
 		msg.channel.id === CONSTANTS.CHANNELS.PRIVATE_TESTS ||
 		msg.channel.id === CONSTANTS.CHANNELS.TEST;
 
-	console.log("isInChannel", isInChannel);
+	console.log('isInChannel', isInChannel);
 
 	if (hasRole && isInChannel) return true;
-	if (!hasRole) return "You are not permitted to use this command!";
+	if (!hasRole) return 'You are not permitted to use this command!';
 	if (!isInChannel)
 		return `Wrong channel! This command is available only in ${permissions.channels.map((chan) => `<#${chan}>`)}`;
-	console.log("Another error happened");
+	console.log('Another error happened');
 	return false;
 };
 
@@ -146,92 +146,91 @@ export const hasPermissions = (client, permissions, msg) => {
  * @param type
  * @return {Promise<void>}
  */
-export const addReactions = async (sent, type = "dismiss") => {
+export const addReactions = async (sent, type = 'dismiss') => {
 	try {
-		const voteUp = sent.guild.emojis.resolve("276908986744438794");
-		const alfred = sent.guild.emojis.resolve("626417707373428750");
-		const princess = sent.guild.emojis.resolve("626417707373428750");
+		const voteUp = sent.guild.emojis.resolve('276908986744438794');
+		const alfred = sent.guild.emojis.resolve('626417707373428750');
+		const princess = sent.guild.emojis.resolve('626417707373428750');
 
 		await sent.react(voteUp);
 
-		if (type === "c3") {
+		if (type === 'c3') {
 			await sent.react(alfred);
-		} else if (type === "promo") {
+		} else if (type === 'promo') {
 			//
-		} else if (type === "server_news") {
+		} else if (type === 'server_news') {
 			//
 		} else {
 			await sent.react(princess);
 		}
 	} catch (e) {
-		console.error("Cannot add reactions", e);
+		console.error('Cannot add reactions', e);
 	}
 };
 
 export const checkBlogPosts = async (client) => {
-	const scirraStaff = ["Laura_D", "Ashley", "Tom"];
+	const scirraStaff = ['Laura_D', 'Ashley', 'Tom'];
 
 	try {
-		const resp = await fetch("https://www.construct.net/en/blogs/posts");
+		const resp = await fetch('https://www.construct.net/en/blogs/posts');
 		const body = await resp.text();
 
 		const $ = cheerio.load(body);
 		const common = $(
-			"form#form1 div:nth-child(3) > div:nth-child(1) > div > div",
+			'form#form1 div:nth-child(3) > div:nth-child(1) > div > div'
 		);
 		const newTitle = common
-			.find(".titleOuterWrap > div > div.right > a")
+			.find('.titleOuterWrap > div > div.right > a')
 			.text()
 			.trim();
 		const author = common
-			.find(".statWrap .detailCol .usernameTextWrap a > span:nth-child(1)")
+			.find('.statWrap .detailCol .usernameTextWrap a > span:nth-child(1)')
 			.text();
 		// .text().trim();
 		const timeToRead = common
-			.find(".statWrap > div:nth-child(1) > div > ul > li:nth-child(2)")
+			.find('.statWrap > div:nth-child(1) > div > ul > li:nth-child(2)')
 			.text()
-			.replace(/<img(.*)>/, "")
-			.replace("read time", "")
+			.replace(/<img(.*)>/, '')
+			.replace('read time', '')
 			.trim();
 		const link = common
-			.find(".titleOuterWrap > div > div.right > a")
-			.attr("href")
+			.find('.titleOuterWrap > div > div.right > a')
+			.attr('href')
 			.trim()
-			.replace(/^(.*?)\/blogs/, "https://www.construct.net/blogs");
-		const image = common.find(".statWrap .avatarWrap > img").attr("src");
+			.replace(/^(.*?)\/blogs/, 'https://www.construct.net/blogs');
+		const image = common.find('.statWrap .avatarWrap > img').attr('src');
 
-		const newPostId = link.split("?")[0].split("/").pop().split("-").pop();
+		const newPostId = link.split('?')[0].split('/').pop().split('-').pop();
 
 		const dbRef = ref(database);
-		get(child(dbRef, "blog"))
-			.then(async (snapshot) => {
-				const postId = snapshot.val();
+		get(child(dbRef, 'blog')).then(async (snapshot) => {
+			const postId = snapshot.val();
 
-				const isScirra = scirraStaff.includes(author);
+			const isScirra = scirraStaff.includes(author);
 
-				// prevent posts that are not from scirra to prevent spam
-				if (postId !== newPostId && newTitle !== "" && isScirra) {
-					const sent = await client.channels.cache
-						.get(
-							isScirra
-								? CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS
-								: CONSTANTS.CHANNELS.PROMO,
-						)
-						.send(isScirra ? "@here" : "", {
-							embed: new Blog({
-								title: newTitle,
-								author,
-								timeToRead,
-								link,
-								image,
-							}).embed(),
-						});
+			// prevent posts that are not from scirra to prevent spam
+			if (postId !== newPostId && newTitle !== '' && isScirra) {
+				const sent = await client.channels.cache
+					.get(
+						isScirra
+							? CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS
+							: CONSTANTS.CHANNELS.PROMO
+					)
+					.send(isScirra ? '@here' : '', {
+						embed: new Blog({
+							title: newTitle,
+							author,
+							timeToRead,
+							link,
+							image,
+						}).embed(),
+					});
 
-					await addReactions(sent, "blog");
+				await addReactions(sent, 'blog');
 
-					set(ref(database, "blog"), newPostId);
-				}
-			});
+				set(ref(database, 'blog'), newPostId);
+			}
+		});
 	} catch (e) {
 		console.error(e);
 	}
@@ -239,12 +238,12 @@ export const checkBlogPosts = async (client) => {
 
 export const checkC3Updates = async (client) => {
 	try {
-		console.log("Checking C3 updates");
+		console.log('Checking C3 updates');
 
-		const resp = await fetch("https://editor.construct.net/versions.json");
+		const resp = await fetch('https://editor.construct.net/versions.json');
 		const data = await resp.json();
 
-		const branches = ["Beta", "Stable", "LTS"];
+		const branches = ['Beta', 'Stable', 'LTS'];
 		let latestRelease = null;
 
 		// Iterate through all releases and identify the latest release based on publishDate
@@ -261,14 +260,14 @@ export const checkC3Updates = async (client) => {
 		}
 
 		if (!latestRelease) {
-			console.log("No releases found");
+			console.log('No releases found');
 			return;
 		}
 
-		const snapshot = await get(child(ref(database), "c3release"));
+		const snapshot = await get(child(ref(database), 'c3release'));
 		const lastRelease = snapshot.val();
 
-		const snap = await get(child(ref(database), "releases"));
+		const snap = await get(child(ref(database), 'releases'));
 		const listReleases = snap.val();
 
 		const newVersion = latestRelease.releaseName;
@@ -276,32 +275,32 @@ export const checkC3Updates = async (client) => {
 		const url = latestRelease.downloadUrl;
 		const branch = latestRelease.channel;
 
-		console.log("last release:", lastRelease, "new version", newVersion);
+		console.log('last release:', lastRelease, 'new version', newVersion);
 
 		//  release different from latest, not empty,          not already posted
 		if (
 			lastRelease !== newVersion &&
-			newVersion !== "" &&
+			newVersion !== '' &&
 			!listReleases[newVersion]
 		) {
-			console.log("New C3 release available");
+			console.log('New C3 release available');
 			const sent = await client.channels.cache
 				.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS)
-				.send("@here", {
+				.send('@here', {
 					embed: new C3Update({
 						description,
 						version: newVersion,
 						link: url,
-						icon: branch === "stable" ? "C3Stableicon" : "C3Betaicon",
+						icon: branch === 'stable' ? 'C3Stableicon' : 'C3Betaicon',
 					}).embed(),
 				});
 
-			await addReactions(sent, "c3");
+			await addReactions(sent, 'c3');
 
-			await set(ref(database, "c3release"), newVersion);
+			await set(ref(database, 'c3release'), newVersion);
 
 			listReleases[newVersion] = branch;
-			await set(ref(database, "releases"), listReleases);
+			await set(ref(database, 'releases'), listReleases);
 		}
 	} catch (error) {
 		console.log(error);
@@ -312,7 +311,7 @@ export const checkC3Updates = async (client) => {
 export const checkForNotificationBot = async (message: Message) => {
 	if (message.channel.id === CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS) {
 		// sent from the "notification" bot
-		await addReactions(message, "notification");
+		await addReactions(message, 'notification');
 	}
 };
 
@@ -329,7 +328,7 @@ export const crossPost = async (message: Message) => {
  */
 export const checkForNewUsers = async (message: Message) => {
 	if (message.channel.id === CONSTANTS.CHANNELS.INTRODUCE_YOURSELF) {
-		await message.react(":wave:");
+		await message.react(':wave:');
 	}
 };
 
@@ -338,12 +337,12 @@ export const checkToolsHasLink = async (message: Message) => {
 	if (message.channel.id === toolsChan) {
 		if (
 			message.content.search(
-				/[-a-zA-Z0-9@:%_+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_+.~#?&//=]*)?/gi,
+				/[-a-zA-Z0-9@:%_+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_+.~#?&//=]*)?/gi
 			) === -1
 		) {
 			await message.delete();
 			await message.author.send(
-				"**Your content does not meet one or more requirements!**\n\n__List of requirements:__\n► **1** Link/embed or attachment",
+				'**Your content does not meet one or more requirements!**\n\n__List of requirements:__\n► **1** Link/embed or attachment'
 			);
 		}
 	}

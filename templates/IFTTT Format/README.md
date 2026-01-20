@@ -1,4 +1,5 @@
 <b>How to use IFTTT:</b>
+
 1. Log in with Alfred Botler account
 2. Visit: https://ifttt.com/create
 3. Select service to fetch from (+THIS)

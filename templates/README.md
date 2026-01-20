@@ -1,4 +1,5 @@
 <b>Colorcoding:</b>
+
 - Purple "11962861" (#b689ed) = Default; Automated Announcement
 - Yellow "15844367" (#f1c40f) = Interactive; User Modifications
 - Cian "2683090" (#28f0d2) = Construct 3 Content; Scirra Modern
@@ -7,4 +8,5 @@
 - Red "16711680" (#ff0000) = Unique Color; Rejection Cases
 
 <b>Colorinfo:</b>
+
 - https://www.colorhexa.com/

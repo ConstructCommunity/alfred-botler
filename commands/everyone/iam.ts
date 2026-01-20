@@ -4,102 +4,104 @@ import RoleHelp from '../../templates/Announcement_RoleHelp';
 import CONSTANTS from '../../constants';
 import { hasPermissions } from '../../bot-utils';
 import { genericError } from '../../errorManagement';
-import { Message, Role } from 'discord.js'
+import { Message, Role } from 'discord.js';
 
-const roles = Object
-  .values(CONSTANTS.ROLES)
-	.filter((role) => !role.hideInList && !role.requireApplication);
+const roles = Object.values(CONSTANTS.ROLES).filter(
+	(role) => !role.hideInList && !role.requireApplication
+);
 
 interface CommandParameters {
-	role: string
+	role: string;
 }
 
 export default class iam extends Command {
-  constructor(client: CommandoClient) {
-    super(client, {
-      name: 'iam',
-      group: 'everyone',
-      memberName: 'iam',
-      description: 'Add or remove roles',
-      examples: ['iam dev', 'iam artist'],
-      args: [
-        {
-          key: 'role',
-          prompt: 'What role would you like? (Available Roles: Please use the `!rolelist` command.)',
-          type: 'string',
-        },
-      ],
-    });
-  }
+	constructor(client: CommandoClient) {
+		super(client, {
+			name: 'iam',
+			group: 'everyone',
+			memberName: 'iam',
+			description: 'Add or remove roles',
+			examples: ['iam dev', 'iam artist'],
+			args: [
+				{
+					key: 'role',
+					prompt:
+						'What role would you like? (Available Roles: Please use the `!rolelist` command.)',
+					type: 'string',
+				},
+			],
+		});
+	}
 
-  // eslint-disable-next-line class-methods-use-this
-  onError(err, message, args, fromPattern, result) {
-    return genericError(err, message);
-  }
+	// eslint-disable-next-line class-methods-use-this
+	onError(err, message, args, fromPattern, result) {
+		return genericError(err, message);
+	}
 
-  hasPermission(msg) {
-    const permissions = {
-      roles: [CONSTANTS.ROLES.ANY],
-      channels: [CONSTANTS.CHANNELS.ALFRED_COMMANDS],
-    };
-    return hasPermissions(this.client, permissions, msg);
-  }
+	hasPermission(msg) {
+		const permissions = {
+			roles: [CONSTANTS.ROLES.ANY],
+			channels: [CONSTANTS.CHANNELS.ALFRED_COMMANDS],
+		};
+		return hasPermissions(this.client, permissions, msg);
+	}
 
-	async run(msg: CommandoMessage, { role }: CommandParameters): Promise<Message> {
+	async run(
+		msg: CommandoMessage,
+		{ role }: CommandParameters
+	): Promise<Message> {
+		const wantedRole = role.toLowerCase();
 
-		const wantedRole = role.toLowerCase()
+		const fun: string[][] = [
+			['god', 'Sorry, Armaldio is our only god ...'],
+			['ashley', 'No, Ash is too busy adding features ;)'],
+			['armaldio', "No, you are not.\nOr maybe you are. I don't know."],
+		];
 
-    const fun: string[][] = [
-      ['god', 'Sorry, Armaldio is our only god ...'],
-      ['ashley', 'No, Ash is too busy adding features ;)'],
-      ['armaldio', 'No, you are not.\nOr maybe you are. I don\'t know.'],
-    ];
+		let found = false;
+		fun.forEach(([name, answer]) => {
+			if (name === wantedRole) {
+				msg.reply(answer);
+				found = true;
+			}
+		});
 
-    let found = false;
-    fun.forEach(([name, answer]) => {
-      if (name === wantedRole) {
-        msg.reply(answer);
-        found = true;
-      }
-    });
+		if (found) return;
 
-    if (found) return;
+		const targetRole = roles.find((r) => r.shortName === wantedRole);
+		if (typeof targetRole === 'undefined') {
+			await msg.channel.send({
+				embed: new RoleHelp({
+					roles,
+				}).embed(),
+			});
+			return;
+		}
 
-    const targetRole = roles.find((r) => r.shortName === wantedRole);
-    if (typeof targetRole === 'undefined') {
-      await msg.channel.send({
-        embed: new RoleHelp({
-          roles,
-        }).embed(),
-      });
-      return;
-    }
+		let icon = '';
+		let toggleText = '';
 
-    let icon = '';
-    let toggleText = '';
+		if (msg.member.roles.cache.has(targetRole.id)) {
+			await msg.member.roles.remove(targetRole.id);
+			icon = 'RoleDelicon';
+			toggleText = 'REMOVED';
+		} else {
+			await msg.member.roles.add(targetRole.id);
+			icon = 'RoleGeticon';
+			toggleText = 'ADDED';
+		}
 
-    if (msg.member.roles.cache.has(targetRole.id)) {
-      await msg.member.roles.remove(targetRole.id);
-      icon = 'RoleDelicon';
-      toggleText = 'REMOVED';
-    } else {
-      await msg.member.roles.add(targetRole.id);
-      icon = 'RoleGeticon';
-      toggleText = 'ADDED';
-    }
+		const roleName = Object.values(CONSTANTS.ROLES)
+			.find((r) => r.id === targetRole.id)
+			.displayName.toUpperCase();
 
-    const roleName = Object.values(CONSTANTS.ROLES)
-      .find((r) => r.id === targetRole.id)
-      .displayName
-      .toUpperCase();
-
-    return msg.channel.send({
-      embed: new RoleToggle({
-        icon,
-        toggleText,
-        roleName,
-        roles,
-      }).embed(),
-    });
-  }
+		return msg.channel.send({
+			embed: new RoleToggle({
+				icon,
+				toggleText,
+				roleName,
+				roles,
+			}).embed(),
+		});
+	}
 }
