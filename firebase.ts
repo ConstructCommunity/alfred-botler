@@ -1,5 +1,7 @@
-import firebase from "firebase/app";
-import "firebase/database";
+import { initializeApp } from "firebase/app";
+import { getDatabase } from "firebase/database";
+// Follow this pattern to import other Firebase services
+// import { } from 'firebase/<service>';
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -12,7 +14,6 @@ const config = {
 	messagingSenderId: process.env.messagingSenderId,
 };
 
-firebase.initializeApp(config);
+const app = initializeApp(config);
 
-export const database = firebase.database();
-export default firebase;
+export const database = getDatabase(app);

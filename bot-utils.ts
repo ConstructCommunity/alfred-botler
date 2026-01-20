@@ -1,5 +1,4 @@
 import * as cheerio from "cheerio";
-import got from "got";
 import Discord, { Message, TextChannel } from "discord.js";
 import dayjs from "dayjs";
 import rollbar from "./rollbar";
@@ -7,6 +6,7 @@ import CONSTANTS from "./constants";
 import Blog from "./templates/Announcement_Blog";
 import C3Update from "./templates/Announcement_C3";
 import { database } from "./firebase";
+import { ref, get, set, child } from "firebase/database";
 
 // const isDev = process.env.NODE_ENV === 'development';
 
@@ -172,7 +172,8 @@ export const checkBlogPosts = async (client) => {
 	const scirraStaff = ["Laura_D", "Ashley", "Tom"];
 
 	try {
-		const { body } = await got("https://www.construct.net/en/blogs/posts");
+		const resp = await fetch("https://www.construct.net/en/blogs/posts");
+		const body = await resp.text();
 
 		const $ = cheerio.load(body);
 		const common = $(
@@ -201,9 +202,8 @@ export const checkBlogPosts = async (client) => {
 
 		const newPostId = link.split("?")[0].split("/").pop().split("-").pop();
 
-		database
-			.ref("blog")
-			.once("value")
+		const dbRef = ref(database);
+		get(child(dbRef, "blog"))
 			.then(async (snapshot) => {
 				const postId = snapshot.val();
 
@@ -229,7 +229,7 @@ export const checkBlogPosts = async (client) => {
 
 					await addReactions(sent, "blog");
 
-					database.ref("blog").set(newPostId);
+					set(ref(database, "blog"), newPostId);
 				}
 			});
 	} catch (e) {
@@ -241,32 +241,42 @@ export const checkC3Updates = async (client) => {
 	try {
 		console.log("Checking C3 updates");
 
-		const { body } = await got(
-			"https://www.construct.net/en/make-games/releases",
-		);
-		const $ = cheerio.load(body);
+		const resp = await fetch("https://editor.construct.net/versions.json");
+		const data = await resp.json();
 
-		let url = $(".allReleases ul li:first-child > a").attr("href");
+		const branches = ["Beta", "Stable", "LTS"];
+		let latestRelease = null;
 
-		const matches = url.match(/\/en\/make-games\/releases\/(.+)\/(.+)/);
+		// Iterate through all releases and identify the latest release based on publishDate
+		for (const release of data) {
+			const branch = release.channel;
+			if (branches.includes(branch)) {
+				if (
+					!latestRelease ||
+					new Date(release.publishDate) > new Date(latestRelease.publishDate)
+				) {
+					latestRelease = release;
+				}
+			}
+		}
 
-		url = url.replace("/en/make-games", "/make-games");
+		if (!latestRelease) {
+			console.log("No releases found");
+			return;
+		}
 
-		const branch = matches[1];
-		const newVersion = matches[2];
-		const description = $(
-			".allReleases ul li:first-child div.contentCol > div > p",
-		)
-			.text()
-			.trim();
-
-		const snapshot = await database.ref("c3release").once("value");
+		const snapshot = await get(child(ref(database), "c3release"));
 		const lastRelease = snapshot.val();
 
-		console.log("last release:", lastRelease, "new version", newVersion);
-
-		const snap = await database.ref("releases").once("value");
+		const snap = await get(child(ref(database), "releases"));
 		const listReleases = snap.val();
+
+		const newVersion = latestRelease.releaseName;
+		const description = latestRelease.releaseNotes;
+		const url = latestRelease.downloadUrl;
+		const branch = latestRelease.channel;
+
+		console.log("last release:", lastRelease, "new version", newVersion);
 
 		//  release different from latest, not empty,          not already posted
 		if (
@@ -288,10 +298,10 @@ export const checkC3Updates = async (client) => {
 
 			await addReactions(sent, "c3");
 
-			await database.ref("c3release").set(newVersion);
+			await set(ref(database, "c3release"), newVersion);
 
 			listReleases[newVersion] = branch;
-			await database.ref("releases").set(listReleases);
+			await set(ref(database, "releases"), listReleases);
 		}
 	} catch (error) {
 		console.log(error);
