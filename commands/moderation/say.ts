@@ -4,6 +4,7 @@ import { duplicateMessage, hasPermissions } from '../../bot-utils';
 import CONSTANTS from '../../constants';
 import { genericError } from '../../errorManagement';
 import { Message, TextChannel } from 'discord.js';
+import { Client } from 'discord.js';
 
 export default class say extends Command {
 	constructor(client) {
@@ -38,7 +39,8 @@ export default class say extends Command {
 	}
 
 	// eslint-disable-next-line
-	async run(msg: CommandoMessage, { text }): Promise<Message> {
+	async run(msg: CommandoMessage & Message, { text }): Promise<Message> {
+		const client = this.client as Client;
 		await duplicateMessage(
 			msg,
 			msg.channel as TextChannel,
@@ -46,7 +48,7 @@ export default class say extends Command {
 				return message.replace('!say', '');
 			},
 			true,
-			this.client.users.cache.get(this.client.user.id)
+			client.users.cache.get(client.user.id)
 		);
 		return msg.delete();
 	}

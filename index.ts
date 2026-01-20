@@ -3,21 +3,18 @@ dotenv.config();
 
 import { Command, CommandoClient } from 'discord.js-commando';
 import path from 'path';
-// import {
-// 	checkC3Updates,
-// 	checkBlogPosts,
-// 	checkMessageForSafety,
-// 	checkForNotificationBot,
-// 	checkToolsHasLink,
-// 	checkForNewUsers,
-// 	addReactions,
-// 	checkJobOffers,
-// 	crossPost,
-// } from "./bot-utils.ts";
+import {
+	checkC3Updates,
+	checkBlogPosts,
+	checkForNotificationBot,
+	checkToolsHasLink,
+	checkForNewUsers,
+	addReactions,
+	checkJobOffers,
+	crossPost,
+} from './bot-utils';
 import CONSTANTS from './constants';
-// import rollbar from "./rollbar.ts";
-import { Intents, TextChannel } from 'discord.js';
-import { scheduler } from './schedule';
+import { Intents, TextChannel, Client } from 'discord.js';
 
 const isDev = process.env.NODE_ENV === 'development';
 console.log('isDev', isDev);
@@ -30,14 +27,13 @@ const intents = new Intents([
 
 console.log('commandPrefix:', isDev ? '.' : '!');
 
-let client = new CommandoClient({
+let client: Client & CommandoClient = new CommandoClient({
 	commandPrefix: isDev ? '.' : '!',
 	owner: CONSTANTS.OWNER,
+	// @ts-expect-error
 	ws: { intents },
 	fetchAllMembers: true,
 });
-
-console.log('CONSTANTS', CONSTANTS);
 
 process.on('uncaughtException', (err) => {
 	console.log(`Caught exception: ${err}`);
@@ -72,14 +68,14 @@ const updateStatus = async () => {
 
 client
 	.on('error', (e) => {
-		rollbar.error(e);
+		console.error(e);
 	})
 	.on('warn', console.warn);
 
 client
 	// @ts-ignore
 	.on('commandError', (cmd: Command, err: Error) => {
-		rollbar.error(err);
+		console.error(err);
 		// if (err instanceof Commando.FriendlyError) return;
 		console.error(`Error in command ${cmd.groupID}:${cmd.memberName}`, err);
 	})
@@ -110,9 +106,6 @@ client
 		console.log('Logged in!');
 
 		await updateStatus();
-
-		scheduler.setClient(client);
-		await scheduler.fetchSchedules();
 
 		if (!isDev) {
 			setInterval(() => checkC3Updates(client), 600000);
@@ -169,8 +162,6 @@ client
   }
   */
 
-		await checkMessageForSafety(message);
-
 		await checkForNotificationBot(message);
 		await checkForNewUsers(message);
 		await checkToolsHasLink(message);
@@ -222,11 +213,6 @@ client.registry
 		['moderation', 'Commands available only to our staff members'],
 	]);
 
-if (isDev) {
-	client.registry.registerCommandsIn({
-		dirname: path.join(__dirname, 'commands', 'test'),
-	});
-}
 client.registry.registerCommandsIn({
 	dirname: path.join(__dirname, 'commands', 'everyone'),
 });

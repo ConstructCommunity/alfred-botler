@@ -47,7 +47,7 @@ export default class iam extends Command {
 	}
 
 	async run(
-		msg: CommandoMessage,
+		msg: CommandoMessage & Message,
 		{ role }: CommandParameters
 	): Promise<Message> {
 		const wantedRole = role.toLowerCase();

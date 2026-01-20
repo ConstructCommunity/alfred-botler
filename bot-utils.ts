@@ -1,20 +1,11 @@
 import * as cheerio from 'cheerio';
 import Discord, { Message, TextChannel } from 'discord.js';
 import dayjs from 'dayjs';
-import rollbar from './rollbar';
 import CONSTANTS from './constants';
 import Blog from './templates/Announcement_Blog';
 import C3Update from './templates/Announcement_C3';
 import { database } from './firebase';
 import { ref, get, set, child } from 'firebase/database';
-
-// const isDev = process.env.NODE_ENV === 'development';
-
-export const truncate = (str: string, max: number) =>
-	str.length > max ? `${str.substring(0, max)}...` : str;
-
-export const removeDuplicates = (arr: string[]): string[] =>
-	arr.reduce((x, y) => (x.includes(y) ? x : [...x, y]), []);
 
 export const duplicateMessage = async (
 	msg: Message,
@@ -52,65 +43,8 @@ export const duplicateMessage = async (
 		return message;
 	} catch (e) {
 		await wb.delete('Message not duplicated!');
-		rollbar.error(e);
 		console.error(e);
 		return null;
-	}
-};
-
-export const censor = async (msg: Message) => {
-	console.log('match search: ', msg.content);
-
-	// remove message in public channel
-	await duplicateMessage(
-		msg,
-		msg.channel as TextChannel,
-		() => '[Message removed by Alfred]',
-		false
-	);
-
-	// send a message to dm of author
-	await msg.author.send(`Your message was removed because:
-- You have to be a member for at least 24h before posting links
-- You posted NSFW content or content with blacklisted words
-
-If this is a false positive, please let the CCStaff know. We'll be happy to help.`);
-
-	const bin = msg.guild.channels.cache.get(
-		CONSTANTS.CHANNELS.BIN
-	) as TextChannel;
-
-	// make a duplicate without removing initial message inside #bin
-	bin.send('Censored message below:');
-	bin.send(CONSTANTS.MESSAGE.SEPARATOR);
-	await duplicateMessage(msg, bin, (content) => content);
-	bin.send(CONSTANTS.MESSAGE.SEPARATOR);
-
-	// delete the original message
-	await msg.delete();
-};
-
-/**
- *
- * @param {Discord.Message} msg
- * @return {Promise<void>}
- */
-export const checkMessageForSafety = async (msg: Message) => {
-	if (msg.author.id === CONSTANTS.BOT) return;
-	if (msg.webhookID !== null) return;
-	if (!msg.member) return;
-	// if (msg.channel.id !== CONSTANTS.CHANNELS.PRIVATE_TESTS) return;
-
-	const t = dayjs().diff(dayjs(msg.member.joinedTimestamp), 'hour');
-	// URL && <6h inside the server
-	if (
-		t < 48 &&
-		msg.content.match(/https?:\/\/(www\.)?.*\s/gim) &&
-		msg.content.match(
-			/(sex|gambling|porn|dating|service|essay|hentai|𝒸𝓊𝓂|cum|steancomunnity|dliscord|dlscord|disordgifts|discordn|nitro)\b/gim
-		)
-	) {
-		await censor(msg);
 	}
 };
 
@@ -202,6 +136,8 @@ export const checkBlogPosts = async (client) => {
 
 		const newPostId = link.split('?')[0].split('/').pop().split('-').pop();
 
+		console.log('newPostId', newPostId);
+
 		const dbRef = ref(database);
 		get(child(dbRef, 'blog')).then(async (snapshot) => {
 			const postId = snapshot.val();
@@ -236,19 +172,27 @@ export const checkBlogPosts = async (client) => {
 	}
 };
 
+type Release = {
+	releaseName: string;
+	shortDescription: string;
+	viewDetailsURL: string;
+	branchName: 'Beta' | 'Stable' | 'LTS';
+	publishDate: string;
+};
+
 export const checkC3Updates = async (client) => {
 	try {
 		console.log('Checking C3 updates');
 
 		const resp = await fetch('https://editor.construct.net/versions.json');
-		const data = await resp.json();
+		const data = (await resp.json()) as Release[];
 
 		const branches = ['Beta', 'Stable', 'LTS'];
-		let latestRelease = null;
+		let latestRelease: Release;
 
 		// Iterate through all releases and identify the latest release based on publishDate
 		for (const release of data) {
-			const branch = release.channel;
+			const branch = release.branchName;
 			if (branches.includes(branch)) {
 				if (
 					!latestRelease ||
@@ -271,11 +215,11 @@ export const checkC3Updates = async (client) => {
 		const listReleases = snap.val();
 
 		const newVersion = latestRelease.releaseName;
-		const description = latestRelease.releaseNotes;
-		const url = latestRelease.downloadUrl;
-		const branch = latestRelease.channel;
+		const description = latestRelease.shortDescription;
+		const url = latestRelease.viewDetailsURL;
+		const branch = latestRelease.branchName;
 
-		console.log('last release:', lastRelease, 'new version', newVersion);
+		console.log('last release:', lastRelease, ', new version', newVersion);
 
 		//  release different from latest, not empty,          not already posted
 		if (
@@ -291,7 +235,7 @@ export const checkC3Updates = async (client) => {
 						description,
 						version: newVersion,
 						link: url,
-						icon: branch === 'stable' ? 'C3Stableicon' : 'C3Betaicon',
+						icon: branch === 'Stable' ? 'C3Stableicon' : 'C3Betaicon',
 					}).embed(),
 				});
 

@@ -34,7 +34,7 @@ export default class promo extends Command {
 	}
 
 	// eslint-disable-next-line
-	async run(msg: CommandoMessage): Promise<Message> {
+	async run(msg: CommandoMessage & Message): Promise<Message> {
 		if (
 			(msg.attachments.array().length === 0 &&
 				// eslint-disable-next-line

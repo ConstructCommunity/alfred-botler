@@ -30,7 +30,7 @@ export default class rolehelper extends Command {
 	}
 
 	// eslint-disable-next-line
-	async run(msg: CommandoMessage): Promise<Message> {
+	async run(msg: CommandoMessage & Message): Promise<Message> {
 		try {
 			await msg.delete();
 			return msg.channel.send({
