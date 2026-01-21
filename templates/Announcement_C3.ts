@@ -33,7 +33,7 @@ export default class C3Update extends Template {
 				},
 				{
 					name: 'View the complete changelog:',
-					value: `${CONSTANTS.MESSAGE.SCIRRA_C3RELEASES_PREFIX}${this.variables.link}`,
+					value: this.variables.link,
 				},
 			],
 		};
