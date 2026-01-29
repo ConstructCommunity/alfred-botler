@@ -1,55 +1,40 @@
-import { Command, CommandoMessage } from 'discord.js-commando';
-
-import { duplicateMessage, hasPermissions } from '../../bot-utils';
+import { SlashCommandBuilder, ChatInputCommandInteraction, TextChannel, GuildMember } from 'discord.js';
 import CONSTANTS from '../../constants';
-import { genericError } from '../../errorManagement';
-import { Message, TextChannel } from 'discord.js';
-import { Client } from 'discord.js';
+import { duplicateMessage } from '../../bot-utils';
 
-export default class say extends Command {
-	constructor(client) {
-		super(client, {
-			name: 'say',
-			group: 'moderation',
-			memberName: 'say',
-			description: 'Say something inside current channel as Alfred',
-			examples: ['say Hello everyone!'],
-			args: [
-				{
-					key: 'text',
-					prompt: 'What do you want to say ?',
-					type: 'string',
-					default: '',
-				},
-			],
-		});
-	}
+export default {
+	data: new SlashCommandBuilder()
+		.setName('say')
+		.setDescription('Say something inside current channel as Alfred')
+		.addStringOption((option) =>
+			option
+				.setName('text')
+				.setDescription('What do you want to say?')
+				.setRequired(true)
+		),
+	async execute(interaction: ChatInputCommandInteraction) {
+		// Permission check (Role)
+		const member = interaction.member as GuildMember;
+		if (!member.roles.cache.has(CONSTANTS.ROLES.STAFF.id)) {
+			await interaction.reply({
+				content: 'You are not permitted to use this command!',
+				ephemeral: true,
+			});
+			return;
+		}
 
-	// eslint-disable-next-line class-methods-use-this
-	onError(err, message, args, fromPattern, result) {
-		return genericError(err, message);
-	}
+		const text = interaction.options.getString('text', true);
 
-	hasPermission(msg) {
-		const permissions = {
-			roles: [CONSTANTS.ROLES.STAFF],
-			channels: [CONSTANTS.CHANNELS.ANY],
-		};
-		return hasPermissions(this.client, permissions, msg);
-	}
+		const botUser = interaction.client.user;
+		if (!botUser) return;
 
-	// eslint-disable-next-line
-	async run(msg: CommandoMessage & Message, { text }): Promise<Message> {
-		const client = this.client as Client;
 		await duplicateMessage(
-			msg,
-			msg.channel as TextChannel,
-			(message) => {
-				return message.replace('!say', '');
-			},
-			true,
-			client.users.cache.get(client.user.id)
+			interaction.channel as TextChannel,
+			text,
+			botUser,
+			[]
 		);
-		return msg.delete();
-	}
-}
+
+		await interaction.reply({ content: 'Done', ephemeral: true });
+	},
+};

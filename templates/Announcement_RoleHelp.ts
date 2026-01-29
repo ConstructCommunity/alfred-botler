@@ -1,3 +1,4 @@
+import { EmbedBuilder } from 'discord.js';
 import CONSTANTS from '../constants';
 
 import Template from './Template';
@@ -14,17 +15,17 @@ export default class RoleHelp extends Template {
 
 	// eslint-disable-next-line class-methods-use-this
 	embed() {
-		return {
-			description: CONSTANTS.MESSAGE.SEPARATOR,
-			color: 11962861,
-			thumbnail: {
-				url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/Infoicon.png`,
-			},
-			author: {
+		return new EmbedBuilder()
+			.setDescription(CONSTANTS.MESSAGE.SEPARATOR)
+			.setColor(11962861)
+			.setThumbnail(
+				`${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/Infoicon.png`
+			)
+			.setAuthor({
 				name: 'ROLE HELPER',
-				icon_url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/DiscordNotifyicon.png`,
-			},
-			fields: [
+				iconURL: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/DiscordNotifyicon.png`,
+			})
+			.addFields([
 				{
 					name: 'Step By Step Guide:',
 					value:
@@ -38,10 +39,9 @@ export default class RoleHelp extends Template {
 					name: 'Available Roles:',
 					value: '`!rolelist`\nᅠ',
 				},
-			],
-			footer: {
+			])
+			.setFooter({
 				text: CONSTANTS.MESSAGE.SCIRRA_FOOTER,
-			},
-		};
+			});
 	}
 }

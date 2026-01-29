@@ -1,4 +1,4 @@
-import { MessageEmbed } from 'discord.js';
+import { EmbedBuilder } from 'discord.js';
 import CONSTANTS from '../constants';
 import Template from './Template';
 
@@ -13,15 +13,15 @@ export default class Blog extends Template {
 	}
 
 	embed() {
-		return new MessageEmbed()
+		return new EmbedBuilder()
 			.setDescription(this.variables.title)
 			.setColor(3593036)
-			.setFooter(CONSTANTS.MESSAGE.SCIRRA_FOOTER)
+			.setFooter({ text: CONSTANTS.MESSAGE.SCIRRA_FOOTER })
 			.setThumbnail(this.variables.image)
-			.setAuthor(
-				`NEW BLOG POST FROM ${this.variables.author.toUpperCase()} JUST WENT LIVE!`,
-				`${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/C3Blogicon.png`
-			)
+			.setAuthor({
+				name: `NEW BLOG POST FROM ${this.variables.author.toUpperCase()} JUST WENT LIVE!`,
+				iconURL: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/C3Blogicon.png`
+			})
 			.addFields([
 				{
 					name: CONSTANTS.MESSAGE.SEPARATOR,

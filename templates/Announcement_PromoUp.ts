@@ -1,4 +1,4 @@
-import { MessageEmbed } from 'discord.js';
+import { EmbedBuilder } from 'discord.js';
 import CONSTANTS from '../constants';
 import Template from './Template';
 
@@ -18,7 +18,7 @@ export default class PromoUp extends Template {
 			value: 'Request removal of your promoted content by contacting CC Staff.',
 		};
 
-		return new MessageEmbed()
+		return new EmbedBuilder()
 			.setDescription(
 				`Your content is now available inside the <#${CONSTANTS.CHANNELS.PROMO}> channel.`
 			)
@@ -26,11 +26,11 @@ export default class PromoUp extends Template {
 			.setThumbnail(
 				`${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/UploadIcon.png`
 			)
-			.setAuthor(
-				'PROMOTION SUBMISSION SUCCESSFUL!',
-				`${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/DiscordNotifyicon.png`,
-				''
-			)
+			.setAuthor({
+				name: 'PROMOTION SUBMISSION SUCCESSFUL!',
+				iconURL: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/DiscordNotifyicon.png`,
+				url: ''
+      })
 			.addFields([field1, field2]);
 	}
 }

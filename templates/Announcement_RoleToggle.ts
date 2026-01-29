@@ -1,3 +1,4 @@
+import { EmbedBuilder } from 'discord.js';
 import CONSTANTS from '../constants';
 import Template from './Template';
 
@@ -15,22 +16,21 @@ export default class RoleToggle extends Template {
 	}
 
 	embed() {
-		return {
-			description: CONSTANTS.MESSAGE.SEPARATOR,
-			color: 15844367,
-			thumbnail: {
-				url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/${this.variables.icon}.png`,
-			},
-			author: {
+		return new EmbedBuilder()
+			.setDescription(CONSTANTS.MESSAGE.SEPARATOR)
+			.setColor(15844367)
+			.setThumbnail(
+				`${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/${this.variables.icon}.png`
+			)
+			.setAuthor({
 				name: `${this.variables.roleName} ROLE ${this.variables.toggleText}!`,
-				icon_url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/DiscordEditicon.png`,
-			},
-			fields: [
+				iconURL: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/DiscordEditicon.png`,
+			})
+			.addFields([
 				{
 					name: 'Available Roles:',
 					value: 'Please use the `!rolelist` command.',
 				},
-			],
-		};
+			]);
 	}
 }

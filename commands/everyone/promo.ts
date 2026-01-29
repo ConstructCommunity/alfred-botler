@@ -1,72 +1,85 @@
-import { Command, CommandoMessage } from 'discord.js-commando';
+import { SlashCommandBuilder, ChatInputCommandInteraction, TextChannel } from 'discord.js';
 import CONSTANTS from '../../constants';
-import {
-	hasPermissions,
-	duplicateMessage,
-	addReactions,
-} from '../../bot-utils';
+import { duplicateMessage, addReactions } from '../../bot-utils';
 import PromoUp from '../../templates/Announcement_PromoUp';
-import { genericError } from '../../errorManagement';
-import { Message, TextChannel } from 'discord.js';
 
-export default class promo extends Command {
-	constructor(client) {
-		super(client, {
-			name: 'promo',
-			memberName: 'promo',
-			group: 'everyone',
-			description: 'Promote your content in #promotion',
-			examples: ['promo message'],
-		});
-	}
+export default {
+	data: new SlashCommandBuilder()
+		.setName('promo')
+		.setDescription('Promote your content in #promotion')
+		.addStringOption((option) =>
+			option
+				.setName('content')
+				.setDescription('The text content of your promotion (min 20 chars)')
+				.setRequired(true)
+		)
+		.addAttachmentOption((option) =>
+			option.setName('attachment').setDescription('Optional image/file')
+		),
+	async execute(interaction: ChatInputCommandInteraction) {
+		const content = interaction.options.getString('content', true);
+		const attachment = interaction.options.getAttachment('attachment');
 
-	// eslint-disable-next-line class-methods-use-this
-	onError(err, message, args, fromPattern, result) {
-		return genericError(err, message);
-	}
-
-	hasPermission(msg) {
-		const permissions = {
-			roles: [CONSTANTS.ROLES.ANY],
-			channels: [CONSTANTS.CHANNELS.ANY],
-		};
-		return hasPermissions(this.client, permissions, msg);
-	}
-
-	// eslint-disable-next-line
-	async run(msg: CommandoMessage & Message): Promise<Message> {
-		if (
-			(msg.attachments.array().length === 0 &&
-				// eslint-disable-next-line
-				msg.content.search(
-					/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi
-				) === -1) ||
-			msg.content.length < 20 ||
-			msg.content.search(/(@everyone|@here)/gi) >= 0
-		) {
-			await msg.author.send(
-				'**Your content does not meet one or more requirements!**\n\n__List of requirements:__\n► **1** link/embed or attachment\n► **20** character description minimum\n► No mention'
+		// Validation
+		const hasLink =
+			/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi.test(
+				content
 			);
+		const hasAttachment = !!attachment;
+
+		if (!hasLink && !hasAttachment) {
+			await interaction.reply({
+				content:
+					'**Your content does not meet one or more requirements!**\n\n__List of requirements:__\n► **1** link/embed or attachment\n► **20** character description minimum\n► No mention',
+				ephemeral: true,
+			});
 			return;
 		}
 
-		const promoChan = (await msg.client.channels.cache.get(
-			CONSTANTS.CHANNELS.PROMO
-		)) as TextChannel;
-
-		const sent = await duplicateMessage(msg, promoChan, (content) =>
-			content.replace(/!promo ?/gi, '')
-		);
-
-		try {
-			// send pending approval notification
-			await msg.author.send({
-				embed: new PromoUp({}).embed(),
+		if (content.length < 20) {
+			await interaction.reply({
+				content:
+					'**Your content does not meet one or more requirements!**\n\n__List of requirements:__\n► **1** link/embed or attachment\n► **20** character description minimum\n► No mention',
+				ephemeral: true,
 			});
-		} catch (e) {
-			console.log('Message cannot be sent to user (promo)', e);
+			return;
 		}
 
-		await addReactions(sent, 'promo');
-	}
-}
+		if (content.search(/(@everyone|@here)/gi) >= 0) {
+			await interaction.reply({
+				content:
+					'**Your content does not meet one or more requirements!**\n\n__List of requirements:__\n► **1** link/embed or attachment\n► **20** character description minimum\n► No mention',
+				ephemeral: true,
+			});
+			return;
+		}
+
+		const promoChan = interaction.client.channels.cache.get(
+			CONSTANTS.CHANNELS.PROMO
+		) as TextChannel;
+
+		const attachments = attachment
+			? [{ url: attachment.url, name: attachment.name }]
+			: [];
+
+		const sent = await duplicateMessage(
+			promoChan,
+			content,
+			interaction.user,
+			attachments
+		);
+
+		if (sent) {
+			await addReactions(sent, 'promo');
+			await interaction.reply({
+				embeds: [new PromoUp({}).embed()],
+				ephemeral: true,
+			});
+		} else {
+			await interaction.reply({
+				content: 'Failed to post promotion.',
+				ephemeral: true,
+			});
+		}
+	},
+};

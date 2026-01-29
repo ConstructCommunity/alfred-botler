@@ -1,3 +1,4 @@
+import { EmbedBuilder } from 'discord.js';
 import CONSTANTS from '../constants';
 
 import Template from './Template';
@@ -13,20 +14,20 @@ export default class C3Update extends Template {
 	}
 
 	embed() {
-		return {
-			description: this.variables.description,
-			color: 2683090,
-			footer: {
+		return new EmbedBuilder()
+			.setDescription(this.variables.description)
+			.setColor(2683090)
+			.setFooter({
 				text: CONSTANTS.MESSAGE.SCIRRA_FOOTER,
-			},
-			thumbnail: {
-				url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/C3icon.png`,
-			},
-			author: {
+			})
+			.setThumbnail(
+				`${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/C3icon.png`
+			)
+			.setAuthor({
 				name: `CONSTRUCT 3 UPDATE (${this.variables.version}) IS AVAILABLE!`,
-				icon_url: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/${this.variables.icon}.png`,
-			},
-			fields: [
+				iconURL: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/${this.variables.icon}.png`,
+			})
+			.addFields([
 				{
 					name: CONSTANTS.MESSAGE.SEPARATOR,
 					value: CONSTANTS.MESSAGE.EMPTY,
@@ -35,7 +36,6 @@ export default class C3Update extends Template {
 					name: 'View the complete changelog:',
 					value: this.variables.link,
 				},
-			],
-		};
+			]);
 	}
 }
