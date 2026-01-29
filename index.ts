@@ -27,17 +27,17 @@ const intents = new Intents([
 
 console.log('commandPrefix:', isDev ? '.' : '!');
 
-let client: Client & CommandoClient = new CommandoClient({
+let client = new CommandoClient({
 	commandPrefix: isDev ? '.' : '!',
 	owner: CONSTANTS.OWNER,
 	// @ts-expect-error
 	ws: { intents },
 	fetchAllMembers: true,
-});
+}) as CommandoClient;
 
 process.on('uncaughtException', (err) => {
 	console.log(`Caught exception: ${err}`);
-	client.channels.cache
+	(client as Client).channels.cache
 		.get(CONSTANTS.CHANNELS.MODERATORS)
 		?.send('Uncaugh exception', err.toString());
 	process.exit(1);
@@ -84,6 +84,11 @@ client
       Command ${msg.command ? `${msg.command.groupID}:${msg.command.memberName}` : ''}
       blocked; ${reason}`);
 	})
+	.on('commandRun', (msg, cmd) => {
+		console.log(`
+      Command ${cmd.groupID}:${cmd.memberName}
+      ran in ${msg.guild ? `guild ${msg.guild.name} (${msg.guild.id})` : 'DMs'}.`);
+	})
 	.on('commandPrefixChange', (guild, prefix) => {
 		console.log(`
       Prefix ${prefix === '' ? 'removed' : `changed to ${prefix || 'the default'}`}
@@ -121,7 +126,7 @@ client
 	})
 	// @ts-ignore
 	.on('commandRegister', async (a) => {
-		console.log('a', a.name);
+		console.log('command', a.name, 'registered');
 	})
 	.on('guildMemberAdd', async (member) => {
 		await member.roles.add('588420010574086146'); // @Member
@@ -200,7 +205,7 @@ client.registry
 	.registerDefaultGroups()
 	.registerDefaultTypes()
 	.registerDefaultCommands({
-		help: false,
+		help: true,
 		prefix: isDev,
 		eval: false,
 		ping: true,
@@ -208,10 +213,13 @@ client.registry
 		commandState: isDev,
 	})
 	.registerGroups([
-		['test', 'Commands available only for testing'],
 		['everyone', 'Commands available to everyone'],
 		['moderation', 'Commands available only to our staff members'],
 	]);
+
+const dir = path.join(__dirname, 'commands', 'everyone');
+
+console.log('registering commands in', dir);
 
 client.registry.registerCommandsIn({
 	dirname: path.join(__dirname, 'commands', 'everyone'),
