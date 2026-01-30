@@ -125,7 +125,12 @@ export const checkBlogPosts = async (client) => {
 	const scirraStaff = ['Laura_D', 'Ashley', 'Tom'];
 
 	try {
-		const resp = await fetch('https://www.construct.net/en/blogs/posts');
+		const headers = new Headers();
+		headers.append('User-Agent', process.env.USER_AGENT);
+
+		const resp = await fetch('https://www.construct.net/en/blogs/posts', {
+			headers,
+		});
 		const body = await resp.text();
 
 		const $ = cheerio.load(body);
@@ -155,7 +160,7 @@ export const checkBlogPosts = async (client) => {
 
 		const newPostId = link.split('?')[0].split('/').pop().split('-').pop();
 
-		console.log('newPostId', newPostId);
+		console.log('new blog Post Id', newPostId);
 
 		const dbRef = ref(database);
 		get(child(dbRef, 'blog')).then(async (snapshot) => {
