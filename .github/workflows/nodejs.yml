@@ -1,29 +1,28 @@
 name: Node CI
 
 on: [push, pull_request]
-
 jobs:
-		# build:
-		#   runs-on: ubuntu-latest
+  # build:
+  #   runs-on: ubuntu-latest
 
-		#   strategy:
-		#     matrix:
-		#       node-version: [24.x]
+  #   strategy:
+  #     matrix:
+  #       node-version: [24.x]
 
-    # steps:
-    #   - uses: actions/checkout@v1
-    #   - name: Use Node.js ${{ matrix.node-version }}
-    #     uses: actions/setup-node@v1
-    #     with:
-    #       node-version: ${{ matrix.node-version }}
-    #   - name: npm install, and test
-    #     run: |
-    #       npm install
-    #       npm test
-    #     env:
-    #       CI: true
-    #       databaseURL: ${{ secrets.databaseURL }}
-    #       TOKEN: ${{ secrets.TOKEN }}
+  # steps:
+  #   - uses: actions/checkout@v1
+  #   - name: Use Node.js ${{ matrix.node-version }}
+  #     uses: actions/setup-node@v1
+  #     with:
+  #       node-version: ${{ matrix.node-version }}
+  #   - name: npm install, and test
+  #     run: |
+  #       npm install
+  #       npm test
+  #     env:
+  #       CI: true
+  #       databaseURL: ${{ secrets.databaseURL }}
+  #       TOKEN: ${{ secrets.TOKEN }}
 
   deploy:
     strategy:
