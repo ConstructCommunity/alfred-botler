@@ -1,6 +1,7 @@
 import * as cheerio from 'cheerio';
 import Discord, {
 	AttachmentBuilder,
+	Client,
 	Message,
 	TextChannel,
 	WebhookClient,
@@ -13,6 +14,8 @@ import { database } from './firebase';
 import { ref, get, set, child } from 'firebase/database';
 
 const WEBHOOK_NAME = 'Message duplication';
+
+const isDev = process.env.NODE_ENV === 'development';
 
 export const duplicateMessage = async (
 	toChannel: TextChannel,
@@ -170,21 +173,24 @@ export const checkBlogPosts = async (client) => {
 
 			// prevent posts that are not from scirra to prevent spam
 			if (postId !== newPostId && newTitle !== '' && isScirra) {
-				const sent = await client.channels.cache
-					.get(
+				const sent = (
+					(await client.channels.cache.get(
 						isScirra
 							? CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS
 							: CONSTANTS.CHANNELS.PROMO
-					)
-					.send(isScirra ? '@here' : '', {
-						embed: new Blog({
+					)) as TextChannel
+				).send({
+					content: isScirra ? '@here' : '',
+					embeds: [
+						new Blog({
 							title: newTitle,
 							author,
 							timeToRead,
 							link,
 							image,
 						}).embed(),
-					});
+					],
+				});
 
 				await addReactions(sent, 'blog');
 
@@ -204,7 +210,7 @@ type Release = {
 	publishDate: string;
 };
 
-export const checkC3Updates = async (client) => {
+export const checkC3Updates = async (client: Client) => {
 	try {
 		console.log('Checking C3 updates');
 
@@ -245,6 +251,16 @@ export const checkC3Updates = async (client) => {
 
 		console.log('last release:', lastRelease, ', new version', newVersion);
 
+		if (isDev) {
+			console.log('New C3 release available');
+			console.log({
+				description,
+				version: newVersion,
+				link: url,
+				icon: branch === 'Stable' ? 'C3Stableicon' : 'C3Betaicon',
+			});
+		}
+
 		//  release different from latest, not empty,          not already posted
 		if (
 			lastRelease !== newVersion &&
@@ -252,16 +268,21 @@ export const checkC3Updates = async (client) => {
 			!listReleases[newVersion]
 		) {
 			console.log('New C3 release available');
-			const sent = await client.channels.cache
-				.get(CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS)
-				.send('@here', {
-					embed: new C3Update({
+			const sent = (
+				(await client.channels.cache.get(
+					CONSTANTS.CHANNELS.SCIRRA_ANNOUNCEMENTS
+				)) as TextChannel
+			).send({
+				content: '@here',
+				embeds: [
+					new C3Update({
 						description,
 						version: newVersion,
 						link: url,
 						icon: branch === 'Stable' ? 'C3Stableicon' : 'C3Betaicon',
 					}).embed(),
-				});
+				],
+			});
 
 			await addReactions(sent, 'c3');
 
