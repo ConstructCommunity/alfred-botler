@@ -29,8 +29,7 @@ export default class PromoUp extends Template {
 			.setAuthor({
 				name: 'PROMOTION SUBMISSION SUCCESSFUL!',
 				iconURL: `${CONSTANTS.GITHUB.RAW_REPO_URL_PREFIX}/assets/mini/DiscordNotifyicon.png`,
-				url: ''
-      })
+			})
 			.addFields([field1, field2]);
 	}
 }
