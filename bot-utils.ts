@@ -296,7 +296,7 @@ export const crossPost = async (message: Message) => {
  */
 export const checkForNewUsers = async (message: Message) => {
 	if (message.channel.id === CONSTANTS.CHANNELS.INTRODUCE_YOURSELF) {
-		await message.react(':wave:');
+		await message.react('👋');
 	}
 };
 
