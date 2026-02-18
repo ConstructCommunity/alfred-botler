@@ -1,2 +1,9 @@
 [tools]
 node = "24"
+
+[tasks.build]
+run = "pnpm build"
+
+[tasks.deploy]
+depends = "build"
+run = "pnpx tsx deploy-commands.ts"
